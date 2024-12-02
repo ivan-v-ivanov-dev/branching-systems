@@ -20,7 +20,7 @@ import static com.personal.users.config.ConfigConstants.*;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "com.personal.users.repository.postgres",
+        basePackages = "com.personal.users.repository",
         entityManagerFactoryRef = "postgresEntityManagerFactory",
         transactionManagerRef = "postgresTransactionManager")
 @Slf4j
@@ -52,7 +52,7 @@ public class PostgresConfig {
     public LocalContainerEntityManagerFactoryBean postgresEntityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setDataSource(dataSource());
-        factory.setPackagesToScan("com.personal.users.models");
+        factory.setPackagesToScan("com.personal.users.model");
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         factory.setJpaVendorAdapter(adapter);
         log.info(POSTGRES_CONFIGURATION_LOCAL_CONTAINER_ENTITY_MANAGER_FACTORY);
