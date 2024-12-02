@@ -2,6 +2,7 @@ package com.personal.users.service;
 
 import com.personal.users.model.Role;
 import com.personal.users.repository.RoleRepository;
+import com.personal.users.repository.UserRepository;
 import com.personal.users.service.contract.RolesService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import static java.lang.String.format;
 public class RolesServiceImpl implements RolesService {
 
     private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<String> findAllRoles() {
@@ -54,4 +56,11 @@ public class RolesServiceImpl implements RolesService {
         return true;
     }
 
+    @Override
+    public List<Role> findAllRolesUsersCount() {
+        List<Role> roles = roleRepository.findAll();
+        roles.forEach(role -> role.setUserCount(userRepository.findAllUsersCountByRole(role.getName())));
+        log.info("Retrieve all roles' user count");
+        return roles;
+    }
 }

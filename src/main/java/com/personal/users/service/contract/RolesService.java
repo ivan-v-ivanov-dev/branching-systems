@@ -13,4 +13,5 @@ public interface RolesService {
 
     boolean delete(String role);
 
+    List<Role> findAllRolesUsersCount();
 }

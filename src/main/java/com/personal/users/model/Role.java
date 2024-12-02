@@ -1,9 +1,6 @@
 package com.personal.users.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
 public class Role {
 
@@ -21,4 +19,7 @@ public class Role {
 
     @Column(name = "name")
     private String name;
+
+    @Transient
+    private int userCount;
 }

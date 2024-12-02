@@ -10,6 +10,8 @@ public class Queries {
 
     public static final String FIND_USER_BY_ROLE_NAME_TEMPLATE = "SELECT u FROM User u WHERE u.role.name = :roleName";
 
+    public static final String FIND_USER_COUNT_BY_ROLE_NAME_TEMPLATE = "SELECT COUNT(u) FROM User u WHERE u.role.name = :roleName";
+
     private Queries() {
     }
 }
