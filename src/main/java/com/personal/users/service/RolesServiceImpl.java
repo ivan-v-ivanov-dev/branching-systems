@@ -33,6 +33,17 @@ public class RolesServiceImpl implements RolesService {
     }
 
     @Override
+    public boolean rename(String oldRole, String newRole) {
+        int isRenamed = roleRepository.renameByName(oldRole, newRole);
+        if (isRenamed <= 0) {
+            log.warn(format("Can't rename %s", oldRole));
+            return false;
+        }
+        log.info(format("Role renamed: %s", newRole));
+        return true;
+    }
+
+    @Override
     public boolean delete(String role) {
         int isDeleted = roleRepository.deleteByName(role);
         if (isDeleted <= 0) {

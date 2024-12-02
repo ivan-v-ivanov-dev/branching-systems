@@ -23,6 +23,12 @@ public class UserController {
         return rolesService.create(role);
     }
 
+    @PutMapping("/role/{oldRole}/{newRole}")
+    public boolean renameRole(@PathVariable("oldRole") String oldRole,
+                              @PathVariable("newRole") String newRole) {
+        return rolesService.rename(oldRole, newRole);
+    }
+
     @DeleteMapping("/role/{role}")
     public boolean deleteRole(@PathVariable("role") String role) {
         return rolesService.delete(role);

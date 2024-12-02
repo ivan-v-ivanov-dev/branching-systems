@@ -18,6 +18,11 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     @Modifying
     @Transactional
+    @Query("UPDATE Role r SET r.name = :newName WHERE r.name = :oldName")
+    int renameByName(@Param("oldName") String oldName, @Param("newName") String newName);
+
+    @Modifying
+    @Transactional
     @Query("DELETE FROM Role r WHERE r.name = :name")
     int deleteByName(@Param("name") String name);
 

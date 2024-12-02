@@ -9,5 +9,7 @@ public interface RolesService {
 
     Role create(String role);
 
+    boolean rename(String oldRole, String newRole);
+
     boolean delete(String role);
 }
