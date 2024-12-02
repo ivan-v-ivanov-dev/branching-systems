@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.personal.users.repository.query.Queries.FIND_ALL_ROLES;
+import static com.personal.users.repository.query.Queries.*;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
@@ -18,12 +18,12 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Role r SET r.name = :newName WHERE r.name = :oldName")
+    @Query(RENAME_ROLE_TEMPLATE)
     int renameByName(@Param("oldName") String oldName, @Param("newName") String newName);
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Role r WHERE r.name = :name")
+    @Query(DELETE_ROLE_TEMPLATE)
     int deleteByName(@Param("name") String name);
 
 }

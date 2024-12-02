@@ -53,4 +53,5 @@ public class RolesServiceImpl implements RolesService {
         log.info(format("Role deleted: %s", role));
         return true;
     }
+
 }

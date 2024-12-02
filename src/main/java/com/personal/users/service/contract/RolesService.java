@@ -12,4 +12,5 @@ public interface RolesService {
     boolean rename(String oldRole, String newRole);
 
     boolean delete(String role);
+
 }
