@@ -3,10 +3,7 @@ package com.personal.users.controller;
 import com.personal.users.model.Role;
 import com.personal.users.service.contract.RolesService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +21,11 @@ public class UserController {
     @PostMapping("/role")
     public Role createRole(@RequestParam("role") String role) {
         return rolesService.create(role);
+    }
+
+    @DeleteMapping("/role")
+    public boolean deleteRole(@RequestParam("role") String role) {
+        return rolesService.delete(role);
     }
 
     @GetMapping

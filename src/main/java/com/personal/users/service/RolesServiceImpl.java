@@ -31,4 +31,15 @@ public class RolesServiceImpl implements RolesService {
         log.info(format("Create role: %s", createdRole.getName()));
         return createdRole;
     }
+
+    @Override
+    public boolean delete(String role) {
+        int isDeleted = roleRepository.deleteByName(role);
+        if (isDeleted <= 0) {
+            log.warn(format("Can't delete %s", role));
+            return false;
+        }
+        log.info(format("Role deleted: %s", role));
+        return true;
+    }
 }

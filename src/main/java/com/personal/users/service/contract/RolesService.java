@@ -8,4 +8,6 @@ public interface RolesService {
     List<String> findAllRoles();
 
     Role create(String role);
+
+    boolean delete(String role);
 }
