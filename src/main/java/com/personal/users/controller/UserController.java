@@ -18,13 +18,13 @@ public class UserController {
         return rolesService.findAllRoles();
     }
 
-    @PostMapping("/role")
-    public Role createRole(@RequestParam("role") String role) {
+    @PostMapping("/role/{role}")
+    public Role createRole(@PathVariable("role") String role) {
         return rolesService.create(role);
     }
 
-    @DeleteMapping("/role")
-    public boolean deleteRole(@RequestParam("role") String role) {
+    @DeleteMapping("/role/{role}")
+    public boolean deleteRole(@PathVariable("role") String role) {
         return rolesService.delete(role);
     }
 
