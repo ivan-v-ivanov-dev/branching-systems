@@ -1,20 +1,34 @@
 package com.personal.users.service;
 
+import com.personal.users.model.Role;
 import com.personal.users.repository.RoleRepository;
 import com.personal.users.service.contract.RolesService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static java.lang.String.format;
+
 @Service
 @AllArgsConstructor
+@Slf4j
 public class RolesServiceImpl implements RolesService {
 
     private final RoleRepository roleRepository;
 
     @Override
     public List<String> findAllRoles() {
-        return roleRepository.findAllRoles();
+        List<String> allRoles = roleRepository.findAllRoles();
+        log.info("Retrieve all distinct roles");
+        return allRoles;
+    }
+
+    @Override
+    public Role create(String role) {
+        Role createdRole = roleRepository.save(Role.builder().name(role).build());
+        log.info(format("Create role: %s", createdRole.getName()));
+        return createdRole;
     }
 }
