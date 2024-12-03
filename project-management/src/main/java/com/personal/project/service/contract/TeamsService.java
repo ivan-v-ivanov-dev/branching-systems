@@ -6,4 +6,6 @@ import org.springframework.data.domain.PageRequest;
 
 public interface TeamsService {
     Page<Team> findAll(PageRequest pageable);
+
+    Team findByName(String name);
 }
