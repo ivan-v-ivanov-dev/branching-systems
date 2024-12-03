@@ -75,8 +75,14 @@ public class UserController {
     }
 
     @PutMapping("/user")
-    public User uppdateUser(@Valid @RequestBody UserRq userRq) {
+    public User updateUser(@Valid @RequestBody UserRq userRq) {
         return userService.update(userRq);
+    }
+
+    @PutMapping("/user/{username}/{role}")
+    public User addRoleToUser(@PathVariable("username") String username,
+                              @PathVariable("role") String role) {
+        return userService.addRoleToUser(username, role);
     }
 
     @DeleteMapping("/user/{username}")

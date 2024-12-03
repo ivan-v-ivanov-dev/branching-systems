@@ -1,7 +1,9 @@
 package com.personal.users.service;
 
+import com.personal.users.model.Role;
 import com.personal.users.model.User;
 import com.personal.users.model.UserRq;
+import com.personal.users.repository.RoleRepository;
 import com.personal.users.repository.UserRepository;
 import com.personal.users.service.contract.UserService;
 import lombok.AllArgsConstructor;
@@ -10,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.ResourceAccessException;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import static java.lang.String.format;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public List<User> findAllUsersByRole(String role) {
@@ -57,15 +59,41 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(userRq.getUsername());
         if (user == null) {
             log.error(format("No user with username %s", userRq.getUsername()));
-            throw new ResourceAccessException(format("No user with username %s", userRq.getUsername()));
+            throw new IllegalArgumentException(format("No user with username %s", userRq.getUsername()));
         }
-        //TODO: validate that there is such a team and Role
+        //TODO: validate that there is such a team
+        Role role = roleRepository.findByName(userRq.getRole());
+        if (role == null) {
+            log.error(format("No such role %s", userRq.getRole()));
+            throw new IllegalArgumentException(format("No such role %s", userRq.getRole()));
+        }
+
         user.toBuilder()
                 .firstName(userRq.getFirstName())
                 .lastName(userRq.getLastName())
-//                .role()
-                .team(userRq.getTeam()).build();
+                .role(role)
+//                .team(userRq.getTeam())
+                .build();
         log.info(format("Update user %s", userRq.getUsername()));
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User addRoleToUser(String username, String role) {
+        Role toUpdate = roleRepository.findByName(role);
+        if (toUpdate == null) {
+            log.error(format("No such role %s", role));
+            throw new IllegalArgumentException(format("No such role %s", role));
+        }
+
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            log.error(format("No user with username %s", username));
+            throw new IllegalArgumentException(format("No user with username %s", username));
+        }
+
+        user.toBuilder().role(toUpdate);
+        log.info(format("User %s updated with role %s", username, role));
         return userRepository.save(user);
     }
 

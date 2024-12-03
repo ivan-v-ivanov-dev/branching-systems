@@ -21,9 +21,10 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Query(RENAME_ROLE_TEMPLATE)
     int renameByName(@Param("oldName") String oldName, @Param("newName") String newName);
 
+    Role findByName(String role);
+
     @Modifying
     @Transactional
     @Query(DELETE_ROLE_TEMPLATE)
     int deleteByName(@Param("name") String name);
-
 }

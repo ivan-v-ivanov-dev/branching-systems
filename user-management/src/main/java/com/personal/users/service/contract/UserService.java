@@ -18,5 +18,8 @@ public interface UserService {
 
     User update(UserRq userRq);
 
+    User addRoleToUser(String username, String role);
+
     boolean delete(String username);
+
 }
