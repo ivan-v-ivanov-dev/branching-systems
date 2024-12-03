@@ -1,7 +1,7 @@
-package com.personal.users.service.contract;
+package com.personal.user.service.contract;
 
-import com.personal.users.model.User;
-import com.personal.users.model.UserRq;
+import com.personal.user.model.User;
+import com.personal.user.model.UserRq;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

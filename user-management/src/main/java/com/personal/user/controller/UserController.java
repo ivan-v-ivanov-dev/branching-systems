@@ -1,10 +1,10 @@
-package com.personal.users.controller;
+package com.personal.user.controller;
 
-import com.personal.users.model.Role;
-import com.personal.users.model.User;
-import com.personal.users.model.UserRq;
-import com.personal.users.service.contract.RolesService;
-import com.personal.users.service.contract.UserService;
+import com.personal.user.model.Role;
+import com.personal.user.model.User;
+import com.personal.user.model.UserRq;
+import com.personal.user.service.contract.RolesService;
+import com.personal.user.service.contract.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,18 +42,18 @@ public class UserController {
         return rolesService.delete(role);
     }
 
-    @GetMapping("/role/{role}/users")
+    @GetMapping("/role/{role}/project")
     public List<User> findAllRoleUsers(@PathVariable("role") String role) {
         return userService.findAllUsersByRole(role);
     }
 
-    @GetMapping("/roles/users-count")
+    @GetMapping("/roles/project-count")
     public List<Role> findAllRolesUsersCount() {
         return rolesService.findAllRolesUsersCount();
     }
 
-    //users?page=0&size=10&sortBy=id
-    @GetMapping("/users")
+    //project?page=0&size=10&sortBy=id
+    @GetMapping("/project")
     public Page<User> getUsers(@RequestParam(defaultValue = "0") int page,
                                @RequestParam(defaultValue = "10") int size,
                                @RequestParam(defaultValue = "id") String sortBy) {

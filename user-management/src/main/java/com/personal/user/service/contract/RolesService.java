@@ -1,6 +1,6 @@
-package com.personal.users.service.contract;
+package com.personal.user.service.contract;
 
-import com.personal.users.model.Role;
+import com.personal.user.model.Role;
 
 import java.util.List;
 

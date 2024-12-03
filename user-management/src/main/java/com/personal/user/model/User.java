@@ -1,4 +1,4 @@
-package com.personal.users.model;
+package com.personal.user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "project")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

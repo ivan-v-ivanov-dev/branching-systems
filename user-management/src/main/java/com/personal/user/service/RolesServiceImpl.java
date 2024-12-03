@@ -1,9 +1,9 @@
-package com.personal.users.service;
+package com.personal.user.service;
 
-import com.personal.users.model.Role;
-import com.personal.users.repository.RoleRepository;
-import com.personal.users.repository.UserRepository;
-import com.personal.users.service.contract.RolesService;
+import com.personal.user.model.Role;
+import com.personal.user.repository.RoleRepository;
+import com.personal.user.repository.UserRepository;
+import com.personal.user.service.contract.RolesService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

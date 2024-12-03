@@ -1,6 +1,7 @@
-package com.personal.users.repository;
+package com.personal.user.repository;
 
-import com.personal.users.model.User;
+import com.personal.user.model.User;
+import com.personal.user.repository.query.Queries;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,16 +10,13 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-import static com.personal.users.repository.query.Queries.FIND_USER_BY_ROLE_NAME_TEMPLATE;
-import static com.personal.users.repository.query.Queries.FIND_USER_COUNT_BY_ROLE_NAME_TEMPLATE;
-
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    @Query(FIND_USER_BY_ROLE_NAME_TEMPLATE)
+    @Query(Queries.FIND_USER_BY_ROLE_NAME_TEMPLATE)
     List<User> findAllUsersByRole(@Param("roleName") String roleName);
 
 
-    @Query(FIND_USER_COUNT_BY_ROLE_NAME_TEMPLATE)
+    @Query(Queries.FIND_USER_COUNT_BY_ROLE_NAME_TEMPLATE)
     int findAllUsersCountByRole(@Param("roleName") String roleName);
 
 

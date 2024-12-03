@@ -1,4 +1,4 @@
-package com.personal.users.config;
+package com.personal.user.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -15,12 +15,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
-import static com.personal.users.config.ConfigConstants.*;
-
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "com.personal.users.repository",
+        basePackages = "com.personal.project.repository",
         entityManagerFactoryRef = "postgresEntityManagerFactory",
         transactionManagerRef = "postgresTransactionManager")
 @Slf4j
@@ -38,13 +36,13 @@ public class PostgresConfig {
     @Bean
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setPoolName(POSTGRES_CONNECTION_POOL);
+        hikariConfig.setPoolName(ConfigConstants.POSTGRES_CONNECTION_POOL);
         hikariConfig.setDriverClassName(driverClassName);
         hikariConfig.setJdbcUrl(dataBaseUrl);
         hikariConfig.setUsername(dataBaseUsername);
         hikariConfig.setPassword(dataBasePassword);
         HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
-        log.info(POSTGRES_CONFIGURATION_HIKARI_DATA_SOURCE_CREATED);
+        log.info(ConfigConstants.POSTGRES_CONFIGURATION_HIKARI_DATA_SOURCE_CREATED);
         return hikariDataSource;
     }
 
@@ -52,10 +50,10 @@ public class PostgresConfig {
     public LocalContainerEntityManagerFactoryBean postgresEntityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setDataSource(dataSource());
-        factory.setPackagesToScan("com.personal.users.model");
+        factory.setPackagesToScan("com.personal.project.model");
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         factory.setJpaVendorAdapter(adapter);
-        log.info(POSTGRES_CONFIGURATION_LOCAL_CONTAINER_ENTITY_MANAGER_FACTORY);
+        log.info(ConfigConstants.POSTGRES_CONFIGURATION_LOCAL_CONTAINER_ENTITY_MANAGER_FACTORY);
         return factory;
     }
 
@@ -63,7 +61,7 @@ public class PostgresConfig {
     public PlatformTransactionManager postgresTransactionManager(LocalContainerEntityManagerFactoryBean postgresEntityManagerFactory) {
         JpaTransactionManager manager = new JpaTransactionManager();
         manager.setEntityManagerFactory(postgresEntityManagerFactory.getObject());
-        log.info(POSTGRES_CONFIGURATION_JPA_TRANSACTION_MANAGER_CREATED);
+        log.info(ConfigConstants.POSTGRES_CONFIGURATION_JPA_TRANSACTION_MANAGER_CREATED);
         return manager;
     }
 }

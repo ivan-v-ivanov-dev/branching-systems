@@ -31,7 +31,7 @@ dependencies {
 dockerCompose {
     useComposeFiles = ['docker-compose.yml']
     isRequiredBy bootRun
-    projectName = "users"
+    projectName = "project"
 }
 
 repositories {

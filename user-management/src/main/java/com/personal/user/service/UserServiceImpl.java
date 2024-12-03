@@ -1,11 +1,11 @@
-package com.personal.users.service;
+package com.personal.user.service;
 
-import com.personal.users.model.Role;
-import com.personal.users.model.User;
-import com.personal.users.model.UserRq;
-import com.personal.users.repository.RoleRepository;
-import com.personal.users.repository.UserRepository;
-import com.personal.users.service.contract.UserService;
+import com.personal.user.model.Role;
+import com.personal.user.model.User;
+import com.personal.user.model.UserRq;
+import com.personal.user.repository.RoleRepository;
+import com.personal.user.repository.UserRepository;
+import com.personal.user.service.contract.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,21 +28,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAllUsersByRole(String role) {
         List<User> users = userRepository.findAllUsersByRole(role);
-        log.info(format("Retrieve all users for role %s", role));
+        log.info(format("Retrieve all project for role %s", role));
         return users;
     }
 
     @Override
     public Page<User> findAll(Pageable pageable) {
         Page<User> users = userRepository.findAll(pageable);
-        log.info(format("Retrieve %d users", pageable.getPageSize()));
+        log.info(format("Retrieve %d project", pageable.getPageSize()));
         return users;
     }
 
     @Override
     public Page<User> searchUsersByFirstName(String firstName, Pageable pageable) {
         Page<User> users = userRepository.findByFirstNameContaining(firstName, pageable);
-        log.info(format("Retrieve all users with first name %s", firstName));
+        log.info(format("Retrieve all project with first name %s", firstName));
         return users;
     }
 

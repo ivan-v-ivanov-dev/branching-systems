@@ -1,4 +1,4 @@
-package com.personal.users.config;
+package com.personal.user.config;
 
 public class ConfigConstants {
 

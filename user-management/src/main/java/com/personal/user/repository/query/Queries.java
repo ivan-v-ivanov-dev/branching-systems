@@ -1,4 +1,4 @@
-package com.personal.users.repository.query;
+package com.personal.user.repository.query;
 
 public class Queries {
 
