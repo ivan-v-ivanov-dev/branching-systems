@@ -5,10 +5,7 @@ import com.personal.project.service.contract.TeamsService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -19,6 +16,12 @@ public class ProjectController {
     @GetMapping("/team/{name}")
     public Team findTeamByName(@PathVariable("name") String name) {
         return teamsService.findByName(name);
+    }
+
+    @PutMapping("/team/{name}/member/{id}/add")
+    public Team addMemberToATeam(@PathVariable("name") String name,
+                                 @PathVariable("id") int id) {
+        return teamsService.addMemberToATeam(name, id);
     }
 
     @GetMapping("/teams")

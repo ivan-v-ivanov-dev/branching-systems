@@ -8,4 +8,6 @@ public interface TeamsService {
     Page<Team> findAll(PageRequest pageable);
 
     Team findByName(String name);
+
+    Team addMemberToATeam(String name, int id);
 }
