@@ -38,6 +38,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> searchUsersByFirstName(String firstName, Pageable pageable) {
+        Page<User> users = userRepository.findByFirstNameContaining(firstName, pageable);
+        log.info(format("Retrieve all users with first name %s", firstName));
+        return users;
+    }
+
+    @Override
     public User findByUsername(String username) {
         User user = userRepository.findByUsername(username);
         log.info(format("Retrieve user %s", username));

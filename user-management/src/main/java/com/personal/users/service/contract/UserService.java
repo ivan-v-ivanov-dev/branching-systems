@@ -12,6 +12,8 @@ public interface UserService {
 
     Page<User> findAll(Pageable pageable);
 
+    Page<User> searchUsersByFirstName(String firstName, Pageable pageable);
+
     User findByUsername(String username);
 
     User update(UserRq userRq);

@@ -8,7 +8,6 @@ import com.personal.users.service.contract.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,8 +57,16 @@ public class UserController {
     public Page<User> getUsers(@RequestParam(defaultValue = "0") int page,
                                @RequestParam(defaultValue = "10") int size,
                                @RequestParam(defaultValue = "id") String sortBy) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        return userService.findAll(pageable);
+        return userService.findAll(PageRequest.of(page, size, Sort.by(sortBy)));
+    }
+
+    //search?firstName=Aaron&page=0&size=2&sortBy=firstName
+    @GetMapping("/search")
+    public Page<User> searchUsers(@RequestParam String firstName,
+                                  @RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "10") int size,
+                                  @RequestParam(defaultValue = "id") String sortBy) {
+        return userService.searchUsersByFirstName(firstName, PageRequest.of(page, size, Sort.by(sortBy)));
     }
 
     @GetMapping("/user/{username}")
@@ -75,10 +82,5 @@ public class UserController {
     @DeleteMapping("/user/{username}")
     public boolean deleteUser(@PathVariable("username") String username) {
         return userService.delete(username);
-    }
-
-    @GetMapping
-    public String health() {
-        return "Healthy";
     }
 }
