@@ -99,4 +99,11 @@ public class TeamsServiceImpl implements TeamsService {
         log.info(format("Team deleted: %s", name));
         return true;
     }
+
+    @Override
+    public Page<Team> searchTeams(String name, String projectName, PageRequest pageable) {
+        Page<Team> team = teamsRepository.searchByNameAndProjectName(name, projectName, pageable);
+        log.info(format("Retrieve %s team", name));
+        return team;
+    }
 }

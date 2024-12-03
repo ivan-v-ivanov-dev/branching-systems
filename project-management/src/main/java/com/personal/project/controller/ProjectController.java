@@ -40,13 +40,21 @@ public class ProjectController {
 
     @PutMapping("/team/{name}/member/{id}/remove")
     public Team removeMemberFromATeam(@PathVariable("name") String name,
-                                 @PathVariable("id") int id) {
+                                      @PathVariable("id") int id) {
         return teamsService.removeMemberFromATeam(name, id);
     }
 
     @DeleteMapping("/team/{name}")
     public boolean deleteATeam(@PathVariable("name") String name) {
         return teamsService.delete(name);
+    }
+
+    @GetMapping("/teams/search")
+    public Page<Team> searchTeams(@RequestParam(value = "name", required = false, defaultValue = "") String name,
+                                  @RequestParam(value = "projectName", required = false, defaultValue = "") String projectName,
+                                  @RequestParam(value = "page", defaultValue = "0") int page,
+                                  @RequestParam(value = "size", defaultValue = "10") int size) {
+        return teamsService.searchTeams(name, projectName, PageRequest.of(page, size));
     }
 
     @GetMapping("/health")
