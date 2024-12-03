@@ -44,6 +44,11 @@ public class ProjectController {
         return teamsService.removeMemberFromATeam(name, id);
     }
 
+    @DeleteMapping("/team/{name}")
+    public boolean deleteATeam(@PathVariable("name") String name) {
+        return teamsService.delete(name);
+    }
+
     @GetMapping("/health")
     public String health() {
         return "Healthy";

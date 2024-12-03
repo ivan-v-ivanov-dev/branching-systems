@@ -4,9 +4,9 @@ import com.personal.project.model.Project;
 import com.personal.project.model.Team;
 import com.personal.project.model.TeamRq;
 import com.personal.project.model.User;
-import com.personal.project.repository.query.ProjectRepository;
-import com.personal.project.repository.query.TeamsRepository;
-import com.personal.project.repository.query.UserRepository;
+import com.personal.project.repository.ProjectRepository;
+import com.personal.project.repository.TeamsRepository;
+import com.personal.project.repository.UserRepository;
 import com.personal.project.service.contract.TeamsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -87,5 +87,16 @@ public class TeamsServiceImpl implements TeamsService {
         team.getMembers().removeIf(current -> current.getId() == id);
         log.info(format("Remove team member %d from team %s", id, name));
         return teamsRepository.save(team);
+    }
+
+    @Override
+    public boolean delete(String name) {
+        int isDeleted = teamsRepository.deleteByName(name);
+        if (isDeleted <= 0) {
+            log.warn(format("Can't delete %s", name));
+            return false;
+        }
+        log.info(format("Team deleted: %s", name));
+        return true;
     }
 }

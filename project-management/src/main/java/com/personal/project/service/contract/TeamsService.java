@@ -16,4 +16,5 @@ public interface TeamsService {
 
     Team removeMemberFromATeam(String name, int id);
 
+    boolean delete(String name);
 }
