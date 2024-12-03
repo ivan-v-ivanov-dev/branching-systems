@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -38,6 +39,7 @@ public class TeamsServiceImpl implements TeamsService {
         return team;
     }
 
+    @Transactional
     @Override
     public Team addMemberToATeam(String name, int id) {
         Team team = teamsRepository.findByName(name);
@@ -49,6 +51,15 @@ public class TeamsServiceImpl implements TeamsService {
 
         team.getMembers().add(user.get());
         log.info(format("Add user %d into team %s", id, name));
+        return teamsRepository.save(team);
+    }
+
+    @Transactional
+    @Override
+    public Team removeMemberFromATeam(String name, int id) {
+        Team team = teamsRepository.findByName(name);
+        team.getMembers().removeIf(current -> current.getId() == id);
+        log.info(format("Remove team member %d from team %s", id, name));
         return teamsRepository.save(team);
     }
 }

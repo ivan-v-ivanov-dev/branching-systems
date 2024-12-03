@@ -24,6 +24,12 @@ public class ProjectController {
         return teamsService.addMemberToATeam(name, id);
     }
 
+    @PutMapping("/team/{name}/member/{id}/remove")
+    public Team removeMemberFromATeam(@PathVariable("name") String name,
+                                 @PathVariable("id") int id) {
+        return teamsService.removeMemberFromATeam(name, id);
+    }
+
     @GetMapping("/teams")
     public Page<Team> getTeams(@RequestParam(defaultValue = "0") int page,
                                @RequestParam(defaultValue = "10") int size) {

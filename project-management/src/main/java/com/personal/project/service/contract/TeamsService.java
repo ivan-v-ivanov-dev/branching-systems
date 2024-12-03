@@ -10,4 +10,6 @@ public interface TeamsService {
     Team findByName(String name);
 
     Team addMemberToATeam(String name, int id);
+
+    Team removeMemberFromATeam(String name, int id);
 }
