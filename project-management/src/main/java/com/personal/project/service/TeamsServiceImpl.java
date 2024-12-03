@@ -1,7 +1,10 @@
 package com.personal.project.service;
 
+import com.personal.project.model.Project;
 import com.personal.project.model.Team;
+import com.personal.project.model.TeamRq;
 import com.personal.project.model.User;
+import com.personal.project.repository.query.ProjectRepository;
 import com.personal.project.repository.query.TeamsRepository;
 import com.personal.project.repository.query.UserRepository;
 import com.personal.project.service.contract.TeamsService;
@@ -23,6 +26,7 @@ public class TeamsServiceImpl implements TeamsService {
 
     private final TeamsRepository teamsRepository;
     private final UserRepository userRepository;
+    private final ProjectRepository projectRepository;
 
     @Override
     public Page<Team> findAll(PageRequest pageable) {
@@ -41,9 +45,31 @@ public class TeamsServiceImpl implements TeamsService {
 
     @Transactional
     @Override
+    public Team create(TeamRq teamRq) {
+        Optional<User> leader = userRepository.findById(teamRq.getLeaderId());
+        if (leader.isEmpty()) {
+            //TODO: Retrieve leader from the other service
+            //if there is no user throw exception
+        }
+
+        Optional<Project> project = projectRepository.findById(teamRq.getProjectId());
+        if (project.isEmpty()) {
+            log.error(format("There is no project with id %d", teamRq.getProjectId()));
+            throw new IllegalArgumentException(format("There is no project with id %d", teamRq.getProjectId()));
+        }
+        Team team = Team.builder()
+                .name(teamRq.getName())
+                .project(project.get())
+                .leader(leader.get()).build();
+        log.info("Create %s team");
+        return teamsRepository.save(team);
+    }
+
+    @Transactional
+    @Override
     public Team addMemberToATeam(String name, int id) {
         Team team = teamsRepository.findByName(name);
-        Optional<User> user =  userRepository.findById(id);
+        Optional<User> user = userRepository.findById(id);
 
         if (user.isEmpty()) {
             //TODO: Retrieve user form the other service and store it in the database
