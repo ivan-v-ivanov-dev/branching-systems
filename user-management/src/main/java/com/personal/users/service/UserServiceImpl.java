@@ -31,4 +31,11 @@ public class UserServiceImpl implements UserService {
         log.info("Retrieve all users");
         return users;
     }
+
+    @Override
+    public User findByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        log.info(format("Retrieve user %s", username));
+        return user;
+    }
 }

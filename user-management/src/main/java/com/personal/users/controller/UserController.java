@@ -52,6 +52,11 @@ public class UserController {
         return userService.findAll();
     }
 
+    @GetMapping("/user/{username}")
+    public User findUserByUsername(@PathVariable("username") String username) {
+        return userService.findByUsername(username);
+    }
+
     @GetMapping
     public String health() {
         return "Healthy";

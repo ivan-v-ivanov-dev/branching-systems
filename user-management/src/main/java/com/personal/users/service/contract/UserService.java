@@ -8,4 +8,6 @@ public interface UserService {
     List<User> findAllUsersByRole(String role);
 
     List<User> findAll();
+
+    User findByUsername(String username);
 }

@@ -20,4 +20,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     int findAllUsersCountByRole(@Param("roleName") String roleName);
 
 
+    User findByUsername(String username);
 }
