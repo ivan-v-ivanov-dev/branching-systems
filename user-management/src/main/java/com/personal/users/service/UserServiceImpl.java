@@ -59,4 +59,17 @@ public class UserServiceImpl implements UserService {
         log.info(format("Update user %s", userRq.getUsername()));
         return userRepository.save(user);
     }
+
+    @Transactional
+    @Override
+    public boolean delete(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            log.warn(format("No such user with username %s", username));
+            return false;
+        }
+        userRepository.delete(user);
+        log.info(format("Delete user %s", username));
+        return true;
+    }
 }

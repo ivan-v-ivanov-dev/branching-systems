@@ -13,4 +13,6 @@ public interface UserService {
     User findByUsername(String username);
 
     User update(UserRq userRq);
+
+    boolean delete(String username);
 }

@@ -64,6 +64,11 @@ public class UserController {
         return userService.update(userRq);
     }
 
+    @DeleteMapping("/user/{username}")
+    public boolean deleteUser(@PathVariable("username") String username) {
+        return userService.delete(username);
+    }
+
     @GetMapping
     public String health() {
         return "Healthy";
