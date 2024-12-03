@@ -6,6 +6,8 @@ import com.personal.users.repository.UserRepository;
 import com.personal.users.service.contract.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.ResourceAccessException;
@@ -29,9 +31,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        List<User> users = userRepository.findAll();
-        log.info("Retrieve all users");
+    public Page<User> findAll(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
+        log.info(format("Retrieve %d users", pageable.getPageSize()));
         return users;
     }
 
