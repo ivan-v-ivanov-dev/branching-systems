@@ -10,464 +10,623 @@
             <column autoIncrement="true" name="id" type="int">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="username" type="varchar(30)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="first_name" type="varchar(30)">
-                <constraints nullable="false" unique="false"/>
-            </column>
-            <column name="last_name" type="varchar(30)">
-                <constraints nullable="false" unique="false"/>
-            </column>
-            <column name="role_id" type="int">
-                <constraints nullable="false" unique="false"/>
-            </column>
-            <column name="teams_id" type="int">
-                <constraints nullable="false" unique="false"/>
-            </column>
         </createTable>
 
-        <createTable tableName="roles">
+        <createTable tableName="projects">
             <column autoIncrement="true" name="id" type="int">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="name" type="varchar(10)">
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="varchar(200)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="teams">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="project_id" type="int">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="leader_id" type="int">
                 <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
 
-        <addForeignKeyConstraint baseTableName="users"
-                                 baseColumnNames="role_id"
-                                 constraintName="pk_users_roles"
-                                 referencedTableName="roles"
-                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="teams"
+                                 baseColumnNames="project_id"
+                                 constraintName="pk_teams_projects"
+                                 referencedTableName="projects"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="teams"
+                                 baseColumnNames="leader_id"
+                                 constraintName="pk_teams_users"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <createTable tableName="team_members">
+            <column autoIncrement="true" name="id" type="int">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="team_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="team_members"
+                baseColumnNames="team_id"
+                constraintName="fk_team_members_teams"
+                referencedTableName="teams"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint
+                baseTableName="team_members"
+                baseColumnNames="user_id"
+                constraintName="fk_team_members_users"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
+
+        <addUniqueConstraint
+                tableName="team_members"
+                columnNames="team_id, user_id"
+                constraintName="uq_team_members_team_user"/>
+
     </changeSet>
 
     <changeSet id="Import data" author="Ivan">
-
-        <!--Roles import -->
-
-        <insert tableName="roles">
-            <column name="id" value="1"/>
-            <column name="name" value="CEO"/>
-        </insert>
-
-        <insert tableName="roles">
-            <column name="id" value="2"/>
-            <column name="name" value="Developer"/>
-        </insert>
-
-        <insert tableName="roles">
-            <column name="id" value="3"/>
-            <column name="name" value="Team Lead"/>
-        </insert>
-
-        <insert tableName="roles">
-            <column name="id" value="4"/>
-            <column name="name" value="Unassigned"/>
-        </insert>
 
         <!-- User import -->
 
         <insert tableName="users">
             <column name="id" value="1"/>
-            <column name="username" value="john_doe"/>
-            <column name="first_name" value="John"/>
-            <column name="last_name" value="Doe"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="101"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="2"/>
-            <column name="username" value="jane_doe"/>
-            <column name="first_name" value="Jane"/>
-            <column name="last_name" value="Doe"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="102"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="3"/>
-            <column name="username" value="alice_smith"/>
-            <column name="first_name" value="Alice"/>
-            <column name="last_name" value="Smith"/>
-            <column name="role_id" value="4"/>
-            <column name="teams_id" value="103"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="4"/>
-            <column name="username" value="bob_johnson"/>
-            <column name="first_name" value="Bob"/>
-            <column name="last_name" value="Johnson"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="104"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="5"/>
-            <column name="username" value="emily_williams"/>
-            <column name="first_name" value="Emily"/>
-            <column name="last_name" value="Williams"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="105"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="6"/>
-            <column name="username" value="charlie_brown"/>
-            <column name="first_name" value="Charlie"/>
-            <column name="last_name" value="Brown"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="106"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="7"/>
-            <column name="username" value="diana_jones"/>
-            <column name="first_name" value="Diana"/>
-            <column name="last_name" value="Jones"/>
-            <column name="role_id" value="1"/>
-            <column name="teams_id" value="107"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="8"/>
-            <column name="username" value="michael_miller"/>
-            <column name="first_name" value="Michael"/>
-            <column name="last_name" value="Miller"/>
-            <column name="role_id" value="4"/>
-            <column name="teams_id" value="108"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="9"/>
-            <column name="username" value="susan_moore"/>
-            <column name="first_name" value="Susan"/>
-            <column name="last_name" value="Moore"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="109"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="10"/>
-            <column name="username" value="kevin_taylor"/>
-            <column name="first_name" value="Kevin"/>
-            <column name="last_name" value="Taylor"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="110"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="11"/>
-            <column name="username" value="lucy_anderson"/>
-            <column name="first_name" value="Lucy"/>
-            <column name="last_name" value="Anderson"/>
-            <column name="role_id" value="4"/>
-            <column name="teams_id" value="111"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="12"/>
-            <column name="username" value="jack_lee"/>
-            <column name="first_name" value="Jack"/>
-            <column name="last_name" value="Lee"/>
-            <column name="role_id" value="1"/>
-            <column name="teams_id" value="112"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="13"/>
-            <column name="username" value="olivia_smith"/>
-            <column name="first_name" value="Olivia"/>
-            <column name="last_name" value="Smith"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="113"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="14"/>
-            <column name="username" value="daniel_white"/>
-            <column name="first_name" value="Daniel"/>
-            <column name="last_name" value="White"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="114"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="15"/>
-            <column name="username" value="grace_harris"/>
-            <column name="first_name" value="Grace"/>
-            <column name="last_name" value="Harris"/>
-            <column name="role_id" value="4"/>
-            <column name="teams_id" value="115"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="16"/>
-            <column name="username" value="matthew_clark"/>
-            <column name="first_name" value="Matthew"/>
-            <column name="last_name" value="Clark"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="116"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="17"/>
-            <column name="username" value="sophia_king"/>
-            <column name="first_name" value="Sophia"/>
-            <column name="last_name" value="King"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="117"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="18"/>
-            <column name="username" value="noah_wilson"/>
-            <column name="first_name" value="Noah"/>
-            <column name="last_name" value="Wilson"/>
-            <column name="role_id" value="4"/>
-            <column name="teams_id" value="118"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="19"/>
-            <column name="username" value="chloe_martin"/>
-            <column name="first_name" value="Chloe"/>
-            <column name="last_name" value="Martin"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="119"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="20"/>
-            <column name="username" value="ryan_thompson"/>
-            <column name="first_name" value="Ryan"/>
-            <column name="last_name" value="Thompson"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="120"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="21"/>
-            <column name="username" value="henry_rodgers"/>
-            <column name="first_name" value="Henry"/>
-            <column name="last_name" value="Rodgers"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="121"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="22"/>
-            <column name="username" value="zoe_evans"/>
-            <column name="first_name" value="Zoe"/>
-            <column name="last_name" value="Evans"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="122"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="23"/>
-            <column name="username" value="gabriel_morris"/>
-            <column name="first_name" value="Gabriel"/>
-            <column name="last_name" value="Morris"/>
-            <column name="role_id" value="4"/>
-            <column name="teams_id" value="123"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="24"/>
-            <column name="username" value="maria_sanders"/>
-            <column name="first_name" value="Maria"/>
-            <column name="last_name" value="Sanders"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="124"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="25"/>
-            <column name="username" value="ethan_walker"/>
-            <column name="first_name" value="Ethan"/>
-            <column name="last_name" value="Walker"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="125"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="26"/>
-            <column name="username" value="oliver_hall"/>
-            <column name="first_name" value="Oliver"/>
-            <column name="last_name" value="Hall"/>
-            <column name="role_id" value="1"/>
-            <column name="teams_id" value="126"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="27"/>
-            <column name="username" value="lucas_adams"/>
-            <column name="first_name" value="Lucas"/>
-            <column name="last_name" value="Adams"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="127"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="28"/>
-            <column name="username" value="harper_james"/>
-            <column name="first_name" value="Harper"/>
-            <column name="last_name" value="James"/>
-            <column name="role_id" value="4"/>
-            <column name="teams_id" value="128"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="29"/>
-            <column name="username" value="elizabeth_baker"/>
-            <column name="first_name" value="Elizabeth"/>
-            <column name="last_name" value="Baker"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="129"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="30"/>
-            <column name="username" value="samuel_jackson"/>
-            <column name="first_name" value="Samuel"/>
-            <column name="last_name" value="Jackson"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="130"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="31"/>
-            <column name="username" value="victoria_king"/>
-            <column name="first_name" value="Victoria"/>
-            <column name="last_name" value="King"/>
-            <column name="role_id" value="1"/>
-            <column name="teams_id" value="131"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="32"/>
-            <column name="username" value="aaron_carter"/>
-            <column name="first_name" value="Aaron"/>
-            <column name="last_name" value="Carter"/>
-            <column name="role_id" value="4"/>
-            <column name="teams_id" value="132"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="33"/>
-            <column name="username" value="lucy_martinez"/>
-            <column name="first_name" value="Lucy"/>
-            <column name="last_name" value="Martinez"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="133"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="34"/>
-            <column name="username" value="henry_taylor"/>
-            <column name="first_name" value="Henry"/>
-            <column name="last_name" value="Taylor"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="134"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="35"/>
-            <column name="username" value="peter_davis"/>
-            <column name="first_name" value="Peter"/>
-            <column name="last_name" value="Davis"/>
-            <column name="role_id" value="4"/>
-            <column name="teams_id" value="135"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="36"/>
-            <column name="username" value="mia_morris"/>
-            <column name="first_name" value="Mia"/>
-            <column name="last_name" value="Morris"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="136"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="37"/>
-            <column name="username" value="carter_jones"/>
-            <column name="first_name" value="Carter"/>
-            <column name="last_name" value="Jones"/>
-            <column name="role_id" value="1"/>
-            <column name="teams_id" value="137"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="38"/>
-            <column name="username" value="sophia_garcia"/>
-            <column name="first_name" value="Sophia"/>
-            <column name="last_name" value="Garcia"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="138"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="39"/>
-            <column name="username" value="jackson_robinson"/>
-            <column name="first_name" value="Jackson"/>
-            <column name="last_name" value="Robinson"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="139"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="40"/>
-            <column name="username" value="ella_lee"/>
-            <column name="first_name" value="Ella"/>
-            <column name="last_name" value="Lee"/>
-            <column name="role_id" value="4"/>
-            <column name="teams_id" value="140"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="41"/>
-            <column name="username" value="liam_perez"/>
-            <column name="first_name" value="Liam"/>
-            <column name="last_name" value="Perez"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="141"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="42"/>
-            <column name="username" value="layla_gonzalez"/>
-            <column name="first_name" value="Layla"/>
-            <column name="last_name" value="Gonzalez"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="142"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="43"/>
-            <column name="username" value="alexander_wilson"/>
-            <column name="first_name" value="Alexander"/>
-            <column name="last_name" value="Wilson"/>
-            <column name="role_id" value="4"/>
-            <column name="teams_id" value="143"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="44"/>
-            <column name="username" value="ella_chen"/>
-            <column name="first_name" value="Ella"/>
-            <column name="last_name" value="Chen"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="144"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="45"/>
-            <column name="username" value="william_jackson"/>
-            <column name="first_name" value="William"/>
-            <column name="last_name" value="Jackson"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="145"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="46"/>
-            <column name="username" value="madeline_smith"/>
-            <column name="first_name" value="Madeline"/>
-            <column name="last_name" value="Smith"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="146"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="47"/>
-            <column name="username" value="franklin_brooks"/>
-            <column name="first_name" value="Franklin"/>
-            <column name="last_name" value="Brooks"/>
-            <column name="role_id" value="1"/>
-            <column name="teams_id" value="147"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="48"/>
-            <column name="username" value="elena_clark"/>
-            <column name="first_name" value="Elena"/>
-            <column name="last_name" value="Clark"/>
-            <column name="role_id" value="4"/>
-            <column name="teams_id" value="148"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="49"/>
-            <column name="username" value="gabrielle_wilson"/>
-            <column name="first_name" value="Gabrielle"/>
-            <column name="last_name" value="Wilson"/>
-            <column name="role_id" value="2"/>
-            <column name="teams_id" value="149"/>
         </insert>
         <insert tableName="users">
             <column name="id" value="50"/>
-            <column name="username" value="nicholas_rodgers"/>
-            <column name="first_name" value="Nicholas"/>
-            <column name="last_name" value="Rodgers"/>
-            <column name="role_id" value="3"/>
-            <column name="teams_id" value="150"/>
+        </insert>
+
+        <!--Projects import-->
+
+        <insert tableName="projects">
+            <column name="id" value="1"/>
+            <column name="name" value="Project Alpha"/>
+            <column name="description" value="This is the first project focusing on initial development."/>
+        </insert>
+        <insert tableName="projects">
+            <column name="id" value="2"/>
+            <column name="name" value="Project Beta"/>
+            <column name="description" value="Second project concentrating on beta testing."/>
+        </insert>
+        <insert tableName="projects">
+            <column name="id" value="3"/>
+            <column name="name" value="Project Gamma"/>
+            <column name="description" value="Third project aimed at user onboarding improvements."/>
+        </insert>
+        <insert tableName="projects">
+            <column name="id" value="4"/>
+            <column name="name" value="Project Delta"/>
+            <column name="description" value="Fourth project focused on API development."/>
+        </insert>
+        <insert tableName="projects">
+            <column name="id" value="5"/>
+            <column name="name" value="Project Epsilon"/>
+            <column name="description" value="Fifth project working on performance optimization."/>
+        </insert>
+        <insert tableName="projects">
+            <column name="id" value="6"/>
+            <column name="name" value="Project Zeta"/>
+            <column name="description" value="Sixth project for expanding feature sets."/>
+        </insert>
+        <insert tableName="projects">
+            <column name="id" value="7"/>
+            <column name="name" value="Project Eta"/>
+            <column name="description" value="Seventh project dedicated to security enhancements."/>
+        </insert>
+        <insert tableName="projects">
+            <column name="id" value="8"/>
+            <column name="name" value="Project Theta"/>
+            <column name="description" value="Eighth project for UI/UX design overhaul."/>
+        </insert>
+        <insert tableName="projects">
+            <column name="id" value="9"/>
+            <column name="name" value="Project Iota"/>
+            <column name="description" value="Ninth project aimed at database migration."/>
+        </insert>
+        <insert tableName="projects">
+            <column name="id" value="10"/>
+            <column name="name" value="Project Kappa"/>
+            <column name="description" value="Tenth project focusing on cloud integration."/>
+        </insert>
+
+        <!--Teams import-->
+
+        <insert tableName="teams">
+            <column name="id" value="1"/>
+            <column name="name" value="Alpha Team"/>
+            <column name="project_id" value="1"/>
+            <column name="leader_id" value="1"/>
+        </insert>
+        <insert tableName="teams">
+            <column name="id" value="2"/>
+            <column name="name" value="Beta Team"/>
+            <column name="project_id" value="2"/>
+            <column name="leader_id" value="2"/>
+        </insert>
+        <insert tableName="teams">
+            <column name="id" value="3"/>
+            <column name="name" value="Gamma Team"/>
+            <column name="project_id" value="3"/>
+            <column name="leader_id" value="3"/>
+        </insert>
+        <insert tableName="teams">
+            <column name="id" value="4"/>
+            <column name="name" value="Delta Team"/>
+            <column name="project_id" value="4"/>
+            <column name="leader_id" value="4"/>
+        </insert>
+        <insert tableName="teams">
+            <column name="id" value="5"/>
+            <column name="name" value="Epsilon Team"/>
+            <column name="project_id" value="5"/>
+            <column name="leader_id" value="5"/>
+        </insert>
+        <insert tableName="teams">
+            <column name="id" value="6"/>
+            <column name="name" value="Zeta Team"/>
+            <column name="project_id" value="6"/>
+            <column name="leader_id" value="6"/>
+        </insert>
+        <insert tableName="teams">
+            <column name="id" value="7"/>
+            <column name="name" value="Eta Team"/>
+            <column name="project_id" value="7"/>
+            <column name="leader_id" value="7"/>
+        </insert>
+        <insert tableName="teams">
+            <column name="id" value="8"/>
+            <column name="name" value="Theta Team"/>
+            <column name="project_id" value="8"/>
+            <column name="leader_id" value="8"/>
+        </insert>
+        <insert tableName="teams">
+            <column name="id" value="9"/>
+            <column name="name" value="Iota Team"/>
+            <column name="project_id" value="9"/>
+            <column name="leader_id" value="9"/>
+        </insert>
+        <insert tableName="teams">
+            <column name="id" value="10"/>
+            <column name="name" value="Kappa Team"/>
+            <column name="project_id" value="10"/>
+            <column name="leader_id" value="10"/>
+        </insert>
+
+        <!-- Team 1 -->
+        <insert tableName="team_members">
+            <column name="id" value="1"/>
+            <column name="team_id" value="1"/>
+            <column name="user_id" value="1"/> <!-- Leader -->
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="2"/>
+            <column name="team_id" value="1"/>
+            <column name="user_id" value="11"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="3"/>
+            <column name="team_id" value="1"/>
+            <column name="user_id" value="12"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="4"/>
+            <column name="team_id" value="1"/>
+            <column name="user_id" value="13"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="5"/>
+            <column name="team_id" value="1"/>
+            <column name="user_id" value="14"/>
+        </insert>
+
+        <!-- Team 2 -->
+        <insert tableName="team_members">
+            <column name="id" value="6"/>
+            <column name="team_id" value="2"/>
+            <column name="user_id" value="2"/> <!-- Leader -->
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="7"/>
+            <column name="team_id" value="2"/>
+            <column name="user_id" value="15"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="8"/>
+            <column name="team_id" value="2"/>
+            <column name="user_id" value="16"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="9"/>
+            <column name="team_id" value="2"/>
+            <column name="user_id" value="17"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="10"/>
+            <column name="team_id" value="2"/>
+            <column name="user_id" value="18"/>
+        </insert>
+
+        <!-- Team 3 -->
+        <insert tableName="team_members">
+            <column name="id" value="11"/>
+            <column name="team_id" value="3"/>
+            <column name="user_id" value="3"/> <!-- Leader -->
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="12"/>
+            <column name="team_id" value="3"/>
+            <column name="user_id" value="19"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="13"/>
+            <column name="team_id" value="3"/>
+            <column name="user_id" value="20"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="14"/>
+            <column name="team_id" value="3"/>
+            <column name="user_id" value="21"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="15"/>
+            <column name="team_id" value="3"/>
+            <column name="user_id" value="22"/>
+        </insert>
+
+        <!-- Repeat for Teams 4 to 10 -->
+        <!-- Team 4 -->
+        <insert tableName="team_members">
+            <column name="id" value="16"/>
+            <column name="team_id" value="4"/>
+            <column name="user_id" value="4"/> <!-- Leader -->
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="17"/>
+            <column name="team_id" value="4"/>
+            <column name="user_id" value="23"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="18"/>
+            <column name="team_id" value="4"/>
+            <column name="user_id" value="24"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="19"/>
+            <column name="team_id" value="4"/>
+            <column name="user_id" value="25"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="20"/>
+            <column name="team_id" value="4"/>
+            <column name="user_id" value="26"/>
+        </insert>
+        <!-- Team 5 -->
+        <insert tableName="team_members">
+            <column name="id" value="21"/>
+            <column name="team_id" value="5"/>
+            <column name="user_id" value="5"/> <!-- Leader -->
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="22"/>
+            <column name="team_id" value="5"/>
+            <column name="user_id" value="27"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="23"/>
+            <column name="team_id" value="5"/>
+            <column name="user_id" value="28"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="24"/>
+            <column name="team_id" value="5"/>
+            <column name="user_id" value="29"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="25"/>
+            <column name="team_id" value="5"/>
+            <column name="user_id" value="30"/>
+        </insert>
+
+        <!-- Team 6 -->
+        <insert tableName="team_members">
+            <column name="id" value="26"/>
+            <column name="team_id" value="6"/>
+            <column name="user_id" value="6"/> <!-- Leader -->
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="27"/>
+            <column name="team_id" value="6"/>
+            <column name="user_id" value="31"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="28"/>
+            <column name="team_id" value="6"/>
+            <column name="user_id" value="32"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="29"/>
+            <column name="team_id" value="6"/>
+            <column name="user_id" value="33"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="30"/>
+            <column name="team_id" value="6"/>
+            <column name="user_id" value="34"/>
+        </insert>
+
+        <!-- Team 7 -->
+        <insert tableName="team_members">
+            <column name="id" value="31"/>
+            <column name="team_id" value="7"/>
+            <column name="user_id" value="7"/> <!-- Leader -->
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="32"/>
+            <column name="team_id" value="7"/>
+            <column name="user_id" value="35"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="33"/>
+            <column name="team_id" value="7"/>
+            <column name="user_id" value="36"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="34"/>
+            <column name="team_id" value="7"/>
+            <column name="user_id" value="37"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="35"/>
+            <column name="team_id" value="7"/>
+            <column name="user_id" value="38"/>
+        </insert>
+
+        <!-- Team 8 -->
+        <insert tableName="team_members">
+            <column name="id" value="36"/>
+            <column name="team_id" value="8"/>
+            <column name="user_id" value="8"/> <!-- Leader -->
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="37"/>
+            <column name="team_id" value="8"/>
+            <column name="user_id" value="39"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="38"/>
+            <column name="team_id" value="8"/>
+            <column name="user_id" value="40"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="39"/>
+            <column name="team_id" value="8"/>
+            <column name="user_id" value="41"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="40"/>
+            <column name="team_id" value="8"/>
+            <column name="user_id" value="42"/>
+        </insert>
+
+        <!-- Team 9 -->
+        <insert tableName="team_members">
+            <column name="id" value="41"/>
+            <column name="team_id" value="9"/>
+            <column name="user_id" value="9"/> <!-- Leader -->
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="42"/>
+            <column name="team_id" value="9"/>
+            <column name="user_id" value="43"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="43"/>
+            <column name="team_id" value="9"/>
+            <column name="user_id" value="44"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="44"/>
+            <column name="team_id" value="9"/>
+            <column name="user_id" value="45"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="45"/>
+            <column name="team_id" value="9"/>
+            <column name="user_id" value="46"/>
+        </insert>
+
+        <!-- Team 10 -->
+        <insert tableName="team_members">
+            <column name="id" value="46"/>
+            <column name="team_id" value="10"/>
+            <column name="user_id" value="10"/> <!-- Leader -->
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="47"/>
+            <column name="team_id" value="10"/>
+            <column name="user_id" value="47"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="48"/>
+            <column name="team_id" value="10"/>
+            <column name="user_id" value="48"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="49"/>
+            <column name="team_id" value="10"/>
+            <column name="user_id" value="49"/>
+        </insert>
+        <insert tableName="team_members">
+            <column name="id" value="50"/>
+            <column name="team_id" value="10"/>
+            <column name="user_id" value="50"/>
         </insert>
     </changeSet>
 
