@@ -24,4 +24,11 @@ public class UserServiceImpl implements UserService {
         log.info(format("Retrieve all users for role %s", role));
         return users;
     }
+
+    @Override
+    public List<User> findAll() {
+        List<User> users = userRepository.findAll();
+        log.info("Retrieve all users");
+        return users;
+    }
 }

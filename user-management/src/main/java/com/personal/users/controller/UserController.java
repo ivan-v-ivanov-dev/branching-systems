@@ -47,6 +47,11 @@ public class UserController {
         return rolesService.findAllRolesUsersCount();
     }
 
+    @GetMapping("/users")
+    public List<User> findAllUsers() {
+        return userService.findAll();
+    }
+
     @GetMapping
     public String health() {
         return "Healthy";
