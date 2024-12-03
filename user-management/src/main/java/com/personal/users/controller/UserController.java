@@ -2,11 +2,13 @@ package com.personal.users.controller;
 
 import com.personal.users.model.Role;
 import com.personal.users.model.User;
+import com.personal.users.model.UserRq;
 import com.personal.users.service.contract.RolesService;
 import com.personal.users.service.contract.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -55,6 +57,11 @@ public class UserController {
     @GetMapping("/user/{username}")
     public User findUserByUsername(@PathVariable("username") String username) {
         return userService.findByUsername(username);
+    }
+
+    @PutMapping("/user")
+    public User uppdateUser(@Valid @RequestBody UserRq userRq) {
+        return userService.update(userRq);
     }
 
     @GetMapping
