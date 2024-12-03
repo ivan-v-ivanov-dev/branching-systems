@@ -1,0 +1,36 @@
+version: '3.5'
+
+services:
+
+  # PostreSQL
+  postgres:
+    image: postgres:12
+    container_name: postgres-projects
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_DB: storage
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+
+  # Liquibase
+  liquibase:
+    image: liquibase/liquibase:4.9.1
+    container_name: liquibase-project
+    depends_on:
+      - postgres
+    volumes:
+      - ./src/main/resources/db/changeLog:/liquibase/changelog
+    environment:
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/storage
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=root
+      - DATABASE_CHANGELOG=/liquibase/changelog/changeLog.xml
+      - CLASSPATH=/liquibase/changelog
+    command:
+      - --changeLogFile=changeLog.xml
+      - --url=jdbc:postgresql://postgres:5432/storage
+      - --username=root
+      - --password=root
+      - update
+
