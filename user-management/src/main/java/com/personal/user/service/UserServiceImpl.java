@@ -1,5 +1,7 @@
 package com.personal.user.service;
 
+import com.personal.model.model.UserResponse;
+import com.personal.user.adapter.UserAdapter;
 import com.personal.user.model.Role;
 import com.personal.user.model.User;
 import com.personal.user.model.UserRq;
@@ -25,6 +27,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final UserAdapter userAdapter;
 
     @Override
     public List<User> findAllUsersByRole(String role) {
@@ -48,14 +51,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(int id) {
+    public UserResponse findById(int id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             log.error(format("No such user with id %d", id));
             throw new IllegalArgumentException(format("No such user with id %d", id));
         }
         log.info(format("Retrieve user %d", id));
-        return user.get();
+        return userAdapter.fromUserToUserResponse(user.get());
     }
 
     @Override

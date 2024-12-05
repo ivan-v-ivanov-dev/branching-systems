@@ -1,5 +1,6 @@
 package com.personal.user.service.contract;
 
+import com.personal.model.model.UserResponse;
 import com.personal.user.model.User;
 import com.personal.user.model.UserRq;
 import org.springframework.data.domain.Page;
@@ -14,7 +15,7 @@ public interface UserService {
 
     Page<User> searchUsersByFirstName(String firstName, Pageable pageable);
 
-    User findById(int id);
+    UserResponse findById(int id);
 
     User findByUsername(String username);
 

@@ -1,5 +1,6 @@
 package com.personal.user.controller;
 
+import com.personal.model.model.UserResponse;
 import com.personal.user.model.Role;
 import com.personal.user.model.User;
 import com.personal.user.model.UserRq;
@@ -69,9 +70,8 @@ public class UserController {
         return userService.searchUsersByFirstName(firstName, PageRequest.of(page, size, Sort.by(sortBy)));
     }
 
-
     @GetMapping("/user/{id}")
-    public User findUserById(@PathVariable("id") int id) {
+    public UserResponse findUserById(@PathVariable("id") int id) {
         return userService.findById(id);
     }
 
