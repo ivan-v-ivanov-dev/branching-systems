@@ -6,4 +6,6 @@ import org.springframework.data.domain.PageRequest;
 
 public interface ProjectService {
     Page<Project> findAll(PageRequest pageable);
+
+    Project findByName(String name);
 }

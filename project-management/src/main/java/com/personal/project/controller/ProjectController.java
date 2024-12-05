@@ -65,4 +65,9 @@ public class ProjectController {
                                          @RequestParam(defaultValue = "10") int size) {
         return projectService.findAll(PageRequest.of(page, size));
     }
+
+    @GetMapping("/project/{name}")
+    public Project findProjectByName(@PathVariable("name") String name) {
+        return projectService.findByName(name);
+    }
 }
