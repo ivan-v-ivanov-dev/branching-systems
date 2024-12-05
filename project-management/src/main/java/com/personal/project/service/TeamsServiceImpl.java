@@ -98,6 +98,15 @@ public class TeamsServiceImpl implements TeamsService {
         return teamsRepository.save(team);
     }
 
+    @Override
+    public Team removeProject(String teamName, String projectName) {
+        Team team = teamsRepository.findByName(teamName);
+        Project project = projectRepository.findByName(projectName);
+        team.getProjects().remove(project);
+        log.info(format("Remove project %s to team %s", projectName, teamName));
+        return teamsRepository.save(team);
+    }
+
     @Transactional
     @Override
     public boolean delete(String name) {

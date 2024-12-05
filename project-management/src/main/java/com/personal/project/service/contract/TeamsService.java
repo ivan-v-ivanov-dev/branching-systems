@@ -22,4 +22,6 @@ public interface TeamsService {
     Page<Team> searchTeams(String name, String projectName, PageRequest pageable);
 
     Team addProject(String teamName, String projectName);
+
+    Team removeProject(String teamName, String projectName);
 }
