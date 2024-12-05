@@ -47,6 +47,12 @@ public class ProjectController {
         return teamsService.removeMemberFromATeam(name, id);
     }
 
+    @PutMapping("/team/{teamName}/project/{projectName}")
+    public Team addTeamToProject(@PathVariable("teamName") String teamName,
+                                    @PathVariable("projectName") String projectName) {
+        return teamsService.addProject(teamName, projectName);
+    }
+
     @DeleteMapping("/team/{name}")
     public boolean deleteATeam(@PathVariable("name") String name) {
         return teamsService.delete(name);

@@ -10,8 +10,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.personal.project.repository.query.Queries.DELETE_TEAM_TEMPLATE;
-import static com.personal.project.repository.query.Queries.FIND_BY_NAME_AND_PROJECT_NAME_TEMPLATE;
+import java.util.List;
+
+import static com.personal.project.repository.query.Queries.*;
 
 public interface TeamsRepository extends JpaRepository<Team, Integer> {
     Page<Team> findAll(Pageable pageable);
@@ -24,7 +25,10 @@ public interface TeamsRepository extends JpaRepository<Team, Integer> {
     int deleteByName(@Param("name") String name);
 
     @Query(FIND_BY_NAME_AND_PROJECT_NAME_TEMPLATE)
-    Page<Team> searchByNameAndProjectName(@Param("name")String name,
+    Page<Team> searchByNameAndProjectName(@Param("name") String name,
                                           @Param("projectName") String projectName,
                                           PageRequest pageable);
+
+//    @Query(FIND_BY_PROJECT_NAME_TEMPLATE)
+//    List<Team> findAllProjectTeams(@Param("projectName") String projectName);
 }

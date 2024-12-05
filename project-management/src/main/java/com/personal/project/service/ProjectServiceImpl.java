@@ -2,6 +2,7 @@ package com.personal.project.service;
 
 import com.personal.project.model.Project;
 import com.personal.project.repository.ProjectRepository;
+import com.personal.project.repository.TeamsRepository;
 import com.personal.project.service.contract.ProjectService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import static java.lang.String.format;
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final TeamsRepository teamsRepository;
 
     @Override
     public Page<Project> findAll(PageRequest pageable) {
@@ -29,6 +31,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project findByName(String name) {
         Project project = projectRepository.findByName(name);
+        //TODO retrieve each member name from the other service
         log.info(format("Retrieve project %s", name));
         return project;
     }

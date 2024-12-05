@@ -31,20 +31,10 @@
             <column name="name" type="varchar(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="project_id" type="int">
-                <constraints nullable="false" unique="true"/>
-            </column>
             <column name="leader_id" type="int">
                 <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
-
-        <addForeignKeyConstraint baseTableName="teams"
-                                 baseColumnNames="project_id"
-                                 constraintName="pk_teams_projects"
-                                 referencedTableName="projects"
-                                 referencedColumnNames="id"
-                                 onDelete="CASCADE"/>
 
         <addForeignKeyConstraint baseTableName="teams"
                                  baseColumnNames="leader_id"
@@ -52,6 +42,26 @@
                                  referencedTableName="users"
                                  referencedColumnNames="id"
                                  onDelete="CASCADE"/>
+
+        <createTable tableName="team_projects">
+            <column name="team_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="project_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="team_id"
+                                 baseTableName="team_projects"
+                                 constraintName="fk_team_projects_team"
+                                 referencedColumnNames="id"
+                                 referencedTableName="teams"/>
+        <addForeignKeyConstraint baseColumnNames="project_id"
+                                 baseTableName="team_projects"
+                                 constraintName="fk_team_projects_project"
+                                 referencedColumnNames="id"
+                                 referencedTableName="projects"/>
 
         <createTable tableName="team_members">
             <column autoIncrement="true" name="id" type="int">
@@ -301,61 +311,51 @@
         <insert tableName="teams">
             <column name="id" value="1"/>
             <column name="name" value="Alpha Team"/>
-            <column name="project_id" value="1"/>
             <column name="leader_id" value="1"/>
         </insert>
         <insert tableName="teams">
             <column name="id" value="2"/>
             <column name="name" value="Beta Team"/>
-            <column name="project_id" value="2"/>
             <column name="leader_id" value="2"/>
         </insert>
         <insert tableName="teams">
             <column name="id" value="3"/>
             <column name="name" value="Gamma Team"/>
-            <column name="project_id" value="3"/>
             <column name="leader_id" value="3"/>
         </insert>
         <insert tableName="teams">
             <column name="id" value="4"/>
             <column name="name" value="Delta Team"/>
-            <column name="project_id" value="4"/>
             <column name="leader_id" value="4"/>
         </insert>
         <insert tableName="teams">
             <column name="id" value="5"/>
             <column name="name" value="Epsilon Team"/>
-            <column name="project_id" value="5"/>
             <column name="leader_id" value="5"/>
         </insert>
         <insert tableName="teams">
             <column name="id" value="6"/>
             <column name="name" value="Zeta Team"/>
-            <column name="project_id" value="6"/>
             <column name="leader_id" value="6"/>
         </insert>
         <insert tableName="teams">
             <column name="id" value="7"/>
             <column name="name" value="Eta Team"/>
-            <column name="project_id" value="7"/>
             <column name="leader_id" value="7"/>
         </insert>
         <insert tableName="teams">
             <column name="id" value="8"/>
             <column name="name" value="Theta Team"/>
-            <column name="project_id" value="8"/>
             <column name="leader_id" value="8"/>
         </insert>
         <insert tableName="teams">
             <column name="id" value="9"/>
             <column name="name" value="Iota Team"/>
-            <column name="project_id" value="9"/>
             <column name="leader_id" value="9"/>
         </insert>
         <insert tableName="teams">
             <column name="id" value="10"/>
             <column name="name" value="Kappa Team"/>
-            <column name="project_id" value="10"/>
             <column name="leader_id" value="10"/>
         </insert>
 
@@ -628,6 +628,62 @@
             <column name="team_id" value="10"/>
             <column name="user_id" value="50"/>
         </insert>
+
+        <!--Teams projects-->
+
+        <insert tableName="team_projects">
+            <column name="team_id" value="1"/>
+            <column name="project_id" value="1"/>
+        </insert>
+        <insert tableName="team_projects">
+            <column name="team_id" value="1"/>
+            <column name="project_id" value="2"/>
+        </insert>
+        <insert tableName="team_projects">
+            <column name="team_id" value="2"/>
+            <column name="project_id" value="1"/>
+        </insert>
+        <insert tableName="team_projects">
+            <column name="team_id" value="2"/>
+            <column name="project_id" value="3"/>
+        </insert>
+        <insert tableName="team_projects">
+            <column name="team_id" value="3"/>
+            <column name="project_id" value="2"/>
+        </insert>
+        <insert tableName="team_projects">
+            <column name="team_id" value="3"/>
+            <column name="project_id" value="3"/>
+        </insert>
+        <insert tableName="team_projects">
+            <column name="team_id" value="4"/>
+            <column name="project_id" value="4"/>
+        </insert>
+        <insert tableName="team_projects">
+            <column name="team_id" value="5"/>
+            <column name="project_id" value="5"/>
+        </insert>
+        <insert tableName="team_projects">
+            <column name="team_id" value="6"/>
+            <column name="project_id" value="6"/>
+        </insert>
+        <insert tableName="team_projects">
+            <column name="team_id" value="7"/>
+            <column name="project_id" value="7"/>
+        </insert>
+        <insert tableName="team_projects">
+            <column name="team_id" value="8"/>
+            <column name="project_id" value="8"/>
+        </insert>
+        <insert tableName="team_projects">
+            <column name="team_id" value="9"/>
+            <column name="project_id" value="9"/>
+        </insert>
+        <insert tableName="team_projects">
+            <column name="team_id" value="10"/>
+            <column name="project_id" value="10"/>
+        </insert>
+
     </changeSet>
 
 </databaseChangeLog>

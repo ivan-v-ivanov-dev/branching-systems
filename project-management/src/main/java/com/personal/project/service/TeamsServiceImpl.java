@@ -60,7 +60,6 @@ public class TeamsServiceImpl implements TeamsService {
         }
         Team team = Team.builder()
                 .name(teamRq.getName())
-                .project(project.get())
                 .leader(leader.get()).build();
         log.info("Create %s team");
         return teamsRepository.save(team);
@@ -87,6 +86,15 @@ public class TeamsServiceImpl implements TeamsService {
         Team team = teamsRepository.findByName(name);
         team.getMembers().removeIf(current -> current.getId() == id);
         log.info(format("Remove team member %d from team %s", id, name));
+        return teamsRepository.save(team);
+    }
+
+    @Override
+    public Team addProject(String teamName, String projectName) {
+        Team team = teamsRepository.findByName(teamName);
+        Project project = projectRepository.findByName(projectName);
+        team.getProjects().add(project);
+        log.info(format("Add project %s to team %s", projectName, teamName));
         return teamsRepository.save(team);
     }
 

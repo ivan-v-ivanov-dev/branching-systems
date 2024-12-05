@@ -1,5 +1,6 @@
 package com.personal.project.service.contract;
 
+import com.personal.project.model.Project;
 import com.personal.project.model.Team;
 import com.personal.project.model.TeamRq;
 import org.springframework.data.domain.Page;
@@ -19,4 +20,6 @@ public interface TeamsService {
     boolean delete(String name);
 
     Page<Team> searchTeams(String name, String projectName, PageRequest pageable);
+
+    Team addProject(String teamName, String projectName);
 }

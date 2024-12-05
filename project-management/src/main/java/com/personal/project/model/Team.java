@@ -24,9 +24,13 @@ public class Team {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "team_projects",
+            joinColumns = @JoinColumn(name = "team_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    private Set<Project> projects = new HashSet<>();
 
     @OneToOne
     @JoinColumn(name = "leader_id")
