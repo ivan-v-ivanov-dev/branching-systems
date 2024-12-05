@@ -1,7 +1,9 @@
 package com.personal.project.controller;
 
+import com.personal.project.model.Project;
 import com.personal.project.model.Team;
 import com.personal.project.model.TeamRq;
+import com.personal.project.service.contract.ProjectService;
 import com.personal.project.service.contract.TeamsService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import javax.validation.Valid;
 public class ProjectController {
 
     private final TeamsService teamsService;
+    private final ProjectService projectService;
 
     @GetMapping("/team/{name}")
     public Team findTeamByName(@PathVariable("name") String name) {
@@ -57,8 +60,9 @@ public class ProjectController {
         return teamsService.searchTeams(name, projectName, PageRequest.of(page, size));
     }
 
-    @GetMapping("/health")
-    public String health() {
-        return "Healthy";
+    @GetMapping("/projects")
+    public Page<Project> findAllProjects(@RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "10") int size) {
+        return projectService.findAll(PageRequest.of(page, size));
     }
 }
