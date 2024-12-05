@@ -1,21 +1,28 @@
 package com.personal.project.service;
 
+import com.personal.model.model.TeamResponse;
+import com.personal.model.model.UserResponse;
+import com.personal.project.adapter.TeamAdapter;
 import com.personal.project.model.Project;
 import com.personal.project.model.Team;
-import com.personal.project.model.TeamRq;
 import com.personal.project.model.User;
+import com.personal.project.model.dto.TeamRq;
 import com.personal.project.repository.ProjectRepository;
 import com.personal.project.repository.TeamsRepository;
 import com.personal.project.repository.UserRepository;
 import com.personal.project.service.contract.TeamsService;
+import com.personal.project.service.feign.UserClient;
+import feign.FeignException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.ResourceAccessException;
 
-import java.util.Optional;
+import java.util.*;
 
 import static java.lang.String.format;
 
@@ -27,20 +34,46 @@ public class TeamsServiceImpl implements TeamsService {
     private final TeamsRepository teamsRepository;
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
+    private final UserClient userClient;
+    private final TeamAdapter teamAdapter;
 
     @Override
-    public Page<Team> findAll(PageRequest pageable) {
-        Page<Team> teams = teamsRepository.findAll(pageable);
-        log.info("Retrieve all teams");
-        return teams;
+    public Page<TeamResponse> findAll(PageRequest pageable) {
+        try {
+            Page<Team> teams = teamsRepository.findAll(pageable);
+            List<TeamResponse> temp = new ArrayList<>();
+            for (Team team : teams) {
+                TeamResponse teamResponse = teamAdapter.fromTeamToTeamResponse(team);
+                teamResponse.setLeader(userClient.findUserById(team.getLeader().getId()));
+                Set<UserResponse> members = new HashSet<>();
+                team.getMembers().forEach(e -> members.add(userClient.findUserById(e.getId())));
+                teamResponse.setMembers(members);
+                temp.add(teamResponse);
+            }
+            Page<TeamResponse> response = new PageImpl<>(temp, pageable, temp.size());
+            log.info("Retrieve all teams");
+            return response;
+        } catch (FeignException feignException) {
+            log.error(feignException.getMessage());
+            throw new ResourceAccessException("User service is down");
+        }
     }
 
-    //TODO: Retrieve users from the other service
     @Override
-    public Team findByName(String name) {
-        Team team = teamsRepository.findByName(name);
-        log.info(format("retrieve team %s", name));
-        return team;
+    public TeamResponse findByName(String name) {
+        try {
+            Team team = teamsRepository.findByName(name);
+            TeamResponse response = teamAdapter.fromTeamToTeamResponse(team);
+            response.setLeader(userClient.findUserById(team.getLeader().getId()));
+            Set<UserResponse> members = new HashSet<>();
+            team.getMembers().forEach(e -> members.add(userClient.findUserById(e.getId())));
+            response.setMembers(members);
+            log.info(format("retrieve team %s", name));
+            return response;
+        } catch (FeignException feignException) {
+            log.error(feignException.getMessage());
+            throw new ResourceAccessException("User service is down");
+        }
     }
 
     @Transactional

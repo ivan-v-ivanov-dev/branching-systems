@@ -1,8 +1,9 @@
 package com.personal.project.controller;
 
+import com.personal.model.model.TeamResponse;
 import com.personal.project.model.Project;
 import com.personal.project.model.Team;
-import com.personal.project.model.TeamRq;
+import com.personal.project.model.dto.TeamRq;
 import com.personal.project.service.contract.ProjectService;
 import com.personal.project.service.contract.TeamsService;
 import lombok.AllArgsConstructor;
@@ -20,12 +21,12 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping("/team/{name}")
-    public Team findTeamByName(@PathVariable("name") String name) {
+    public TeamResponse findTeamByName(@PathVariable("name") String name) {
         return teamsService.findByName(name);
     }
 
     @GetMapping("/teams")
-    public Page<Team> getTeams(@RequestParam(defaultValue = "0") int page,
+    public Page<TeamResponse> getTeams(@RequestParam(defaultValue = "0") int page,
                                @RequestParam(defaultValue = "10") int size) {
         return teamsService.findAll(PageRequest.of(page, size));
     }
@@ -49,13 +50,13 @@ public class ProjectController {
 
     @PutMapping("/team/{teamName}/add-project/{projectName}")
     public Team addTeamToProject(@PathVariable("teamName") String teamName,
-                                    @PathVariable("projectName") String projectName) {
+                                 @PathVariable("projectName") String projectName) {
         return teamsService.addProject(teamName, projectName);
     }
 
     @PutMapping("/team/{teamName}/remove-project/{projectName}")
     public Team removeTeamToProject(@PathVariable("teamName") String teamName,
-                                 @PathVariable("projectName") String projectName) {
+                                    @PathVariable("projectName") String projectName) {
         return teamsService.removeProject(teamName, projectName);
     }
 

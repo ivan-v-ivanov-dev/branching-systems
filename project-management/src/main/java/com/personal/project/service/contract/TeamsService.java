@@ -1,15 +1,15 @@
 package com.personal.project.service.contract;
 
-import com.personal.project.model.Project;
+import com.personal.model.model.TeamResponse;
 import com.personal.project.model.Team;
-import com.personal.project.model.TeamRq;
+import com.personal.project.model.dto.TeamRq;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 public interface TeamsService {
-    Page<Team> findAll(PageRequest pageable);
+    Page<TeamResponse> findAll(PageRequest pageable);
 
-    Team findByName(String name);
+    TeamResponse findByName(String name);
 
     Team create(TeamRq teamRq);
 
