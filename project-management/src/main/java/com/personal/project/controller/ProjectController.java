@@ -70,4 +70,10 @@ public class ProjectController {
     public Project findProjectByName(@PathVariable("name") String name) {
         return projectService.findByName(name);
     }
+
+    @PutMapping("/project/{name}")
+    public Project updateProjectDescription(@PathVariable("name") String name,
+                                            @RequestParam("description") String description) {
+        return projectService.updateDescription(name, description);
+    }
 }

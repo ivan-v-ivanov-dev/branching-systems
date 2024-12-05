@@ -52,6 +52,7 @@ public class TeamsServiceImpl implements TeamsService {
             //if there is no user throw exception
         }
 
+        // TODO Use project name
         Optional<Project> project = projectRepository.findById(teamRq.getProjectId());
         if (project.isEmpty()) {
             log.error(format("There is no project with id %d", teamRq.getProjectId()));

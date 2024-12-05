@@ -8,4 +8,6 @@ public interface ProjectService {
     Page<Project> findAll(PageRequest pageable);
 
     Project findByName(String name);
+
+    Project updateDescription(String name, String description);
 }
