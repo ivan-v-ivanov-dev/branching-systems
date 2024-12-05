@@ -69,6 +69,12 @@ public class UserController {
         return userService.searchUsersByFirstName(firstName, PageRequest.of(page, size, Sort.by(sortBy)));
     }
 
+
+    @GetMapping("/user/{id}")
+    public User findUserById(@PathVariable("id") int id) {
+        return userService.findById(id);
+    }
+
     @GetMapping("/user/{username}")
     public User findUserByUsername(@PathVariable("username") String username) {
         return userService.findByUsername(username);

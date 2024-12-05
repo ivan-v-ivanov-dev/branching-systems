@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.lang.String.format;
 
@@ -44,6 +45,17 @@ public class UserServiceImpl implements UserService {
         Page<User> users = userRepository.findByFirstNameContaining(firstName, pageable);
         log.info(format("Retrieve all project with first name %s", firstName));
         return users;
+    }
+
+    @Override
+    public User findById(int id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            log.error(format("No such user with id %d", id));
+            throw new IllegalArgumentException(format("No such user with id %d", id));
+        }
+        log.info(format("Retrieve user %d", id));
+        return user.get();
     }
 
     @Override
