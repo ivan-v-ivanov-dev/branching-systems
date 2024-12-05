@@ -76,4 +76,9 @@ public class ProjectController {
                                             @RequestParam("description") String description) {
         return projectService.updateDescription(name, description);
     }
+
+    @DeleteMapping("/project/{name}")
+    public boolean deleteProject(@PathVariable("name") String name) {
+        return projectService.delete(name);
+    }
 }

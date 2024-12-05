@@ -10,4 +10,6 @@ public interface ProjectService {
     Project findByName(String name);
 
     Project updateDescription(String name, String description);
+
+    boolean delete(String name);
 }

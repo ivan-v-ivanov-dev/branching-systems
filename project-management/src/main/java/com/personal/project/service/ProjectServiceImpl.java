@@ -46,4 +46,16 @@ public class ProjectServiceImpl implements ProjectService {
         log.info(format("Update project description %s", name));
         return projectRepository.save(project);
     }
+
+    @Transactional
+    @Override
+    public boolean delete(String name) {
+        int isDeleted = projectRepository.deleteByName(name);
+        if (isDeleted <= 0) {
+            log.warn(format("Can't delete %s", name));
+            return false;
+        }
+        log.info(format("Project deleted: %s", name));
+        return true;
+    }
 }

@@ -90,6 +90,7 @@ public class TeamsServiceImpl implements TeamsService {
         return teamsRepository.save(team);
     }
 
+    @Transactional
     @Override
     public boolean delete(String name) {
         int isDeleted = teamsRepository.deleteByName(name);
