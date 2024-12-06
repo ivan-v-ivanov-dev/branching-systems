@@ -1,5 +1,6 @@
 package com.personal.project.controller;
 
+import com.personal.model.dto.ProjectResponse;
 import com.personal.model.dto.TeamResponse;
 import com.personal.project.model.Project;
 import com.personal.project.model.Team;
@@ -33,31 +34,31 @@ public class ProjectController {
     }
 
     @PostMapping("/team")
-    public Team createTeam(@Valid @RequestBody TeamRq teamRq) {
+    public TeamResponse createTeam(@Valid @RequestBody TeamRq teamRq) {
         return teamsService.create(teamRq);
     }
 
     @PutMapping("/team/{name}/member/{id}/add")
-    public Team addMemberToATeam(@PathVariable("name") String name,
-                                 @PathVariable("id") int id) {
+    public TeamResponse addMemberToATeam(@PathVariable("name") String name,
+                                         @PathVariable("id") int id) {
         return teamsService.addMemberToATeam(name, id);
     }
 
     @PutMapping("/team/{name}/member/{id}/remove")
-    public Team removeMemberFromATeam(@PathVariable("name") String name,
-                                      @PathVariable("id") int id) {
+    public TeamResponse removeMemberFromATeam(@PathVariable("name") String name,
+                                              @PathVariable("id") int id) {
         return teamsService.removeMemberFromATeam(name, id);
     }
 
     @PutMapping("/team/{teamName}/add-project/{projectName}")
-    public Team addTeamToProject(@PathVariable("teamName") String teamName,
-                                 @PathVariable("projectName") String projectName) {
+    public TeamResponse addTeamToProject(@PathVariable("teamName") String teamName,
+                                         @PathVariable("projectName") String projectName) {
         return teamsService.addProject(teamName, projectName);
     }
 
     @PutMapping("/team/{teamName}/remove-project/{projectName}")
-    public Team removeTeamToProject(@PathVariable("teamName") String teamName,
-                                    @PathVariable("projectName") String projectName) {
+    public TeamResponse removeTeamToProject(@PathVariable("teamName") String teamName,
+                                            @PathVariable("projectName") String projectName) {
         return teamsService.removeProject(teamName, projectName);
     }
 
@@ -67,7 +68,7 @@ public class ProjectController {
     }
 
     @GetMapping("/teams/search")
-    public List<Team> searchTeams(@RequestParam(value = "name", required = false, defaultValue = "") String name,
+    public List<TeamResponse> searchTeams(@RequestParam(value = "name", required = false, defaultValue = "") String name,
                                   @RequestParam(value = "projectName", required = false, defaultValue = "") String projectName,
                                   @RequestParam(value = "page", defaultValue = "0") int page,
                                   @RequestParam(value = "size", defaultValue = "10") int size) {
@@ -75,18 +76,18 @@ public class ProjectController {
     }
 
     @GetMapping("/projects")
-    public Page<Project> findAllProjects(@RequestParam(defaultValue = "0") int page,
+    public Page<ProjectResponse> findAllProjects(@RequestParam(defaultValue = "0") int page,
                                          @RequestParam(defaultValue = "10") int size) {
         return projectService.findAll(PageRequest.of(page, size));
     }
 
     @GetMapping("/project/{name}")
-    public Project findProjectByName(@PathVariable("name") String name) {
+    public ProjectResponse findProjectByName(@PathVariable("name") String name) {
         return projectService.findByName(name);
     }
 
     @PutMapping("/project/{name}")
-    public Project updateProjectDescription(@PathVariable("name") String name,
+    public ProjectResponse updateProjectDescription(@PathVariable("name") String name,
                                             @RequestParam("description") String description) {
         return projectService.updateDescription(name, description);
     }

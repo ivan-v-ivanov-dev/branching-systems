@@ -39,6 +39,7 @@ public class TeamsServiceImpl implements TeamsService {
 
     @Override
     public Page<TeamResponse> findAll(PageRequest pageable) {
+        Page<TeamResponse> response = new PageImpl<>(new ArrayList<>());
         try {
             Page<Team> teams = teamsRepository.findAll(pageable);
             List<TeamResponse> temp = new ArrayList<>();
@@ -50,12 +51,15 @@ public class TeamsServiceImpl implements TeamsService {
                 teamResponse.setMembers(members);
                 temp.add(teamResponse);
             }
-            Page<TeamResponse> response = new PageImpl<>(temp, pageable, temp.size());
+            response = new PageImpl<>(temp, pageable, temp.size());
             log.info("Retrieve all teams");
             return response;
         } catch (FeignException feignException) {
             log.error(feignException.getMessage());
             throw new ResourceAccessException("User service is down");
+        } catch (IllegalArgumentException illegalArgumentException) {
+            log.error(illegalArgumentException.getMessage());
+            return response;
         }
     }
 
@@ -78,14 +82,12 @@ public class TeamsServiceImpl implements TeamsService {
 
     @Transactional
     @Override
-    public Team create(TeamRq teamRq) {
+    public TeamResponse create(TeamRq teamRq) {
         Optional<User> leader = userRepository.findById(teamRq.getLeaderId());
         if (leader.isEmpty()) {
-            //TODO: Retrieve leader from the other service
-            //if there is no user throw exception
+            log.error(format("There is no leader with id %d", teamRq.getProjectId()));
+            throw new IllegalArgumentException(format("There is no leader with id %d", teamRq.getProjectId()));
         }
-
-        // TODO Use project name
         Optional<Project> project = projectRepository.findById(teamRq.getProjectId());
         if (project.isEmpty()) {
             log.error(format("There is no project with id %d", teamRq.getProjectId()));
@@ -95,49 +97,52 @@ public class TeamsServiceImpl implements TeamsService {
                 .name(teamRq.getName())
                 .leader(leader.get()).build();
         log.info("Create %s team");
-        return teamsRepository.save(team);
+        TeamResponse response = teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
+        response.setLeader(userClient.findUserById(teamRq.getLeaderId()));
+        return response;
     }
 
     @Transactional
     @Override
-    public Team addMemberToATeam(String name, int id) {
+    public TeamResponse addMemberToATeam(String name, int id) {
         Team team = teamsRepository.findByName(name);
         Optional<User> user = userRepository.findById(id);
 
         if (user.isEmpty()) {
-            //TODO: Retrieve user form the other service and store it in the database
+            log.error(format("There is no user with id %d", id));
+            throw new IllegalArgumentException(format("There is no user with id %d", id));
         }
 
         team.getMembers().add(user.get());
         log.info(format("Add user %d into team %s", id, name));
-        return teamsRepository.save(team);
+        return teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
     }
 
     @Transactional
     @Override
-    public Team removeMemberFromATeam(String name, int id) {
+    public TeamResponse removeMemberFromATeam(String name, int id) {
         Team team = teamsRepository.findByName(name);
         team.getMembers().removeIf(current -> current.getId() == id);
         log.info(format("Remove team member %d from team %s", id, name));
-        return teamsRepository.save(team);
+        return teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
     }
 
     @Override
-    public Team addProject(String teamName, String projectName) {
+    public TeamResponse addProject(String teamName, String projectName) {
         Team team = teamsRepository.findByName(teamName);
         Project project = projectRepository.findByName(projectName);
         team.getProjects().add(project);
         log.info(format("Add project %s to team %s", projectName, teamName));
-        return teamsRepository.save(team);
+        return teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
     }
 
     @Override
-    public Team removeProject(String teamName, String projectName) {
+    public TeamResponse removeProject(String teamName, String projectName) {
         Team team = teamsRepository.findByName(teamName);
         Project project = projectRepository.findByName(projectName);
         team.getProjects().remove(project);
         log.info(format("Remove project %s to team %s", projectName, teamName));
-        return teamsRepository.save(team);
+        return teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
     }
 
     @Transactional
@@ -153,9 +158,9 @@ public class TeamsServiceImpl implements TeamsService {
     }
 
     @Override
-    public List<Team> searchTeams(String name, String projectName, int page, int size) {
-        List<Team> team = teamsRepository.searchByNameAndProjectName(name, projectName, size, page);
+    public List<TeamResponse> searchTeams(String name, String projectName, int page, int size) {
+        List<Team> teams = teamsRepository.searchByNameAndProjectName(name, projectName, size, page);
         log.info(format("Retrieve %s team", name));
-        return team;
+        return teams.stream().map(teamAdapter::fromTeamToTeamResponse).toList();
     }
 }

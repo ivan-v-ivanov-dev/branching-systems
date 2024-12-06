@@ -13,17 +13,17 @@ public interface TeamsService {
 
     TeamResponse findByName(String name);
 
-    Team create(TeamRq teamRq);
+    TeamResponse create(TeamRq teamRq);
 
-    Team addMemberToATeam(String name, int id);
+    TeamResponse addMemberToATeam(String name, int id);
 
-    Team removeMemberFromATeam(String name, int id);
+    TeamResponse removeMemberFromATeam(String name, int id);
 
     boolean delete(String name);
 
-    List<Team> searchTeams(String name, String projectName, int page, int size);
+    List<TeamResponse> searchTeams(String name, String projectName, int page, int size);
 
-    Team addProject(String teamName, String projectName);
+    TeamResponse addProject(String teamName, String projectName);
 
-    Team removeProject(String teamName, String projectName);
+    TeamResponse removeProject(String teamName, String projectName);
 }

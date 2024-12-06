@@ -1,15 +1,15 @@
 package com.personal.project.service.contract;
 
-import com.personal.project.model.Project;
+import com.personal.model.dto.ProjectResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 public interface ProjectService {
-    Page<Project> findAll(PageRequest pageable);
+    Page<ProjectResponse> findAll(PageRequest pageable);
 
-    Project findByName(String name);
+    ProjectResponse findByName(String name);
 
-    Project updateDescription(String name, String description);
+    ProjectResponse updateDescription(String name, String description);
 
     boolean delete(String name);
 }
