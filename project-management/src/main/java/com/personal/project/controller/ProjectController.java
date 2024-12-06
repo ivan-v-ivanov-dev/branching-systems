@@ -1,6 +1,6 @@
 package com.personal.project.controller;
 
-import com.personal.model.model.TeamResponse;
+import com.personal.model.dto.TeamResponse;
 import com.personal.project.model.Project;
 import com.personal.project.model.Team;
 import com.personal.project.model.dto.TeamRq;
@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -27,7 +28,7 @@ public class ProjectController {
 
     @GetMapping("/teams")
     public Page<TeamResponse> getTeams(@RequestParam(defaultValue = "0") int page,
-                               @RequestParam(defaultValue = "10") int size) {
+                                       @RequestParam(defaultValue = "10") int size) {
         return teamsService.findAll(PageRequest.of(page, size));
     }
 
@@ -66,11 +67,11 @@ public class ProjectController {
     }
 
     @GetMapping("/teams/search")
-    public Page<Team> searchTeams(@RequestParam(value = "name", required = false, defaultValue = "") String name,
+    public List<Team> searchTeams(@RequestParam(value = "name", required = false, defaultValue = "") String name,
                                   @RequestParam(value = "projectName", required = false, defaultValue = "") String projectName,
                                   @RequestParam(value = "page", defaultValue = "0") int page,
                                   @RequestParam(value = "size", defaultValue = "10") int size) {
-        return teamsService.searchTeams(name, projectName, PageRequest.of(page, size));
+        return teamsService.searchTeams(name, projectName, page, size);
     }
 
     @GetMapping("/projects")

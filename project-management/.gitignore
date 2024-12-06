@@ -1,13 +1,7 @@
 HELP.md
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-gradle/
-
-gradlew
-gradlew.bat
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
 
 ### STS ###
 .apt_generated
@@ -17,18 +11,15 @@ gradlew.bat
 .settings
 .springBeans
 .sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
 .idea
+.mvn
 *.iws
 *.iml
 *.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
+mvnw
+mvnw.cmd
 
 ### NetBeans ###
 /nbproject/private/
@@ -36,6 +27,9 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/

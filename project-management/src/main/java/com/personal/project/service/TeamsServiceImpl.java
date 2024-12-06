@@ -1,7 +1,7 @@
 package com.personal.project.service;
 
-import com.personal.model.model.TeamResponse;
-import com.personal.model.model.UserResponse;
+import com.personal.model.dto.TeamResponse;
+import com.personal.model.dto.UserResponse;
 import com.personal.project.adapter.TeamAdapter;
 import com.personal.project.model.Project;
 import com.personal.project.model.Team;
@@ -153,8 +153,8 @@ public class TeamsServiceImpl implements TeamsService {
     }
 
     @Override
-    public Page<Team> searchTeams(String name, String projectName, PageRequest pageable) {
-        Page<Team> team = teamsRepository.searchByNameAndProjectName(name, projectName, pageable);
+    public List<Team> searchTeams(String name, String projectName, int page, int size) {
+        List<Team> team = teamsRepository.searchByNameAndProjectName(name, projectName, size, page);
         log.info(format("Retrieve %s team", name));
         return team;
     }

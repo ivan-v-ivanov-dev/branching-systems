@@ -1,10 +1,12 @@
 package com.personal.project.service.contract;
 
-import com.personal.model.model.TeamResponse;
+import com.personal.model.dto.TeamResponse;
 import com.personal.project.model.Team;
 import com.personal.project.model.dto.TeamRq;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+
+import java.util.List;
 
 public interface TeamsService {
     Page<TeamResponse> findAll(PageRequest pageable);
@@ -19,7 +21,7 @@ public interface TeamsService {
 
     boolean delete(String name);
 
-    Page<Team> searchTeams(String name, String projectName, PageRequest pageable);
+    List<Team> searchTeams(String name, String projectName, int page, int size);
 
     Team addProject(String teamName, String projectName);
 
