@@ -11,6 +11,7 @@ import com.personal.project.service.contract.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,47 +31,48 @@ public class UserServiceImpl implements UserService {
     private final UserAdapter userAdapter;
 
     @Override
-    public List<User> findAllUsersByRole(String role) {
+    public List<UserResponse> findAllUsersByRole(String role) {
         List<User> users = userRepository.findAllUsersByRole(role);
         log.info(format("Retrieve all project for role %s", role));
-        return users;
+        return users.stream().map(userAdapter::fromUserToUserResponse).toList();
     }
 
+    //TODO Retrieve project name from other service
     @Override
-    public Page<User> findAll(Pageable pageable) {
+    public Page<UserResponse> findAll(Pageable pageable) {
         Page<User> users = userRepository.findAll(pageable);
         log.info(format("Retrieve %d project", pageable.getPageSize()));
-        return users;
+        return new PageImpl<>(users.getContent().stream().map(userAdapter::fromUserToUserResponse).toList());
     }
 
     @Override
-    public Page<User> searchUsersByFirstName(String firstName, Pageable pageable) {
+    public Page<UserResponse> searchUsersByFirstName(String firstName, Pageable pageable) {
         Page<User> users = userRepository.findByFirstNameContaining(firstName, pageable);
         log.info(format("Retrieve all project with first name %s", firstName));
-        return users;
+        return new PageImpl<>(users.stream().map(userAdapter::fromUserToUserResponse).toList());
     }
 
     @Override
     public UserResponse findById(int id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
-            log.error(format("No such user with id %d", id));
-            throw new IllegalArgumentException(format("No such user with id %d", id));
+            log.warn(format("No such user with id %d", id));
+            return null;
         }
         log.info(format("Retrieve user %d", id));
         return userAdapter.fromUserToUserResponse(user.get());
     }
 
     @Override
-    public User findByUsername(String username) {
+    public UserResponse findByUsername(String username) {
         User user = userRepository.findByUsername(username);
         log.info(format("Retrieve user %s", username));
-        return user;
+        return userAdapter.fromUserToUserResponse(user);
     }
 
     @Transactional
     @Override
-    public User update(UserRq userRq) {
+    public UserResponse update(UserRq userRq) {
         User user = userRepository.findByUsername(userRq.getUsername());
         if (user == null) {
             log.error(format("No user with username %s", userRq.getUsername()));
@@ -90,11 +92,11 @@ public class UserServiceImpl implements UserService {
 //                .team(userRq.getTeam())
                 .build();
         log.info(format("Update user %s", userRq.getUsername()));
-        return userRepository.save(user);
+        return userAdapter.fromUserToUserResponse(userRepository.save(user));
     }
 
     @Override
-    public User addRoleToUser(String username, String role) {
+    public UserResponse addRoleToUser(String username, String role) {
         Role toUpdate = roleRepository.findByName(role);
         if (toUpdate == null) {
             log.error(format("No such role %s", role));
@@ -109,7 +111,7 @@ public class UserServiceImpl implements UserService {
 
         user.toBuilder().role(toUpdate);
         log.info(format("User %s updated with role %s", username, role));
-        return userRepository.save(user);
+        return userAdapter.fromUserToUserResponse(userRepository.save(user));
     }
 
     @Transactional

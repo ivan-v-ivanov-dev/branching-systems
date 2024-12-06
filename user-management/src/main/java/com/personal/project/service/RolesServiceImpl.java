@@ -1,5 +1,7 @@
 package com.personal.project.service;
 
+import com.personal.model.dto.RoleResponse;
+import com.personal.project.adapter.RoleAdapter;
 import com.personal.project.model.Role;
 import com.personal.project.repository.RoleRepository;
 import com.personal.project.repository.UserRepository;
@@ -19,6 +21,7 @@ public class RolesServiceImpl implements RolesService {
 
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+    private final RoleAdapter roleAdapter;
 
     @Override
     public List<String> findAllRoles() {
@@ -28,10 +31,10 @@ public class RolesServiceImpl implements RolesService {
     }
 
     @Override
-    public Role create(String role) {
+    public RoleResponse create(String role) {
         Role createdRole = roleRepository.save(Role.builder().name(role).build());
         log.info(format("Create role: %s", createdRole.getName()));
-        return createdRole;
+        return roleAdapter.fromRoleToRoleResponse(createdRole);
     }
 
     @Override
@@ -57,10 +60,11 @@ public class RolesServiceImpl implements RolesService {
     }
 
     @Override
-    public List<Role> findAllRolesUsersCount() {
+    public List<RoleResponse> findAllRolesUsersCount() {
         List<Role> roles = roleRepository.findAll();
-        roles.forEach(role -> role.setUserCount(userRepository.findAllUsersCountByRole(role.getName())));
+        List<RoleResponse> roleResponses = roles.stream().map(roleAdapter::fromRoleToRoleResponse).toList();
+        roleResponses.forEach(role -> role.setUserCount(userRepository.findAllUsersCountByRole(role.getName())));
         log.info("Retrieve all roles' user count");
-        return roles;
+        return roleResponses;
     }
 }

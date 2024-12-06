@@ -1,8 +1,7 @@
 package com.personal.project.controller;
 
+import com.personal.model.dto.RoleResponse;
 import com.personal.model.dto.UserResponse;
-import com.personal.project.model.Role;
-import com.personal.project.model.User;
 import com.personal.project.model.UserRq;
 import com.personal.project.service.contract.RolesService;
 import com.personal.project.service.contract.UserService;
@@ -28,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping("/role/{role}")
-    public Role createRole(@PathVariable("role") String role) {
+    public RoleResponse createRole(@PathVariable("role") String role) {
         return rolesService.create(role);
     }
 
@@ -43,30 +42,30 @@ public class UserController {
         return rolesService.delete(role);
     }
 
-    @GetMapping("/role/{role}/project")
-    public List<User> findAllRoleUsers(@PathVariable("role") String role) {
+    @GetMapping("/role/{role}/users")
+    public List<UserResponse> findAllRoleUsers(@PathVariable("role") String role) {
         return userService.findAllUsersByRole(role);
     }
 
-    @GetMapping("/roles/project-count")
-    public List<Role> findAllRolesUsersCount() {
+    @GetMapping("/roles/users-count")
+    public List<RoleResponse> findAllRolesUsersCount() {
         return rolesService.findAllRolesUsersCount();
     }
 
     //project?page=0&size=10&sortBy=id
-    @GetMapping("/project")
-    public Page<User> getUsers(@RequestParam(defaultValue = "0") int page,
-                               @RequestParam(defaultValue = "10") int size,
-                               @RequestParam(defaultValue = "id") String sortBy) {
+    @GetMapping("/project/users")
+    public Page<UserResponse> getUsers(@RequestParam(defaultValue = "0") int page,
+                                       @RequestParam(defaultValue = "10") int size,
+                                       @RequestParam(defaultValue = "id") String sortBy) {
         return userService.findAll(PageRequest.of(page, size, Sort.by(sortBy)));
     }
 
     //search?firstName=Aaron&page=0&size=2&sortBy=firstName
     @GetMapping("/search")
-    public Page<User> searchUsers(@RequestParam String firstName,
-                                  @RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "10") int size,
-                                  @RequestParam(defaultValue = "id") String sortBy) {
+    public Page<UserResponse> searchUsers(@RequestParam String firstName,
+                                          @RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int size,
+                                          @RequestParam(defaultValue = "id") String sortBy) {
         return userService.searchUsersByFirstName(firstName, PageRequest.of(page, size, Sort.by(sortBy)));
     }
 
@@ -76,18 +75,18 @@ public class UserController {
     }
 
     @GetMapping("/user/username/{username}")
-    public User findUserByUsername(@PathVariable("username") String username) {
+    public UserResponse findUserByUsername(@PathVariable("username") String username) {
         return userService.findByUsername(username);
     }
 
     @PutMapping("/user")
-    public User updateUser(@Valid @RequestBody UserRq userRq) {
+    public UserResponse updateUser(@Valid @RequestBody UserRq userRq) {
         return userService.update(userRq);
     }
 
     @PutMapping("/user/{username}/{role}")
-    public User addRoleToUser(@PathVariable("username") String username,
-                              @PathVariable("role") String role) {
+    public UserResponse addRoleToUser(@PathVariable("username") String username,
+                                      @PathVariable("role") String role) {
         return userService.addRoleToUser(username, role);
     }
 

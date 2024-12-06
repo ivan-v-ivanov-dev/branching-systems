@@ -20,6 +20,4 @@ public class Role {
     @Column(name = "name")
     private String name;
 
-    @Transient
-    private int userCount;
 }
