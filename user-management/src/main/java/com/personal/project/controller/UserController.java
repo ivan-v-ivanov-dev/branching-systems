@@ -75,7 +75,7 @@ public class UserController {
         return userService.findById(id);
     }
 
-    @GetMapping("/user/{username}")
+    @GetMapping("/user/username/{username}")
     public User findUserByUsername(@PathVariable("username") String username) {
         return userService.findByUsername(username);
     }
