@@ -32,6 +32,7 @@ public class VacationServiceImpl implements VacationService {
     @Override
     public VacationResponse update(String id, LocalDate startDate, LocalDate endDate, boolean halfDay) {
         vacationRepository.update(id, startDate, endDate, halfDay);
+        log.info(format("Vacation %s updated", id));
         return vacationAdapter.fromVacationToVacationResponse(vacationRepository.findById(id));
     }
 
@@ -44,5 +45,12 @@ public class VacationServiceImpl implements VacationService {
         }
         log.info(format("Vacation with id %s is not deleted", id));
         return false;
+    }
+
+    @Override
+    public VacationResponse approve(String id) {
+        vacationRepository.approve(id);
+        log.info(format("Vacation %s approved", id));
+        return vacationAdapter.fromVacationToVacationResponse(vacationRepository.findById(id));
     }
 }

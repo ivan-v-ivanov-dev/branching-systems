@@ -13,4 +13,6 @@ public interface VacationRepository {
     Vacation findById(String id);
 
     long delete(String id);
+
+    void approve(String id);
 }

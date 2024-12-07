@@ -31,4 +31,9 @@ public class VacationController {
     public boolean deleteVacation(@PathVariable("id") String id) {
         return vacationService.delete(id);
     }
+
+    @PutMapping("/vacation/{id}/approve")
+    public VacationResponse approveVacation(@PathVariable("id") String id) {
+        return vacationService.approve(id);
+    }
 }

@@ -11,4 +11,6 @@ public interface VacationService {
     VacationResponse update(String id, LocalDate startDate, LocalDate endDate, boolean halfDay);
 
     boolean delete(String id);
+
+    VacationResponse approve(String id);
 }

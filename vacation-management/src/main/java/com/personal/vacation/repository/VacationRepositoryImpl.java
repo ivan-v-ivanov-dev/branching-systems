@@ -30,7 +30,6 @@ public class VacationRepositoryImpl implements VacationRepository {
     @Override
     public void update(String id, LocalDate startDate, LocalDate endDate, boolean halfDay) {
         Query query = new Query(Criteria.where("id").is(id));
-
         Update update = new Update();
         if (startDate != null) {
             update.set("startDate", startDate);
@@ -39,7 +38,6 @@ public class VacationRepositoryImpl implements VacationRepository {
             update.set("endDate", endDate);
         }
         update.set("halfDay", halfDay);
-
         mongoTemplate.updateFirst(query, update, Vacation.class, "vacations");
     }
 
@@ -54,5 +52,13 @@ public class VacationRepositoryImpl implements VacationRepository {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id).and("approved").is(false));
         return mongoTemplate.remove(query, Vacation.class, "vacations").getDeletedCount();
+    }
+
+    @Override
+    public void approve(String id) {
+        Query query = new Query(Criteria.where("id").is(id));
+        Update update = new Update();
+        update.set("approved", true);
+        mongoTemplate.updateFirst(query, update, Vacation.class, "vacations");
     }
 }
