@@ -205,8 +205,9 @@ Runs on **https://localhsot:8080**. Serves as a single entry point for the REST 
 
  ![image](https://github.com/user-attachments/assets/992914b5-c6f8-41e6-8b77-e9ecee33637c)
 
+ - @GetMapping("/role/{role}/users") - Retrieve users with a specific role
 
-
+ ![image](https://github.com/user-attachments/assets/68bc2004-aa5f-418f-b689-f7857229ee66)
 
 
 
