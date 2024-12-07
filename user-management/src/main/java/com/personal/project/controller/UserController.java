@@ -52,14 +52,6 @@ public class UserController {
         return rolesService.findAllRolesUsersCount();
     }
 
-    //project?page=0&size=10&sortBy=id
-    @GetMapping("/project/users")
-    public Page<UserResponse> getUsers(@RequestParam(defaultValue = "0") int page,
-                                       @RequestParam(defaultValue = "10") int size,
-                                       @RequestParam(defaultValue = "id") String sortBy) {
-        return userService.findAll(PageRequest.of(page, size, Sort.by(sortBy)));
-    }
-
     //search?firstName=Aaron&page=0&size=2&sortBy=firstName
     @GetMapping("/search")
     public Page<UserResponse> searchUsers(@RequestParam String firstName,

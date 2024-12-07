@@ -10,8 +10,6 @@ import java.util.List;
 public interface UserService {
     List<UserResponse> findAllUsersByRole(String role);
 
-    Page<UserResponse> findAll(Pageable pageable);
-
     Page<UserResponse> searchUsersByFirstName(String firstName, Pageable pageable);
 
     UserResponse findById(int id);

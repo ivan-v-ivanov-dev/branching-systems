@@ -37,14 +37,6 @@ public class UserServiceImpl implements UserService {
         return users.stream().map(userAdapter::fromUserToUserResponse).toList();
     }
 
-    //TODO Retrieve project name from other service
-    @Override
-    public Page<UserResponse> findAll(Pageable pageable) {
-        Page<User> users = userRepository.findAll(pageable);
-        log.info(format("Retrieve %d project", pageable.getPageSize()));
-        return new PageImpl<>(users.getContent().stream().map(userAdapter::fromUserToUserResponse).toList());
-    }
-
     @Override
     public Page<UserResponse> searchUsersByFirstName(String firstName, Pageable pageable) {
         Page<User> users = userRepository.findByFirstNameContaining(firstName, pageable);
