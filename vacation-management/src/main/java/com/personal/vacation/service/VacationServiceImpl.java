@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -26,5 +27,11 @@ public class VacationServiceImpl implements VacationService {
         List<Vacation> vacations = vacationRepository.findUserVacations(name);
         log.info(format("Retrieve user vacations %s", name));
         return vacations.stream().map(vacationAdapter::fromVacationToVacationResponse).toList();
+    }
+
+    @Override
+    public VacationResponse updateVacation(String id, LocalDate startDate, LocalDate endDate, boolean halfDay) {
+        vacationRepository.updateVacation(id, startDate, endDate, halfDay);
+        return vacationAdapter.fromVacationToVacationResponse(vacationRepository.findById(id));
     }
 }
