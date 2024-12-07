@@ -183,3 +183,43 @@ For a sick leave document I used a sample picture, because I do not want to uplo
 
 New vacation request is created via Kafka messaging from the API Gateway service to the Vacation Management service.
 
+## 4.6 API Gateway service    
+
+Runs on **https://localhsot:8080**. Serves as a single entry point for the REST calls.   
+
+**REST endpoints**  
+
+ - @GetMapping("/api/roles") - Retrieve all roles
+
+   ![image](https://github.com/user-attachments/assets/e816487d-abaf-4b9c-9b54-7bc3e43f7396)
+
+ - @PostMapping("/api/role/{role}") - Create new role
+
+  ![image](https://github.com/user-attachments/assets/a2d79726-52ab-45ed-b095-ca0f07ac0709)
+
+ - @PutMapping("/api/role/{oldName}/{newName}") - Rename role
+
+  ![image](https://github.com/user-attachments/assets/eac361a1-d081-4a7d-836b-96429e7df090)
+
+ - @DeleteMapping("/api/role/{role}") Deletes a role by name
+
+ ![image](https://github.com/user-attachments/assets/992914b5-c6f8-41e6-8b77-e9ecee33637c)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
