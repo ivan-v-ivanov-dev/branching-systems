@@ -2,7 +2,7 @@
 
 **1. General overview**   
 **2. How to start the project**    
-**3. Architecture** 
+**3. Architecture**   
 **4. Microservices description**  
 
 # 1. General overview 
@@ -147,7 +147,22 @@ Runs on **https://localhsot:8083**. Spring Boot service which contains the Proje
 
 Runs on **https://localhsot:8084**. Contains the Vacations entities (documents). As a database it uses MongoDB (official docker image - see **docker-compose.yml** file in the root folder). The sample data are imported via docker volume and .js script on container start up (see **resources/mongo/init.js**)
 
-**Database design**  
+**Database design**    
+
+**Vacation Table**   
+
+| Field         | Type            | Description                                   |
+|---------------|-----------------|-----------------------------------------------|
+| `_id`         | String          | Unique identifier for the vacation document (MongoDB ObjectId) |
+| `applicant`   | String          | Name of the applicant requesting the vacation |
+| `type`        | String          | Type of the vacation (e.g., Paid, Sick, etc.) |
+| `startDate`   | LocalDate       | The start date of the vacation                |
+| `endDate`     | LocalDate       | The end date of the vacation                  |
+| `submittedOn` | LocalDate       | The date the vacation request was submitted   |
+| `halfDay`     | Boolean         | Whether the vacation is a half-day (true/false)|
+| `approved`    | Boolean         | Whether the vacation is approved (true/false) |
+| `list`        | String          | Additional information or list related to the vacation (e.g., reasons) |
+
 
 Overview of the sample data imported in the **storage** database, **vacations** collection. 
 
@@ -167,4 +182,44 @@ For a sick leave document I used a sample picture, because I do not want to uplo
 **Kafka Messaging**
 
 New vacation request is created via Kafka messaging from the API Gateway service to the Vacation Management service.
+
+## 4.6 API Gateway service    
+
+Runs on **https://localhsot:8080**. Serves as a single entry point for the REST calls.   
+
+**REST endpoints**  
+
+ - @GetMapping("/api/roles") - Retrieve all roles
+
+   ![image](https://github.com/user-attachments/assets/e816487d-abaf-4b9c-9b54-7bc3e43f7396)
+
+ - @PostMapping("/api/role/{role}") - Create new role
+
+  ![image](https://github.com/user-attachments/assets/a2d79726-52ab-45ed-b095-ca0f07ac0709)
+
+ - @PutMapping("/api/role/{oldName}/{newName}") - Rename role
+
+  ![image](https://github.com/user-attachments/assets/eac361a1-d081-4a7d-836b-96429e7df090)
+
+ - @DeleteMapping("/api/role/{role}") Deletes a role by name
+
+ ![image](https://github.com/user-attachments/assets/992914b5-c6f8-41e6-8b77-e9ecee33637c)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
