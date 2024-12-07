@@ -109,5 +109,7 @@ For a sick leave document I used a sample picture, because I do not want to uplo
  -  @DeleteMapping("/vacation/{id}") - Delete vacation
  -  @PatchMapping("/vacation/{id}/approve") - Approve vacation
 
+**Kafka Messagind**
 
+New vacation request is created via Kafka messaging from the API Gateway service to the Vacation Management service.
 
