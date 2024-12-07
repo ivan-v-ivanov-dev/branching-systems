@@ -36,7 +36,11 @@ The application has a microservice architecture using API Gateway service (API G
 
 Runs on **https://localhsot:8085**. Spring Boot service which contains the DTO models user in the microservice communication. Each uservice uses adapters (Adapter pattern) when transfering the information between services. It has no database.  
 
-## 4.2 User Management service   
+## 4.2 Kafka service
+
+Runs on **https://localhsot:8086**. Spring Boot service which contains the message models used in the asynchronous communication.
+
+## 4.3 User Management service   
 
 Runs on **https://localhsot:8082**. Spring Boot service which contains the User and Role entities. Has PostgreSQL database (official docker image - see **docker-compose.yml** file in the root folder). The sample data are imported via **liquibase** (see **resources/db/changeLog/changeLog.xml** file) 
 
@@ -59,7 +63,7 @@ Runs on **https://localhsot:8082**. Spring Boot service which contains the User 
  - @PutMapping("/user/{username}/{role}") - Add role to a user
  - @DeleteMapping("/user/{username}") - Deletes user by username
 
-## 4.2 Project Management service
+## 4.4 Project Management service
 
 Runs on **https://localhsot:8083**. Spring Boot service which contains the Project and Team entities. The service also has User entity which stores **only** the user ID. When user information is needed Feign client call is made to User management service to retrieve full user information. Has PostgreSQL database (official docker image - see **docker-compose.yml** file in the root folder). The sample data are imported via **liquibase** (see **resources/db/changeLog/changeLog.xml** file) 
 
@@ -74,14 +78,36 @@ Runs on **https://localhsot:8083**. Spring Boot service which contains the Proje
  - @PostMapping("/team") - Create a team
  - @PutMapping("/team/{name}/member/{id}/add") - Add user to a team
  - @PutMapping("/team/{name}/member/{id}/remove") - Removes user from a team
- - @PutMapping("/team/{teamName}/add-project/{projectName}") - Add project to a team
- - @PutMapping("/team/{teamName}/remove-project/{projectName}") - Removes project from a team
+ - @PatchMapping("/team/{teamName}/add-project/{projectName}") - Add project to a team
+ - @PatchMapping("/team/{teamName}/remove-project/{projectName}") - Removes project from a team
  - @DeleteMapping("/team/{name}") - Deletes a team by name
  - @GetMapping("/teams/search") - Seraches for a team by team name and project name. Uses pagination
  - @GetMapping("/projects") - Retrieves all projects and uses Spring Data JPA pagination for the results
  - @GetMapping("/project/{name}") - Retrieves project by name
- - @PutMapping("/project/{name}") - Updates project
+ - @PatchMapping("/project/{name}") - Updates project
  - @DeleteMapping("/project/{name}") - Deletes project by name
  - @GetMapping("/project/{name}/teams") - Retrieves all project's teams and uses Spring Data JPA pagination for the results
+
+## 4.5 Vacation Management service  
+
+Runs on **https://localhsot:8084**. Contains the Vacations entities (documents). As a database it uses MongoDB (official docker image - see **docker-compose.yml** file in the root folder). The sample data are imported via docker volume and .js script on container start up (see **resources/mongo/init.js**)
+
+**Database design**  
+
+Overview of the sample data imported in the **storage** database, **vacations** collection. 
+
+**Note** 
+
+For a sick leave document I used a sample picture, because I do not want to upload actula sick leave document because of the personal data in it. However, the logic with real docuemnts is the same, since I store the bytes of the document in MongoDB and the endpoint in Gateway API accepts Multipart file. 
+
+![image](https://github.com/user-attachments/assets/1ab5877a-82c0-4ab7-bc38-0437ab014531)
+
+**REST endpoints**
+
+ -  @GetMapping("/user/{name}/vacations") - Retrieve all user vacations
+ -  @PatchMapping("/vacation/{id}") - Update vacation (startDate, endDate, halfDay)
+ -  @DeleteMapping("/vacation/{id}") - Delete vacation
+ -  @PatchMapping("/vacation/{id}/approve") - Approve vacation
+
 
 
