@@ -33,7 +33,6 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectResponse findByName(String name) {
         Project project = projectRepository.findByName(name);
-        //TODO retrieve each member name from the other service
         log.info(format("Retrieve project %s", name));
         return teamAdapter.projectToProjectResponse(project);
     }
