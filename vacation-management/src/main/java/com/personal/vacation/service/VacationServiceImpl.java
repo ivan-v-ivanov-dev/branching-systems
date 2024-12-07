@@ -30,8 +30,19 @@ public class VacationServiceImpl implements VacationService {
     }
 
     @Override
-    public VacationResponse updateVacation(String id, LocalDate startDate, LocalDate endDate, boolean halfDay) {
-        vacationRepository.updateVacation(id, startDate, endDate, halfDay);
+    public VacationResponse update(String id, LocalDate startDate, LocalDate endDate, boolean halfDay) {
+        vacationRepository.update(id, startDate, endDate, halfDay);
         return vacationAdapter.fromVacationToVacationResponse(vacationRepository.findById(id));
+    }
+
+    @Override
+    public boolean delete(String id) {
+        long deletedCount = vacationRepository.delete(id);
+        if (deletedCount > 0) {
+            log.info(format("Delete vacations %s", id));
+            return true;
+        }
+        log.info(format("Vacation with id %s is not deleted", id));
+        return false;
     }
 }

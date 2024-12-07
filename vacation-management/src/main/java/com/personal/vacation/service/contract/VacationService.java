@@ -8,5 +8,7 @@ import java.util.List;
 public interface VacationService {
     List<VacationResponse> findUserVacations(String name);
 
-    VacationResponse updateVacation(String id, LocalDate startDate, LocalDate endDate, boolean halfDay);
+    VacationResponse update(String id, LocalDate startDate, LocalDate endDate, boolean halfDay);
+
+    boolean delete(String id);
 }

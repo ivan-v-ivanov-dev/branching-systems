@@ -24,6 +24,11 @@ public class VacationController {
                                            @RequestParam(value = "startDate", required = false) LocalDate startDate,
                                            @RequestParam(value = "endDate", required = false) LocalDate endDate,
                                            @RequestParam(value = "halfDay") boolean halfDay) {
-        return vacationService.updateVacation(id, startDate, endDate, halfDay);
+        return vacationService.update(id, startDate, endDate, halfDay);
+    }
+
+    @DeleteMapping("/vacation/{id}")
+    public boolean deleteVacation(@PathVariable("id") String id) {
+        return vacationService.delete(id);
     }
 }

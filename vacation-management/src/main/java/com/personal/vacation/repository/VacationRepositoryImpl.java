@@ -28,7 +28,7 @@ public class VacationRepositoryImpl implements VacationRepository {
     }
 
     @Override
-    public void updateVacation(String id, LocalDate startDate, LocalDate endDate, boolean halfDay) {
+    public void update(String id, LocalDate startDate, LocalDate endDate, boolean halfDay) {
         Query query = new Query(Criteria.where("id").is(id));
 
         Update update = new Update();
@@ -47,5 +47,12 @@ public class VacationRepositoryImpl implements VacationRepository {
     public Vacation findById(String id) {
         Query query = new Query(Criteria.where("id").is(id));
         return mongoTemplate.findOne(query, Vacation.class, "vacations");
+    }
+
+    @Override
+    public long delete(String id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(id).and("approved").is(false));
+        return mongoTemplate.remove(query, Vacation.class, "vacations").getDeletedCount();
     }
 }
