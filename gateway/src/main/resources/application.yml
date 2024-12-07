@@ -1,0 +1,36 @@
+server:
+  port: 8080
+  max-http-header-size: 10MB
+
+spring:
+  #Kafka
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+      bootstrap-servers: localhost:9092
+      group-id: group_id
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+      key:
+        type:
+          packages: '*'
+      value:
+        type:
+          packages: com.personal.kafka.messages.contract.KafkaMessage
+    producer:
+      bootstrap-servers: localhost:9092
+    topic:
+      name:
+        vacation: vacations
+    partitions: 3
+    replicas: 1
+    group:
+      id: group-id
+
+#Exclude Kafka logging
+logging:
+  level:
+    org.apache: OFF
