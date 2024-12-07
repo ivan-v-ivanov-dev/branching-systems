@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponse> findAllUsersByRole(String role) {
         List<User> users = userRepository.findAllUsersByRole(role);
-        log.info(format("Retrieve all project for role %s", role));
+        log.info(format("Retrieve all users for role %s", role));
         return users.stream().map(userAdapter::fromUserToUserResponse).toList();
     }
 
