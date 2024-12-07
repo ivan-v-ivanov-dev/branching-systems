@@ -11,7 +11,7 @@ In this repository, we have designed a vacation management platform with a micro
 
 Docker Desktop with the databases for each service:  
 
-![image](https://github.com/user-attachments/assets/9495889d-4758-4a62-8728-3fd16955c7da)
+![image](https://github.com/user-attachments/assets/07c60bb2-245a-49f9-99f7-fc933cd0b126)
 
 # 2. How to start the project 
 
@@ -46,7 +46,25 @@ Runs on **https://localhsot:8082**. Spring Boot service which contains the User 
 
 **Database design**
 
-...........................
+## Database Table Design
+
+### `roles` Table  
+
+| Column Name    | Data Type         | Constraints                          | Description             |
+|----------------|-------------------|--------------------------------------|-------------------------|
+| `id`           | `INT`             | `PRIMARY KEY`, `AUTO_INCREMENT`      | Unique role ID          |
+| `name`         | `VARCHAR(255)`     | `NOT NULL`                           | Name of the role        |
+
+### `users` Table
+
+| Column Name    | Data Type         | Constraints                          | Description             |
+|----------------|-------------------|--------------------------------------|-------------------------|
+| `id`           | `INT`             | `PRIMARY KEY`, `AUTO_INCREMENT`      | Unique user ID          |
+| `username`     | `VARCHAR(255)`     | `NOT NULL`                           | User's username         |
+| `first_name`   | `VARCHAR(255)`     | `NULL`                               | User's first name       |
+| `last_name`    | `VARCHAR(255)`     | `NULL`                               | User's last name        |
+| `role_id`      | `INT`             | `FOREIGN KEY` (references `roles(id)`) | User's assigned role    |
+
 
 **REST endpoints**
 
@@ -69,7 +87,44 @@ Runs on **https://localhsot:8083**. Spring Boot service which contains the Proje
 
 **Database design**
 
-...........................
+## Database Table Design
+
+### `projects` Table
+
+| Column Name    | Data Type         | Constraints                          | Description             |
+|----------------|-------------------|--------------------------------------|-------------------------|
+| `id`           | `INT`             | `PRIMARY KEY`, `AUTO_INCREMENT`      | Unique project ID       |
+| `name`         | `VARCHAR(255)`    | `NOT NULL`                           | Name of the project     |
+| `description`  | `TEXT`            | `NULL`                               | Description of the project |
+
+### `teams` Table
+
+| Column Name    | Data Type         | Constraints                          | Description             |
+|----------------|-------------------|--------------------------------------|-------------------------|
+| `id`           | `INT`             | `PRIMARY KEY`, `AUTO_INCREMENT`      | Unique team ID          |
+| `name`         | `VARCHAR(255)`     | `NOT NULL`                           | Name of the team        |
+| `leader_id`    | `INT`             | `NULL`, `FOREIGN KEY` (references `users(id)`) | Leader of the team      |
+
+### `team_projects` Table (Many-to-Many relationship between `teams` and `projects`)
+
+| Column Name    | Data Type         | Constraints                          | Description             |
+|----------------|-------------------|--------------------------------------|-------------------------|
+| `team_id`      | `INT`             | `FOREIGN KEY` (references `teams(id)`) | Associated team ID      |
+| `project_id`   | `INT`             | `FOREIGN KEY` (references `projects(id)`) | Associated project ID   |
+
+### `team_members` Table (Many-to-Many relationship between `teams` and `users`)
+
+| Column Name    | Data Type         | Constraints                          | Description             |
+|----------------|-------------------|--------------------------------------|-------------------------|
+| `team_id`      | `INT`             | `FOREIGN KEY` (references `teams(id)`) | Team member's team ID   |
+| `user_id`      | `INT`             | `FOREIGN KEY` (references `users(id)`) | Team member's user ID   |
+
+### `users` Table
+
+| Column Name    | Data Type         | Constraints                          | Description             |
+|----------------|-------------------|--------------------------------------|-------------------------|
+| `id`           | `INT`             | `PRIMARY KEY`, `AUTO_INCREMENT`      | Unique user ID          |
+
 
 **REST endpoints**
 
@@ -109,5 +164,7 @@ For a sick leave document I used a sample picture, because I do not want to uplo
  -  @DeleteMapping("/vacation/{id}") - Delete vacation
  -  @PatchMapping("/vacation/{id}/approve") - Approve vacation
 
+**Kafka Messaging**
 
+New vacation request is created via Kafka messaging from the API Gateway service to the Vacation Management service.
 
