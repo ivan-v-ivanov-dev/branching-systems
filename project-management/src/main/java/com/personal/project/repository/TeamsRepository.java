@@ -11,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.personal.project.repository.query.Queries.DELETE_TEAM_TEMPLATE;
-import static com.personal.project.repository.query.Queries.FIND_BY_NAME_AND_PROJECT_NAME_TEMPLATE;
+import static com.personal.project.repository.query.Queries.*;
 
 public interface TeamsRepository extends JpaRepository<Team, Integer> {
     Page<Team> findAll(Pageable pageable);
@@ -30,6 +29,8 @@ public interface TeamsRepository extends JpaRepository<Team, Integer> {
                                           @Param("limit") int limit,
                                           @Param("offset") int offset);
 
-//    @Query(FIND_BY_PROJECT_NAME_TEMPLATE)
-//    List<Team> findAllProjectTeams(@Param("projectName") String projectName);
+    @Query(value = FIND_BY_PROJECT_NAME_TEMPLATE, nativeQuery = true)
+    List<Team> findAllProjectTeams(@Param("projectName") String projectName,
+                                   @Param("limit") int limit,
+                                   @Param("offset") int offset);
 }

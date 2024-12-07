@@ -2,8 +2,6 @@ package com.personal.project.controller;
 
 import com.personal.model.dto.ProjectResponse;
 import com.personal.model.dto.TeamResponse;
-import com.personal.project.model.Project;
-import com.personal.project.model.Team;
 import com.personal.project.model.dto.TeamRq;
 import com.personal.project.service.contract.ProjectService;
 import com.personal.project.service.contract.TeamsService;
@@ -69,15 +67,15 @@ public class ProjectController {
 
     @GetMapping("/teams/search")
     public List<TeamResponse> searchTeams(@RequestParam(value = "name", required = false, defaultValue = "") String name,
-                                  @RequestParam(value = "projectName", required = false, defaultValue = "") String projectName,
-                                  @RequestParam(value = "page", defaultValue = "0") int page,
-                                  @RequestParam(value = "size", defaultValue = "10") int size) {
+                                          @RequestParam(value = "projectName", required = false, defaultValue = "") String projectName,
+                                          @RequestParam(value = "page", defaultValue = "0") int page,
+                                          @RequestParam(value = "size", defaultValue = "10") int size) {
         return teamsService.searchTeams(name, projectName, page, size);
     }
 
     @GetMapping("/projects")
     public Page<ProjectResponse> findAllProjects(@RequestParam(defaultValue = "0") int page,
-                                         @RequestParam(defaultValue = "10") int size) {
+                                                 @RequestParam(defaultValue = "10") int size) {
         return projectService.findAll(PageRequest.of(page, size));
     }
 
@@ -88,12 +86,20 @@ public class ProjectController {
 
     @PutMapping("/project/{name}")
     public ProjectResponse updateProjectDescription(@PathVariable("name") String name,
-                                            @RequestParam("description") String description) {
+                                                    @RequestParam("description") String description) {
         return projectService.updateDescription(name, description);
     }
 
     @DeleteMapping("/project/{name}")
     public boolean deleteProject(@PathVariable("name") String name) {
         return projectService.delete(name);
+    }
+
+    //project?page=0&size=10&sortBy=id
+    @GetMapping("/project/{name}/teams")
+    public List<TeamResponse> findAllProjectTeams(@PathVariable("name") String name,
+                                                  @RequestParam(value = "page", defaultValue = "0") int page,
+                                                  @RequestParam(value = "size", defaultValue = "10") int size) {
+        return teamsService.findAllProjectTeams(name, page, size);
     }
 }

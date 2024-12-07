@@ -17,7 +17,12 @@ public class Queries {
                     LIMIT :limit OFFSET :offset""";
 
     public static final String FIND_BY_PROJECT_NAME_TEMPLATE =
-            "SELECT t FROM Team t JOIN t.projects p WHERE p.name LIKE %:projectName%";
+            """
+                    SELECT * FROM team t 
+                    JOIN project p ON t.project_id = p.id 
+                    WHERE p.name LIKE CONCAT('%', :projectName, '%') 
+                    ORDER BY t.name ASC 
+                    LIMIT :limit OFFSET :offset""";
 
     private Queries() {
     }

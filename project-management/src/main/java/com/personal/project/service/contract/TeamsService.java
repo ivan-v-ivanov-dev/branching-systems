@@ -26,4 +26,6 @@ public interface TeamsService {
     TeamResponse addProject(String teamName, String projectName);
 
     TeamResponse removeProject(String teamName, String projectName);
+
+    List<TeamResponse> findAllProjectTeams(String name, int page, int size);
 }
