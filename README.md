@@ -147,7 +147,22 @@ Runs on **https://localhsot:8083**. Spring Boot service which contains the Proje
 
 Runs on **https://localhsot:8084**. Contains the Vacations entities (documents). As a database it uses MongoDB (official docker image - see **docker-compose.yml** file in the root folder). The sample data are imported via docker volume and .js script on container start up (see **resources/mongo/init.js**)
 
-**Database design**  
+**Database design**    
+
+**Vacation Table**   
+
+| Field         | Type            | Description                                   |
+|---------------|-----------------|-----------------------------------------------|
+| `_id`         | String          | Unique identifier for the vacation document (MongoDB ObjectId) |
+| `applicant`   | String          | Name of the applicant requesting the vacation |
+| `type`        | String          | Type of the vacation (e.g., Paid, Sick, etc.) |
+| `startDate`   | LocalDate       | The start date of the vacation                |
+| `endDate`     | LocalDate       | The end date of the vacation                  |
+| `submittedOn` | LocalDate       | The date the vacation request was submitted   |
+| `halfDay`     | Boolean         | Whether the vacation is a half-day (true/false)|
+| `approved`    | Boolean         | Whether the vacation is approved (true/false) |
+| `list`        | String          | Additional information or list related to the vacation (e.g., reasons) |
+
 
 Overview of the sample data imported in the **storage** database, **vacations** collection. 
 
