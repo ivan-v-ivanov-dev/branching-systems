@@ -14,6 +14,8 @@ public final class VacationMessage implements KafkaMessage {
 
     private final String applicant;
 
+    private String type;
+
     private final String startDate;
 
     private final String endDate;
@@ -24,5 +26,5 @@ public final class VacationMessage implements KafkaMessage {
 
     private final boolean approved;
 
-    private final String document;
+    private final String list;
 }

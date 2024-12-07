@@ -30,6 +30,12 @@ public class VacationServiceImpl implements VacationService {
     }
 
     @Override
+    public void create(Vacation vacation) {
+        vacationRepository.create(vacation);
+        log.info("New vacation created");
+    }
+
+    @Override
     public VacationResponse update(String id, LocalDate startDate, LocalDate endDate, boolean halfDay) {
         vacationRepository.update(id, startDate, endDate, halfDay);
         log.info(format("Vacation %s updated", id));

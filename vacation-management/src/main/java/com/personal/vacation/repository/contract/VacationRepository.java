@@ -8,6 +8,8 @@ import java.util.List;
 public interface VacationRepository {
     List<Vacation> findUserVacations(String applicant);
 
+    void create(Vacation vacation);
+
     void update(String id, LocalDate startDate, LocalDate endDate, boolean halfDay);
 
     Vacation findById(String id);

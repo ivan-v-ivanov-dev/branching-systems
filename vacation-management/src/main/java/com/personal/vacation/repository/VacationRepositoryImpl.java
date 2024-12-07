@@ -28,6 +28,11 @@ public class VacationRepositoryImpl implements VacationRepository {
     }
 
     @Override
+    public void create(Vacation vacation) {
+        mongoTemplate.save(vacation, "vacations");
+    }
+
+    @Override
     public void update(String id, LocalDate startDate, LocalDate endDate, boolean halfDay) {
         Query query = new Query(Criteria.where("id").is(id));
         Update update = new Update();
