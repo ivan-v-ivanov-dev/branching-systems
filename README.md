@@ -2,7 +2,7 @@
 
 **1. General overview**   
 **2. How to start the project**    
-**3. Architecture** 
+**3. Architecture**   
 **4. Microservices description**  
 
 # 1. General overview 
