@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder(toBuilder = true)
-public class UserResponse {
+public class UserGatewayRp {
 
     private String username;
 
