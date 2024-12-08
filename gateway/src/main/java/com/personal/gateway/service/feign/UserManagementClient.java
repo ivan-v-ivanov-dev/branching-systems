@@ -37,6 +37,11 @@ public interface UserManagementClient {
                                    @RequestParam(defaultValue = "10") int size,
                                    @RequestParam(defaultValue = "id") String sortBy);
 
+    @GetMapping("/users")
+    List<UserResponse> findAllUsers(@RequestParam(defaultValue = "0") int page,
+                                    @RequestParam(defaultValue = "10") int size,
+                                    @RequestParam(defaultValue = "id") String sortBy);
+
     @GetMapping("/user/username/{username}")
     UserResponse findUserByUsername(@PathVariable("username") String username);
 

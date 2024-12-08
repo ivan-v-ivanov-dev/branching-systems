@@ -5,7 +5,10 @@ import com.personal.gateway.service.contract.UserService;
 import com.personal.model.dto.RoleGatewayRp;
 import com.personal.model.dto.UserGatewayRp;
 import com.personal.model.dto.UserGatewayRq;
+import com.personal.model.dto.UserResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -63,6 +66,14 @@ public class ApiGatewayController {
                                            @RequestParam(defaultValue = "10") int size,
                                            @RequestParam(defaultValue = "id") String sortBy) {
         return userService.searchUsers(firstName, page, size, sortBy);
+    }
+
+    //TODO: Restrict for CEO
+    @GetMapping("/users")
+    public List<UserGatewayRp> findAllUsers(@RequestParam(defaultValue = "0") int page,
+                                           @RequestParam(defaultValue = "10") int size,
+                                           @RequestParam(defaultValue = "id") String sortBy) {
+        return userService.findAll(page, size, sortBy);
     }
 
     //TODO: Restrict for CEO

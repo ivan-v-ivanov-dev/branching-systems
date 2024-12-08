@@ -49,6 +49,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserGatewayRp> findAll(int page, int size, String sortBy) {
+        try {
+            List<UserResponse> users = userManagementClient.findAllUsers(page, size, sortBy);
+            log.info("Retrieve all users");
+            return users.stream().map(userAdapter::fromUserResponseToUserGatewayRp).toList();
+        } catch (FeignException feignException) {
+            log.error(feignException.getMessage());
+            throw new ResourceAccessException("User Service is down");
+        }
+    }
+
+    @Override
     public UserGatewayRp findUserByUsername(String username) {
         try {
             UserResponse userResponse = userManagementClient.findUserByUsername(username);
