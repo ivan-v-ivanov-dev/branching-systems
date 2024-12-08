@@ -8,6 +8,7 @@ import com.personal.project.service.contract.TeamsService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,9 +27,10 @@ public class ProjectController {
     }
 
     @GetMapping("/teams")
-    public Page<TeamResponse> getTeams(@RequestParam(defaultValue = "0") int page,
-                                       @RequestParam(defaultValue = "10") int size) {
-        return teamsService.findAll(PageRequest.of(page, size));
+    public List<TeamResponse> findAllTeams(@RequestParam(defaultValue = "0") int page,
+                                           @RequestParam(defaultValue = "10") int size,
+                                           @RequestParam(defaultValue = "id") String sortBy) {
+        return teamsService.findAll(PageRequest.of(page, size, Sort.by(sortBy)));
     }
 
     @PostMapping("/team")

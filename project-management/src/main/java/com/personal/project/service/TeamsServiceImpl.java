@@ -16,7 +16,6 @@ import feign.FeignException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +37,8 @@ public class TeamsServiceImpl implements TeamsService {
     private final TeamAdapter teamAdapter;
 
     @Override
-    public Page<TeamResponse> findAll(PageRequest pageable) {
-        Page<TeamResponse> response = new PageImpl<>(new ArrayList<>());
+    public List<TeamResponse> findAll(PageRequest pageable) {
+        List<TeamResponse> response = new ArrayList<>();
         try {
             Page<Team> teams = teamsRepository.findAll(pageable);
             List<TeamResponse> temp = new ArrayList<>();
@@ -51,7 +50,7 @@ public class TeamsServiceImpl implements TeamsService {
                 teamResponse.setMembers(members);
                 temp.add(teamResponse);
             }
-            response = new PageImpl<>(temp, pageable, temp.size());
+            response.addAll(temp);
             log.info("Retrieve all teams");
             return response;
         } catch (FeignException feignException) {
@@ -72,7 +71,7 @@ public class TeamsServiceImpl implements TeamsService {
             Set<UserResponse> members = new HashSet<>();
             team.getMembers().forEach(e -> members.add(userClient.findUserById(e.getId())));
             response.setMembers(members);
-            log.info(format("retrieve team %s", name));
+            log.info(format("Retrieve team %s", name));
             return response;
         } catch (FeignException feignException) {
             log.error(feignException.getMessage());
