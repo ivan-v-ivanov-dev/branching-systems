@@ -59,6 +59,13 @@ public class UserController {
         return userService.searchUsersByFirstName(firstName, PageRequest.of(page, size, Sort.by(sortBy)));
     }
 
+    @GetMapping("/users")
+    public List<UserResponse> findAllUsers(@RequestParam(defaultValue = "0") int page,
+                                           @RequestParam(defaultValue = "10") int size,
+                                           @RequestParam(defaultValue = "id") String sortBy) {
+        return userService.findAll(PageRequest.of(page, size, Sort.by(sortBy)));
+    }
+
     @GetMapping("/user/{id}")
     public UserResponse findUserById(@PathVariable("id") int id) {
         return userService.findById(id);

@@ -11,6 +11,8 @@ public interface UserService {
 
     List<UserResponse> searchUsersByFirstName(String firstName, Pageable pageable);
 
+    List<UserResponse> findAll(Pageable pageable);
+
     UserResponse findById(int id);
 
     UserResponse findByUsername(String username);

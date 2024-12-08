@@ -44,6 +44,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserResponse> findAll(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
+        log.info("Retrieve all users");
+        return users.getContent().stream().map(userAdapter::fromUserToUserResponse).toList();
+    }
+
+    @Override
     public UserResponse findById(int id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
