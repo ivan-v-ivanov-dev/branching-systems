@@ -51,6 +51,9 @@ public interface UserManagementClient {
     @PutMapping("/user/{username}/{role}")
     UserResponse addRoleToUser(@PathVariable("username") String username,
                                @PathVariable("role") String role);
+
+    @DeleteMapping("/user/{username}")
+    boolean deleteUser(@PathVariable("username") String username);
 }
 
 

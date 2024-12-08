@@ -95,4 +95,16 @@ public class UserServiceImpl implements UserService {
             throw new ResourceAccessException("User Service is down");
         }
     }
+
+    @Override
+    public boolean delete(String username) {
+        try {
+            boolean isDeleted = userManagementClient.deleteUser(username);
+            log.info(format("Delete user %s", username));
+            return isDeleted;
+        } catch (FeignException feignException) {
+            log.error(feignException.getMessage());
+            throw new ResourceAccessException("User Service is down");
+        }
+    }
 }

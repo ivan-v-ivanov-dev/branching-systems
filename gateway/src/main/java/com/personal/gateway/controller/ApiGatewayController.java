@@ -94,4 +94,12 @@ public class ApiGatewayController {
                                        @PathVariable("role") String role) {
         return userService.addRoleToUser(username, role);
     }
+
+    //TODO: Restrict for CEO
+    @DeleteMapping("/user/{username}")
+    public boolean deleteUser(@PathVariable("username") String username) {
+        return userService.delete(username);
+    }
+
+
 }

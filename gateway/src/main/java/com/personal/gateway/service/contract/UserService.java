@@ -18,4 +18,5 @@ public interface UserService {
 
     UserGatewayRp addRoleToUser(String username, String role);
 
+    boolean delete(String username);
 }
