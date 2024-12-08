@@ -34,11 +34,11 @@ The application has a microservice architecture using API Gateway service (API G
 
 ## 4.1 Model service  
 
-Runs on **https://localhsot:8085**. Spring Boot service which contains the DTO models user in the microservice communication. Each uservice uses adapters (Adapter pattern) when transfering the information between services. It has no database.  
+Runs on **https://localhsot:8085**. Spring Boot service which contains the DTO models user in the microservice communication. Each service uses adapters (Adapter pattern) when transfering the information between services. It has no database an it is imported as maven dependency in the other services.
 
 ## 4.2 Kafka service
 
-Runs on **https://localhsot:8086**. Spring Boot service which contains the message models used in the asynchronous communication.
+Runs on **https://localhsot:8086**. Spring Boot service which contains the message models used in the asynchronous communication. It is imported as maven dependency in the other services.
 
 ## 4.3 User Management service   
 
