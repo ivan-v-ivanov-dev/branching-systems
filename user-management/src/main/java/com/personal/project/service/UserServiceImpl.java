@@ -1,17 +1,16 @@
 package com.personal.project.service;
 
+import com.personal.model.dto.UserRequest;
 import com.personal.model.dto.UserResponse;
 import com.personal.project.adapter.UserAdapter;
 import com.personal.project.model.Role;
 import com.personal.project.model.User;
-import com.personal.project.model.UserRq;
 import com.personal.project.repository.RoleRepository;
 import com.personal.project.repository.UserRepository;
 import com.personal.project.service.contract.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,10 +37,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserResponse> searchUsersByFirstName(String firstName, Pageable pageable) {
+    public List<UserResponse> searchUsersByFirstName(String firstName, Pageable pageable) {
         Page<User> users = userRepository.findByFirstNameContaining(firstName, pageable);
-        log.info(format("Retrieve all project with first name %s", firstName));
-        return new PageImpl<>(users.stream().map(userAdapter::fromUserToUserResponse).toList());
+        log.info(format("Search users by first name %s", firstName));
+        return users.getContent().stream().map(userAdapter::fromUserToUserResponse).toList();
     }
 
     @Override
@@ -64,26 +63,24 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public UserResponse update(UserRq userRq) {
-        User user = userRepository.findByUsername(userRq.getUsername());
+    public UserResponse update(UserRequest userRequest) {
+        User user = userRepository.findByUsername(userRequest.getUsername());
         if (user == null) {
-            log.error(format("No user with username %s", userRq.getUsername()));
-            throw new IllegalArgumentException(format("No user with username %s", userRq.getUsername()));
+            log.error(format("No user with username %s", userRequest.getUsername()));
+            throw new IllegalArgumentException(format("No user with username %s", userRequest.getUsername()));
         }
-        //TODO: validate that there is such a team
-        Role role = roleRepository.findByName(userRq.getRole());
+        Role role = roleRepository.findByName(userRequest.getRole());
         if (role == null) {
-            log.error(format("No such role %s", userRq.getRole()));
-            throw new IllegalArgumentException(format("No such role %s", userRq.getRole()));
+            log.error(format("No such role %s", userRequest.getRole()));
+            throw new IllegalArgumentException(format("No such role %s", userRequest.getRole()));
         }
 
-        user.toBuilder()
-                .firstName(userRq.getFirstName())
-                .lastName(userRq.getLastName())
+        user = user.toBuilder()
+                .firstName(userRequest.getFirstName())
+                .lastName(userRequest.getLastName())
                 .role(role)
-//                .team(userRq.getTeam())
                 .build();
-        log.info(format("Update user %s", userRq.getUsername()));
+        log.info(format("Update user %s", userRequest.getUsername()));
         return userAdapter.fromUserToUserResponse(userRepository.save(user));
     }
 

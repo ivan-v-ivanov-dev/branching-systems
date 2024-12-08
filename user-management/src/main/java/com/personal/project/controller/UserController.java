@@ -1,17 +1,15 @@
 package com.personal.project.controller;
 
 import com.personal.model.dto.RoleResponse;
+import com.personal.model.dto.UserRequest;
 import com.personal.model.dto.UserResponse;
-import com.personal.project.model.UserRq;
 import com.personal.project.service.contract.RolesService;
 import com.personal.project.service.contract.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -54,7 +52,7 @@ public class UserController {
 
     //search?firstName=Aaron&page=0&size=2&sortBy=firstName
     @GetMapping("/search")
-    public Page<UserResponse> searchUsers(@RequestParam String firstName,
+    public List<UserResponse> searchUsers(@RequestParam String firstName,
                                           @RequestParam(defaultValue = "0") int page,
                                           @RequestParam(defaultValue = "10") int size,
                                           @RequestParam(defaultValue = "id") String sortBy) {
@@ -72,8 +70,8 @@ public class UserController {
     }
 
     @PutMapping("/user")
-    public UserResponse updateUser(@Valid @RequestBody UserRq userRq) {
-        return userService.update(userRq);
+    public UserResponse updateUser(@RequestBody UserRequest userRequest) {
+        return userService.update(userRequest);
     }
 
     @PutMapping("/user/{username}/{role}")
