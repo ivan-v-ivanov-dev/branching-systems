@@ -61,4 +61,9 @@ ProjectManagementClient {
 
     @DeleteMapping("/project/{name}")
     boolean deleteProject(@PathVariable("name") String name);
+
+    @GetMapping("/project/{name}/teams")
+    List<TeamResponse> findAllProjectTeams(@PathVariable("name") String name,
+                                           @RequestParam(value = "page", defaultValue = "0") int page,
+                                           @RequestParam(value = "size", defaultValue = "10") int size);
 }

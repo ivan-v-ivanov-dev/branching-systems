@@ -24,4 +24,6 @@ public interface TeamService {
     boolean delete(String name);
 
     List<TeamGatewayRp> search(String name, String projectName, int page, int size);
+
+    List<TeamGatewayRp> findAllProjectTeams(String name, int page, int size);
 }

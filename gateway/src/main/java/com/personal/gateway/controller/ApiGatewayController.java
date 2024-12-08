@@ -6,7 +6,6 @@ import com.personal.gateway.service.contract.TeamService;
 import com.personal.gateway.service.contract.UserService;
 import com.personal.model.dto.*;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -157,8 +156,8 @@ public class ApiGatewayController {
 
     @GetMapping("/projects")
     public List<ProjectGatewayRp> findAllProjects(@RequestParam(defaultValue = "0") int page,
-                                                 @RequestParam(defaultValue = "10") int size) {
-       return projectService.findAll(page, size);
+                                                  @RequestParam(defaultValue = "10") int size) {
+        return projectService.findAll(page, size);
     }
 
     @GetMapping("/project/{name}")
@@ -168,12 +167,19 @@ public class ApiGatewayController {
 
     @PatchMapping("/project/{name}")
     public ProjectGatewayRp updateProjectDescription(@PathVariable("name") String name,
-                                                    @RequestParam("description") String description) {
+                                                     @RequestParam("description") String description) {
         return projectService.update(name, description);
     }
 
     @DeleteMapping("/project/{name}")
     public boolean deleteProject(@PathVariable("name") String name) {
         return projectService.delete(name);
+    }
+
+    @GetMapping("/project/{name}/teams")
+    public List<TeamGatewayRp> findAllProjectTeams(@PathVariable("name") String name,
+                                                   @RequestParam(value = "page", defaultValue = "0") int page,
+                                                   @RequestParam(value = "size", defaultValue = "10") int size) {
+        return teamService.findAllProjectTeams(name, page, size);
     }
 }
