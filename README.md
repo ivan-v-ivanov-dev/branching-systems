@@ -196,27 +196,27 @@ Runs on **https://localhsot:8080**. Serves as a single entry point for the REST 
 
  - @PostMapping("/api/role/{role}") - Create new role
 
-  ![image](https://github.com/user-attachments/assets/a2d79726-52ab-45ed-b095-ca0f07ac0709)
+   ![image](https://github.com/user-attachments/assets/a2d79726-52ab-45ed-b095-ca0f07ac0709)
 
  - @PutMapping("/api/role/{oldName}/{newName}") - Rename role
 
-  ![image](https://github.com/user-attachments/assets/eac361a1-d081-4a7d-836b-96429e7df090)
+   ![image](https://github.com/user-attachments/assets/eac361a1-d081-4a7d-836b-96429e7df090)
 
  - @DeleteMapping("/api/role/{role}") Deletes a role by name
 
- ![image](https://github.com/user-attachments/assets/992914b5-c6f8-41e6-8b77-e9ecee33637c)
+   ![image](https://github.com/user-attachments/assets/992914b5-c6f8-41e6-8b77-e9ecee33637c)
 
  - @GetMapping("/api/role/{role}/users") - Retrieve users with a specific role
 
- ![image](https://github.com/user-attachments/assets/68bc2004-aa5f-418f-b689-f7857229ee66)
+   ![image](https://github.com/user-attachments/assets/68bc2004-aa5f-418f-b689-f7857229ee66)
 
  - @GetMapping("/api/roles/users-count")
  
- ![image](https://github.com/user-attachments/assets/d2e566b7-2e33-41ba-92e8-d14b8de8819e)
+   ![image](https://github.com/user-attachments/assets/d2e566b7-2e33-41ba-92e8-d14b8de8819e)
 
  - @GetMapping("/users/search")
 
- ![image](https://github.com/user-attachments/assets/c951d3ec-3405-40d8-b4cc-490c41578e0a)
+   ![image](https://github.com/user-attachments/assets/c951d3ec-3405-40d8-b4cc-490c41578e0a)
 
  - @GetMapping("/users")
 
@@ -224,15 +224,15 @@ Runs on **https://localhsot:8080**. Serves as a single entry point for the REST 
 
  - @GetMapping("/user/{username}")
 
- ![image](https://github.com/user-attachments/assets/2921ac87-9d49-46a6-bdc9-6b6612da7c02)
+   ![image](https://github.com/user-attachments/assets/2921ac87-9d49-46a6-bdc9-6b6612da7c02)
 
  - @PutMapping("/user")
 
- ![image](https://github.com/user-attachments/assets/2e476a82-68d7-4104-a77c-71702f7a59a6)
+   ![image](https://github.com/user-attachments/assets/2e476a82-68d7-4104-a77c-71702f7a59a6)
 
    With wrong data returns 400 code
 
-  ![image](https://github.com/user-attachments/assets/8ca38e3d-e7bb-4de1-a462-94619e39fa45)
+   ![image](https://github.com/user-attachments/assets/8ca38e3d-e7bb-4de1-a462-94619e39fa45)
 
  - @PatchMapping("/user/{username}/{role}")
 
@@ -241,6 +241,63 @@ Runs on **https://localhsot:8080**. Serves as a single entry point for the REST 
  - @DeleteMapping("/user/{username}")
 
    ![image](https://github.com/user-attachments/assets/2a4e2ed4-5f1b-4f5f-b262-c9688f81417e)
+
+ - @GetMapping("/teams") (Project service retrieves user information from UserManagement)
+
+   ![image](https://github.com/user-attachments/assets/bf274bf3-dd61-46c3-9cf1-fcca69129d61)
+
+ - @GetMapping("/team/{name}") (Project service retrieves user information from UserManagement)
+
+   ![image](https://github.com/user-attachments/assets/4665bbd4-78df-4efe-a805-1f2aee36c7f6)
+
+ - @PostMapping("/team") (Project service retrieves user information from UserManagement)
+
+ ----------------------- Insert image----------------------------
+
+ - @PatchMapping("/team/{name}/member/{id}/add") (Project service retrieves user information from UserManagement)
+
+   ![image](https://github.com/user-attachments/assets/f70236cf-24d3-4a6e-aa12-c4d83d4b1970)
+
+ - @PatchMapping("/team/{name}/member/{id}/remove") (Project service retrieves user information from UserManagement)
+
+   ![image](https://github.com/user-attachments/assets/42d62ae2-13ed-4239-82c3-13b18e74da71)
+
+ - @PatchMapping("/team/{teamName}/add-project/{projectName}") (Project service retrieves user information from UserManagement)
+
+   ![image](https://github.com/user-attachments/assets/2002bfa9-fd37-4f5d-a3ae-6bae891524f7)
+
+- @PatchMapping("/team/{teamName}/remove-project/{projectName}") (Project service retrieves user information from UserManagement)
+
+  ![image](https://github.com/user-attachments/assets/f5479d13-fa87-46ce-8ee8-01d6640fb68e)
+
+- @DeleteMapping("/team/{name}")
+
+  ![image](https://github.com/user-attachments/assets/906e6789-6b8a-4995-bc2d-ef5a6e315a0b)
+
+- @GetMapping("/teams/search")
+
+  ![image](https://github.com/user-attachments/assets/5aa0bdaf-4250-498a-bb7f-ce0d576fdc29)
+
+- @GetMapping("/projects") - Retrieves all project. Uses JPA pagination
+
+  ![image](https://github.com/user-attachments/assets/7d852e62-f742-4eb9-85b6-3570d899e81a)
+
+- @GetMapping("/project/{name}") - Retrieve project by name
+
+  ![image](https://github.com/user-attachments/assets/e17e0b49-5ad3-4a63-a9a4-65a030b8e36d)
+
+- @PatchMapping("/project/{name}") Updates a project description
+
+  ![image](https://github.com/user-attachments/assets/7fc433e0-425d-4516-940e-43073794bff9)
+
+- @DeleteMapping("/project/{name}") Deletes a project
+
+  ![image](https://github.com/user-attachments/assets/a0c23b8f-c45e-47e4-b7dd-a9988168c897)
+
+- @GetMapping("/project/{name}/teams") Retrieves all team working on a project. Uses JPA pagination
+
+  ![image](https://github.com/user-attachments/assets/d43b7bdf-2ff2-444a-8e7d-8b1dca3d2ae1)
+
 
 
 
