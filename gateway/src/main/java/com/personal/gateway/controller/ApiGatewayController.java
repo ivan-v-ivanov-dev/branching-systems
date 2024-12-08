@@ -117,25 +117,38 @@ public class ApiGatewayController {
 
     @PatchMapping("/team/{name}/member/{id}/add")
     public TeamGatewayRp addMemberToATeam(@PathVariable("name") String name,
-                                         @PathVariable("id") int id) {
+                                          @PathVariable("id") int id) {
         return teamService.addMemberToATeam(name, id);
     }
 
     @PatchMapping("/team/{name}/member/{id}/remove")
     public TeamGatewayRp removeMemberFromATeam(@PathVariable("name") String name,
-                                              @PathVariable("id") int id) {
+                                               @PathVariable("id") int id) {
         return teamService.removeMemberFromATeam(name, id);
     }
 
     @PatchMapping("/team/{teamName}/add-project/{projectName}")
     public TeamGatewayRp addTeamToProject(@PathVariable("teamName") String teamName,
-                                         @PathVariable("projectName") String projectName) {
+                                          @PathVariable("projectName") String projectName) {
         return teamService.addProject(teamName, projectName);
     }
 
     @PatchMapping("/team/{teamName}/remove-project/{projectName}")
     public TeamGatewayRp removeTeamToProject(@PathVariable("teamName") String teamName,
-                                            @PathVariable("projectName") String projectName) {
+                                             @PathVariable("projectName") String projectName) {
         return teamService.removeProject(teamName, projectName);
+    }
+
+    @DeleteMapping("/team/{name}")
+    public boolean deleteATeam(@PathVariable("name") String name) {
+        return teamService.delete(name);
+    }
+
+    @GetMapping("/teams/search")
+    public List<TeamGatewayRp> searchTeams(@RequestParam(value = "name", required = false, defaultValue = "") String name,
+                                           @RequestParam(value = "projectName", required = false, defaultValue = "") String projectName,
+                                           @RequestParam(value = "page", defaultValue = "0") int page,
+                                           @RequestParam(value = "size", defaultValue = "10") int size) {
+        return teamService.search(name, projectName, page, size);
     }
 }

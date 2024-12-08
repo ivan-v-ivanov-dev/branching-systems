@@ -36,5 +36,14 @@ ProjectManagementClient {
 
     @PutMapping("/team/{teamName}/remove-project/{projectName}")
     TeamResponse removeTeamFromAProject(@PathVariable("teamName") String teamName,
-                                     @PathVariable("projectName") String projectName);
+                                        @PathVariable("projectName") String projectName);
+
+    @DeleteMapping("/team/{name}")
+    boolean deleteATeam(@PathVariable("name") String name);
+
+    @GetMapping("/teams/search")
+    List<TeamResponse> searchTeams(@RequestParam(value = "name", required = false, defaultValue = "") String name,
+                                   @RequestParam(value = "projectName", required = false, defaultValue = "") String projectName,
+                                   @RequestParam(value = "page", defaultValue = "0") int page,
+                                   @RequestParam(value = "size", defaultValue = "10") int size);
 }

@@ -107,4 +107,32 @@ public class TeamServiceImpl implements TeamService {
             throw new ResourceAccessException("Project Service is down");
         }
     }
+
+    @Override
+    public boolean delete(String name) {
+        try {
+            boolean isDeleted = projectManagementClient.deleteATeam(name);
+            if (isDeleted) {
+                log.info(format("Team deleted: %s", name));
+                return true;
+            }
+            log.warn(format("Can't delete team %s", name));
+            return false;
+        } catch (FeignException feignException) {
+            log.error(feignException.getMessage());
+            throw new ResourceAccessException("Project Service is down");
+        }
+    }
+
+    @Override
+    public List<TeamGatewayRp> search(String name, String projectName, int page, int size) {
+        try {
+            List<TeamResponse> teamResponses = projectManagementClient.searchTeams(name, projectName, page, size);
+            log.info("Retrieve team");
+            return teamResponses.stream().map(teamAdapter::fromTeamResponseToTeamGatewayRp).toList();
+        } catch (FeignException feignException) {
+            log.error(feignException.getMessage());
+            throw new ResourceAccessException("Project Service is down");
+        }
+    }
 }

@@ -20,4 +20,8 @@ public interface TeamService {
     TeamGatewayRp addProject(String teamName, String projectName);
 
     TeamGatewayRp removeProject(String teamName, String projectName);
+
+    boolean delete(String name);
+
+    List<TeamGatewayRp> search(String name, String projectName, int page, int size);
 }
