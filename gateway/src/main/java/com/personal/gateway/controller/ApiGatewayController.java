@@ -1,14 +1,10 @@
 package com.personal.gateway.controller;
 
 import com.personal.gateway.service.contract.RoleService;
+import com.personal.gateway.service.contract.TeamService;
 import com.personal.gateway.service.contract.UserService;
-import com.personal.model.dto.RoleGatewayRp;
-import com.personal.model.dto.UserGatewayRp;
-import com.personal.model.dto.UserGatewayRq;
-import com.personal.model.dto.UserResponse;
+import com.personal.model.dto.*;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +17,7 @@ public class ApiGatewayController {
 
     private final RoleService roleService;
     private final UserService userService;
+    private final TeamService teamService;
 
     //TODO: Restrict for CEO
     @GetMapping("/roles")
@@ -71,8 +68,8 @@ public class ApiGatewayController {
     //TODO: Restrict for CEO
     @GetMapping("/users")
     public List<UserGatewayRp> findAllUsers(@RequestParam(defaultValue = "0") int page,
-                                           @RequestParam(defaultValue = "10") int size,
-                                           @RequestParam(defaultValue = "id") String sortBy) {
+                                            @RequestParam(defaultValue = "10") int size,
+                                            @RequestParam(defaultValue = "id") String sortBy) {
         return userService.findAll(page, size, sortBy);
     }
 
@@ -101,5 +98,15 @@ public class ApiGatewayController {
         return userService.delete(username);
     }
 
+    @GetMapping("/teams")
+    List<TeamGatewayRp> getTeams(@RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "10") int size,
+                                 @RequestParam(defaultValue = "id") String sortBy) {
+        return teamService.findAll(page, size, sortBy);
+    }
 
+    @GetMapping("/team/{name}")
+    public TeamGatewayRp findTeamByName(@PathVariable("name") String name) {
+        return teamService.findByName(name);
+    }
 }
