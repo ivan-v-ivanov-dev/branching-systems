@@ -109,4 +109,21 @@ public class ApiGatewayController {
     public TeamGatewayRp findTeamByName(@PathVariable("name") String name) {
         return teamService.findByName(name);
     }
+
+    @PostMapping("/team")
+    public TeamGatewayRp createTeam(@Valid @RequestBody TeamGatewayRq teamGatewayRq) {
+        return teamService.create(teamGatewayRq);
+    }
+
+    @PatchMapping("/team/{name}/member/{id}/add")
+    public TeamGatewayRp addMemberToATeam(@PathVariable("name") String name,
+                                         @PathVariable("id") int id) {
+        return teamService.addMemberToATeam(name, id);
+    }
+
+    @PatchMapping("/team/{name}/member/{id}/remove")
+    public TeamGatewayRp removeMemberFromATeam(@PathVariable("name") String name,
+                                              @PathVariable("id") int id) {
+        return teamService.removeMemberFromATeam(name, id);
+    }
 }
