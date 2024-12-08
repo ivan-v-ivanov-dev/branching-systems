@@ -84,6 +84,7 @@ public class UserServiceImpl implements UserService {
         return userAdapter.fromUserToUserResponse(userRepository.save(user));
     }
 
+    @Transactional
     @Override
     public UserResponse addRoleToUser(String username, String role) {
         Role toUpdate = roleRepository.findByName(role);
@@ -98,7 +99,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException(format("No user with username %s", username));
         }
 
-        user.toBuilder().role(toUpdate);
+        user = user.toBuilder().role(toUpdate).build();
         log.info(format("User %s updated with role %s", username, role));
         return userAdapter.fromUserToUserResponse(userRepository.save(user));
     }
