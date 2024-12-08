@@ -1,5 +1,6 @@
 package com.personal.gateway.service.feign;
 
+import com.personal.model.dto.ProjectResponse;
 import com.personal.model.dto.TeamRequest;
 import com.personal.model.dto.TeamResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -46,4 +47,11 @@ ProjectManagementClient {
                                    @RequestParam(value = "projectName", required = false, defaultValue = "") String projectName,
                                    @RequestParam(value = "page", defaultValue = "0") int page,
                                    @RequestParam(value = "size", defaultValue = "10") int size);
+
+    @GetMapping("/projects")
+    List<ProjectResponse> findAllProjects(@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int size);
+
+    @GetMapping("/project/{name}")
+    ProjectResponse findProjectByName(@PathVariable("name") String name);
 }

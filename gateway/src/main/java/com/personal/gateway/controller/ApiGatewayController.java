@@ -1,10 +1,12 @@
 package com.personal.gateway.controller;
 
+import com.personal.gateway.service.contract.ProjectService;
 import com.personal.gateway.service.contract.RoleService;
 import com.personal.gateway.service.contract.TeamService;
 import com.personal.gateway.service.contract.UserService;
 import com.personal.model.dto.*;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,6 +20,7 @@ public class ApiGatewayController {
     private final RoleService roleService;
     private final UserService userService;
     private final TeamService teamService;
+    private final ProjectService projectService;
 
     //TODO: Restrict for CEO
     @GetMapping("/roles")
@@ -150,5 +153,16 @@ public class ApiGatewayController {
                                            @RequestParam(value = "page", defaultValue = "0") int page,
                                            @RequestParam(value = "size", defaultValue = "10") int size) {
         return teamService.search(name, projectName, page, size);
+    }
+
+    @GetMapping("/projects")
+    public List<ProjectGatewayRp> findAllProjects(@RequestParam(defaultValue = "0") int page,
+                                                 @RequestParam(defaultValue = "10") int size) {
+       return projectService.findAll(page, size);
+    }
+
+    @GetMapping("/project/{name}")
+    public ProjectGatewayRp findProjectByName(@PathVariable("name") String name) {
+        return projectService.findByName(name);
     }
 }
