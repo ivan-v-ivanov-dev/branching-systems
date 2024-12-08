@@ -1,12 +1,12 @@
 package com.personal.project.service;
 
+import com.personal.model.dto.TeamRequest;
 import com.personal.model.dto.TeamResponse;
 import com.personal.model.dto.UserResponse;
 import com.personal.project.adapter.TeamAdapter;
 import com.personal.project.model.Project;
 import com.personal.project.model.Team;
 import com.personal.project.model.User;
-import com.personal.project.model.dto.TeamRq;
 import com.personal.project.repository.ProjectRepository;
 import com.personal.project.repository.TeamsRepository;
 import com.personal.project.repository.UserRepository;
@@ -81,23 +81,26 @@ public class TeamsServiceImpl implements TeamsService {
 
     @Transactional
     @Override
-    public TeamResponse create(TeamRq teamRq) {
-        Optional<User> leader = userRepository.findById(teamRq.getLeaderId());
+    public TeamResponse create(TeamRequest teamRequest) {
+        Optional<User> leader = userRepository.findById(teamRequest.getLeaderId());
         if (leader.isEmpty()) {
-            log.error(format("There is no leader with id %d", teamRq.getProjectId()));
-            throw new IllegalArgumentException(format("There is no leader with id %d", teamRq.getProjectId()));
+            log.error(format("There is no leader with id %d", teamRequest.getProjectId()));
+            throw new IllegalArgumentException(format("There is no leader with id %d", teamRequest.getProjectId()));
         }
-        Optional<Project> project = projectRepository.findById(teamRq.getProjectId());
+        Optional<Project> project = projectRepository.findById(teamRequest.getProjectId());
         if (project.isEmpty()) {
-            log.error(format("There is no project with id %d", teamRq.getProjectId()));
-            throw new IllegalArgumentException(format("There is no project with id %d", teamRq.getProjectId()));
+            log.error(format("There is no project with id %d", teamRequest.getProjectId()));
+            throw new IllegalArgumentException(format("There is no project with id %d", teamRequest.getProjectId()));
         }
         Team team = Team.builder()
-                .name(teamRq.getName())
+                .id(teamsRepository.retrieveLastId() + 1)
+                .name(teamRequest.getName())
+                .projects(Set.of(project.get()))
+                .members(Set.of(leader.get()))
                 .leader(leader.get()).build();
         log.info("Create %s team");
         TeamResponse response = teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
-        response.setLeader(userClient.findUserById(teamRq.getLeaderId()));
+        response.setLeader(userClient.findUserById(teamRequest.getLeaderId()));
         return response;
     }
 
@@ -114,7 +117,13 @@ public class TeamsServiceImpl implements TeamsService {
 
         team.getMembers().add(user.get());
         log.info(format("Add user %d into team %s", id, name));
-        return teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
+        TeamResponse teamResponse = teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
+        teamResponse.setLeader(userClient.findUserById(team.getLeader().getId()));
+        Set<UserResponse> members = new HashSet<>();
+        team.getMembers().forEach(e -> members.add(userClient.findUserById(e.getId())));
+        teamResponse.setMembers(members);
+        teamResponse.getMembers().add(userClient.findUserById(id));
+        return teamResponse;
     }
 
     @Transactional
@@ -123,7 +132,12 @@ public class TeamsServiceImpl implements TeamsService {
         Team team = teamsRepository.findByName(name);
         team.getMembers().removeIf(current -> current.getId() == id);
         log.info(format("Remove team member %d from team %s", id, name));
-        return teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
+        TeamResponse teamResponse = teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
+        teamResponse.setLeader(userClient.findUserById(team.getLeader().getId()));
+        Set<UserResponse> members = new HashSet<>();
+        team.getMembers().forEach(e -> members.add(userClient.findUserById(e.getId())));
+        teamResponse.setMembers(members);
+        return teamResponse;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.personal.project.service.contract;
 
+import com.personal.model.dto.TeamRequest;
 import com.personal.model.dto.TeamResponse;
-import com.personal.project.model.dto.TeamRq;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public interface TeamsService {
 
     TeamResponse findByName(String name);
 
-    TeamResponse create(TeamRq teamRq);
+    TeamResponse create(TeamRequest teamRequest);
 
     TeamResponse addMemberToATeam(String name, int id);
 

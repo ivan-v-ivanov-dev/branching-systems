@@ -29,4 +29,7 @@ public interface TeamsRepository extends JpaRepository<Team, Integer> {
     List<Team> findAllProjectTeams(@Param("projectName") String projectName,
                                    @Param("limit") int limit,
                                    @Param("offset") int offset);
+
+    @Query("SELECT MAX(t.id) FROM Team t")
+    int retrieveLastId();
 }

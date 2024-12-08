@@ -32,7 +32,7 @@
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="leader_id" type="int">
-                <constraints nullable="false" unique="true"/>
+                <constraints nullable="false" unique="false"/>
             </column>
         </createTable>
 

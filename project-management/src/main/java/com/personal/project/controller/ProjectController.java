@@ -1,8 +1,8 @@
 package com.personal.project.controller;
 
 import com.personal.model.dto.ProjectResponse;
+import com.personal.model.dto.TeamRequest;
 import com.personal.model.dto.TeamResponse;
-import com.personal.project.model.dto.TeamRq;
 import com.personal.project.service.contract.ProjectService;
 import com.personal.project.service.contract.TeamsService;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -34,8 +33,8 @@ public class ProjectController {
     }
 
     @PostMapping("/team")
-    public TeamResponse createTeam(@Valid @RequestBody TeamRq teamRq) {
-        return teamsService.create(teamRq);
+    public TeamResponse createTeam(@RequestBody TeamRequest teamRequest) {
+        return teamsService.create(teamRequest);
     }
 
     @PutMapping("/team/{name}/member/{id}/add")
