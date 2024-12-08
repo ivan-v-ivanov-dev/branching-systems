@@ -71,4 +71,16 @@ public class UserServiceImpl implements UserService {
             throw new ResourceAccessException("User Service is down");
         }
     }
+
+    @Override
+    public UserGatewayRp addRoleToUser(String username, String role) {
+        try {
+            UserResponse userResponse = userManagementClient.addRoleToUser(username, role);
+            log.info(format("User %s updated with role %s", username, role));
+            return userAdapter.fromUserResponseToUserGatewayRp(userResponse);
+        } catch (FeignException feignException) {
+            log.error(feignException.getMessage());
+            throw new ResourceAccessException("User Service is down");
+        }
+    }
 }

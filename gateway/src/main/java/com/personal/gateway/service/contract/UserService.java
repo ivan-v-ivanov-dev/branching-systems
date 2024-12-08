@@ -14,4 +14,6 @@ public interface UserService {
     UserGatewayRp findUserByUsername(String username);
 
     UserGatewayRp update(UserGatewayRq userGatewayRq);
+
+    UserGatewayRp addRoleToUser(String username, String role);
 }

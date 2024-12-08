@@ -71,8 +71,16 @@ public class ApiGatewayController {
         return userService.findUserByUsername(username);
     }
 
+    //TODO: Restrict for CEO and Developer and Team lead
     @PutMapping("/user")
     public UserGatewayRp updateUser(@Valid @RequestBody UserGatewayRq userGatewayRq) {
         return userService.update(userGatewayRq);
+    }
+
+    //TODO: Restrict for CEO and Team lead
+    @PatchMapping("/user/{username}/{role}")
+    public UserGatewayRp addRoleToUser(@PathVariable("username") String username,
+                                       @PathVariable("role") String role) {
+        return userService.addRoleToUser(username, role);
     }
 }

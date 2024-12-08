@@ -42,6 +42,10 @@ public interface UserManagementClient {
 
     @PutMapping("/user")
     UserResponse updateUser(@Valid @RequestBody UserRequest userRequest);
+
+    @PutMapping("/user/{username}/{role}")
+    UserResponse addRoleToUser(@PathVariable("username") String username,
+                               @PathVariable("role") String role);
 }
 
 
