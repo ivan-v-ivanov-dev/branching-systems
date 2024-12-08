@@ -58,4 +58,16 @@ public class ProjectServiceImpl implements ProjectService {
             throw new ResourceAccessException("Project Service is down");
         }
     }
+
+    @Override
+    public boolean delete(String name) {
+        try {
+            boolean isDeleted = projectManagementClient.deleteATeam(name);
+            log.info(format("Delete project %s", name));
+            return isDeleted;
+        } catch (FeignException feignException) {
+            log.error(feignException.getMessage());
+            throw new ResourceAccessException("Project Service is down");
+        }
+    }
 }

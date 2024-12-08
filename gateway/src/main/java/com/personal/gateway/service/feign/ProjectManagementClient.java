@@ -57,5 +57,8 @@ ProjectManagementClient {
 
     @PutMapping("/project/{name}")
     ProjectResponse updateProjectDescription(@PathVariable("name") String name,
-                                                    @RequestParam("description") String description);
+                                             @RequestParam("description") String description);
+
+    @DeleteMapping("/project/{name}")
+    boolean deleteProject(@PathVariable("name") String name);
 }

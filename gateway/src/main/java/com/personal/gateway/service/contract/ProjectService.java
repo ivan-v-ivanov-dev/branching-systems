@@ -10,4 +10,6 @@ public interface ProjectService {
     ProjectGatewayRp findByName(String name);
 
     ProjectGatewayRp update(String name, String description);
+
+    boolean delete(String name);
 }

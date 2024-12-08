@@ -171,4 +171,9 @@ public class ApiGatewayController {
                                                     @RequestParam("description") String description) {
         return projectService.update(name, description);
     }
+
+    @DeleteMapping("/project/{name}")
+    public boolean deleteProject(@PathVariable("name") String name) {
+        return projectService.delete(name);
+    }
 }
