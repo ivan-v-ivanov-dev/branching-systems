@@ -44,10 +44,7 @@ public class TeamsServiceImpl implements TeamsService {
             List<TeamResponse> temp = new ArrayList<>();
             for (Team team : teams) {
                 TeamResponse teamResponse = teamAdapter.fromTeamToTeamResponse(team);
-                teamResponse.setLeader(userClient.findUserById(team.getLeader().getId()));
-                Set<UserResponse> members = new HashSet<>();
-                team.getMembers().forEach(e -> members.add(userClient.findUserById(e.getId())));
-                teamResponse.setMembers(members);
+                addUserData(teamResponse, team);
                 temp.add(teamResponse);
             }
             response.addAll(temp);
@@ -118,11 +115,7 @@ public class TeamsServiceImpl implements TeamsService {
         team.getMembers().add(user.get());
         log.info(format("Add user %d into team %s", id, name));
         TeamResponse teamResponse = teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
-        teamResponse.setLeader(userClient.findUserById(team.getLeader().getId()));
-        Set<UserResponse> members = new HashSet<>();
-        team.getMembers().forEach(e -> members.add(userClient.findUserById(e.getId())));
-        teamResponse.setMembers(members);
-        teamResponse.getMembers().add(userClient.findUserById(id));
+        addUserData(teamResponse, team);
         return teamResponse;
     }
 
@@ -133,10 +126,7 @@ public class TeamsServiceImpl implements TeamsService {
         team.getMembers().removeIf(current -> current.getId() == id);
         log.info(format("Remove team member %d from team %s", id, name));
         TeamResponse teamResponse = teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
-        teamResponse.setLeader(userClient.findUserById(team.getLeader().getId()));
-        Set<UserResponse> members = new HashSet<>();
-        team.getMembers().forEach(e -> members.add(userClient.findUserById(e.getId())));
-        teamResponse.setMembers(members);
+        addUserData(teamResponse, team);
         return teamResponse;
     }
 
@@ -147,11 +137,7 @@ public class TeamsServiceImpl implements TeamsService {
         team.getProjects().add(project);
         log.info(format("Add project %s to team %s", projectName, teamName));
         TeamResponse teamResponse = teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
-
-        teamResponse.setLeader(userClient.findUserById(team.getLeader().getId()));
-        Set<UserResponse> members = new HashSet<>();
-        team.getMembers().forEach(e -> members.add(userClient.findUserById(e.getId())));
-        teamResponse.setMembers(members);
+        addUserData(teamResponse, team);
         return teamResponse;
     }
 
@@ -162,11 +148,7 @@ public class TeamsServiceImpl implements TeamsService {
         team.getProjects().removeIf(p -> p.getId() == project.getId());
         log.info(format("Remove project %s to team %s", projectName, teamName));
         TeamResponse teamResponse = teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
-
-        teamResponse.setLeader(userClient.findUserById(team.getLeader().getId()));
-        Set<UserResponse> members = new HashSet<>();
-        team.getMembers().forEach(e -> members.add(userClient.findUserById(e.getId())));
-        teamResponse.setMembers(members);
+        addUserData(teamResponse, team);
         return teamResponse;
     }
 
@@ -185,8 +167,12 @@ public class TeamsServiceImpl implements TeamsService {
     @Override
     public List<TeamResponse> searchTeams(String name, String projectName, int page, int size) {
         List<Team> teams = teamsRepository.searchByNameAndProjectName(name, projectName, size, page);
-        log.info(format("Retrieve %s team", name));
-        return teams.stream().map(teamAdapter::fromTeamToTeamResponse).toList();
+        log.info("Retrieve team");
+        List<TeamResponse> teamResponses = teams.stream().map(teamAdapter::fromTeamToTeamResponse).toList();
+        for (int index = 0; index < teams.size(); index++) {
+            addUserData(teamResponses.get(index), teams.get(index));
+        }
+        return teamResponses;
     }
 
     @Override
@@ -194,5 +180,12 @@ public class TeamsServiceImpl implements TeamsService {
         List<Team> teams = teamsRepository.findAllProjectTeams(name, page, size);
         log.warn(format("Retrieve teams for project %s", name));
         return teams.stream().map(teamAdapter::fromTeamToTeamResponse).toList();
+    }
+
+    private void addUserData(TeamResponse teamResponse, Team team) {
+        teamResponse.setLeader(userClient.findUserById(team.getLeader().getId()));
+        Set<UserResponse> members = new HashSet<>();
+        team.getMembers().forEach(e -> members.add(userClient.findUserById(e.getId())));
+        teamResponse.setMembers(members);
     }
 }

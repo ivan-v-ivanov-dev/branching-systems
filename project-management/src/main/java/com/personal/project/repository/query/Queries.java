@@ -9,11 +9,11 @@ public class Queries {
 
     public static final String FIND_BY_NAME_AND_PROJECT_NAME_TEMPLATE =
             """
-                    SELECT * FROM team t 
-                    JOIN project_team pt ON t.id = pt.team_id 
-                    JOIN project p ON pt.project_id = p.id 
-                    WHERE t.name LIKE CONCAT('%', :name, '%') 
-                    AND p.name LIKE CONCAT('%', :projectName, '%') 
+                    SELECT * FROM teams t 
+                    JOIN team_projects pt ON t.id = pt.team_id 
+                    JOIN projects p ON pt.project_id = p.id 
+                    WHERE t.name LIKE  :name
+                    AND p.name LIKE :projectName 
                     LIMIT :limit OFFSET :offset""";
 
     public static final String FIND_BY_PROJECT_NAME_TEMPLATE =
