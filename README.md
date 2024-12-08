@@ -34,11 +34,11 @@ The application has a microservice architecture using API Gateway service (API G
 
 ## 4.1 Model service  
 
-Runs on **https://localhsot:8085**. Spring Boot service which contains the DTO models user in the microservice communication. Each uservice uses adapters (Adapter pattern) when transfering the information between services. It has no database.  
+Runs on **https://localhsot:8085**. Spring Boot service which contains the DTO models user in the microservice communication. Each service uses adapters (Adapter pattern) when transfering the information between services. It has no database an it is imported as maven dependency in the other services.
 
 ## 4.2 Kafka service
 
-Runs on **https://localhsot:8086**. Spring Boot service which contains the message models used in the asynchronous communication.
+Runs on **https://localhsot:8086**. Spring Boot service which contains the message models used in the asynchronous communication. It is imported as maven dependency in the other services.
 
 ## 4.3 User Management service   
 
@@ -75,6 +75,7 @@ Runs on **https://localhsot:8082**. Spring Boot service which contains the User 
  - @GetMapping("/role/{role}/users") - Retrieves all user with a specific role
  - @GetMapping("/roles/users-count") - Retrieves user count per role for all roles
  - @GetMapping("/search") - Searches users by first name and uses Spring Data JPA pagination for the results
+ - @GetMapping("/users") - Retrieves all users and uses Spring Data JPA pagination for the results
  - @GetMapping("/user/{id}") - Retrieves user by ID. (used in microservice communication)
  - @GetMapping("/user/username/{username}") - Retrieves user by username (unique user field)
  - @PutMapping("/user") - Updates user
@@ -205,9 +206,42 @@ Runs on **https://localhsot:8080**. Serves as a single entry point for the REST 
 
  ![image](https://github.com/user-attachments/assets/992914b5-c6f8-41e6-8b77-e9ecee33637c)
 
- - @GetMapping("/role/{role}/users") - Retrieve users with a specific role
+ - @GetMapping("/api/role/{role}/users") - Retrieve users with a specific role
 
  ![image](https://github.com/user-attachments/assets/68bc2004-aa5f-418f-b689-f7857229ee66)
+
+ - @GetMapping("/api/roles/users-count")
+ 
+ ![image](https://github.com/user-attachments/assets/d2e566b7-2e33-41ba-92e8-d14b8de8819e)
+
+ - @GetMapping("/users/search")
+
+ ![image](https://github.com/user-attachments/assets/c951d3ec-3405-40d8-b4cc-490c41578e0a)
+
+ - @GetMapping("/users")
+
+   ![image](https://github.com/user-attachments/assets/7bae388b-1b2a-4499-9d3f-160c20c7e429)
+
+ - @GetMapping("/user/{username}")
+
+ ![image](https://github.com/user-attachments/assets/2921ac87-9d49-46a6-bdc9-6b6612da7c02)
+
+ - @PutMapping("/user")
+
+ ![image](https://github.com/user-attachments/assets/2e476a82-68d7-4104-a77c-71702f7a59a6)
+
+   With wrong data returns 400 code
+
+  ![image](https://github.com/user-attachments/assets/8ca38e3d-e7bb-4de1-a462-94619e39fa45)
+
+ - @PatchMapping("/user/{username}/{role}")
+
+   ![image](https://github.com/user-attachments/assets/388ad5ab-b169-43c5-b2f0-c8695b304a4c)
+
+ - @DeleteMapping("/user/{username}")
+
+   ![image](https://github.com/user-attachments/assets/2a4e2ed4-5f1b-4f5f-b262-c9688f81417e)
+
 
 
 
