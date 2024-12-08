@@ -75,7 +75,7 @@ public class ProjectController {
     }
 
     @GetMapping("/projects")
-    public Page<ProjectResponse> findAllProjects(@RequestParam(defaultValue = "0") int page,
+    public List<ProjectResponse> findAllProjects(@RequestParam(defaultValue = "0") int page,
                                                  @RequestParam(defaultValue = "10") int size) {
         return projectService.findAll(PageRequest.of(page, size));
     }

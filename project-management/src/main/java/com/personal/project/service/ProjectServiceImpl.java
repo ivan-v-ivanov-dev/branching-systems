@@ -8,10 +8,11 @@ import com.personal.project.service.contract.ProjectService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static java.lang.String.format;
 
@@ -24,10 +25,10 @@ public class ProjectServiceImpl implements ProjectService {
     private final TeamAdapter teamAdapter;
 
     @Override
-    public Page<ProjectResponse> findAll(PageRequest pageable) {
+    public List<ProjectResponse> findAll(PageRequest pageable) {
         Page<Project> projects = projectRepository.findAll(pageable);
         log.info("Retrieve projects");
-        return new PageImpl<>(projects.stream().map(teamAdapter::projectToProjectResponse).toList());
+        return projects.stream().map(teamAdapter::projectToProjectResponse).toList();
     }
 
     @Override
