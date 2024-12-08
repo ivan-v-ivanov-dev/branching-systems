@@ -8,4 +8,6 @@ public interface ProjectService {
     List<ProjectGatewayRp> findAll(int page, int size);
 
     ProjectGatewayRp findByName(String name);
+
+    ProjectGatewayRp update(String name, String description);
 }

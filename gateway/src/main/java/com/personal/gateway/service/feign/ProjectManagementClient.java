@@ -54,4 +54,8 @@ ProjectManagementClient {
 
     @GetMapping("/project/{name}")
     ProjectResponse findProjectByName(@PathVariable("name") String name);
+
+    @PutMapping("/project/{name}")
+    ProjectResponse updateProjectDescription(@PathVariable("name") String name,
+                                                    @RequestParam("description") String description);
 }

@@ -165,4 +165,10 @@ public class ApiGatewayController {
     public ProjectGatewayRp findProjectByName(@PathVariable("name") String name) {
         return projectService.findByName(name);
     }
+
+    @PatchMapping("/project/{name}")
+    public ProjectGatewayRp updateProjectDescription(@PathVariable("name") String name,
+                                                    @RequestParam("description") String description) {
+        return projectService.update(name, description);
+    }
 }

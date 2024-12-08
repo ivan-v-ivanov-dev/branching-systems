@@ -46,4 +46,16 @@ public class ProjectServiceImpl implements ProjectService {
             throw new ResourceAccessException("Project Service is down");
         }
     }
+
+    @Override
+    public ProjectGatewayRp update(String name, String description) {
+        try {
+            ProjectResponse projectResponse = projectManagementClient.updateProjectDescription(name, description);
+            log.info(format("Update project description %s", name));
+            return projectAdapter.fromProjectResponseToProjectGatewayRp(projectResponse);
+        } catch (FeignException feignException) {
+            log.error(feignException.getMessage());
+            throw new ResourceAccessException("Project Service is down");
+        }
+    }
 }
