@@ -70,5 +70,17 @@ public class RoleServiceImpl implements RoleService {
             throw new ResourceAccessException("User Service is down");
         }
     }
+
+    @Override
+    public List<RoleGatewayRp> findAllRolesUsersCount() {
+        try {
+            List<RoleResponse> rolesResponse = userManagementClient.findAllRolesUsersCount();
+            log.info("Retrieve all roles' user count");
+            return rolesResponse.stream().map(roleAdapter::fromRoleResponseToRoleGatewayResponse).toList();
+        } catch (FeignException feignException) {
+            log.error(feignException.getMessage());
+            throw new ResourceAccessException("User Service is down");
+        }
+    }
 }
 

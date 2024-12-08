@@ -13,4 +13,6 @@ public interface RoleService {
     boolean rename(String oldName, String newName);
 
     boolean delete(String role);
+
+    List<RoleGatewayRp> findAllRolesUsersCount();
 }

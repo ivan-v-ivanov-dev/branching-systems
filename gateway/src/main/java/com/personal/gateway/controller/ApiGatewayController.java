@@ -4,9 +4,11 @@ import com.personal.gateway.service.contract.RoleService;
 import com.personal.gateway.service.contract.UserService;
 import com.personal.model.dto.RoleGatewayRp;
 import com.personal.model.dto.UserGatewayRp;
+import com.personal.model.dto.UserGatewayRq;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -46,5 +48,31 @@ public class ApiGatewayController {
     @GetMapping("/role/{role}/users")
     public List<UserGatewayRp> findAllRoleUsers(@PathVariable("role") String role) {
         return userService.findAllRoleUsers(role);
+    }
+
+    //TODO: Restrict for CEO
+    @GetMapping("/roles/users-count")
+    public List<RoleGatewayRp> findAllRolesUsersCount() {
+        return roleService.findAllRolesUsersCount();
+    }
+
+    //TODO: Restrict for CEO
+    @GetMapping("/users/search")
+    public List<UserGatewayRp> searchUsers(@RequestParam String firstName,
+                                           @RequestParam(defaultValue = "0") int page,
+                                           @RequestParam(defaultValue = "10") int size,
+                                           @RequestParam(defaultValue = "id") String sortBy) {
+        return userService.searchUsers(firstName, page, size, sortBy);
+    }
+
+    //TODO: Restrict for CEO
+    @GetMapping("/user/{username}")
+    public UserGatewayRp findUserByUsername(@PathVariable("username") String username) {
+        return userService.findUserByUsername(username);
+    }
+
+    @PutMapping("/user")
+    public UserGatewayRp updateUser(@Valid @RequestBody UserGatewayRq userGatewayRq) {
+        return userService.update(userGatewayRq);
     }
 }
