@@ -95,4 +95,16 @@ public class TeamServiceImpl implements TeamService {
             throw new ResourceAccessException("Project Service is down");
         }
     }
+
+    @Override
+    public TeamGatewayRp removeProject(String teamName, String projectName) {
+        try {
+            TeamResponse teamResponse = projectManagementClient.removeTeamFromAProject(teamName, projectName);
+            log.info(format("Remove project %s to team %s", projectName, teamName));
+            return teamAdapter.fromTeamResponseToTeamGatewayRp(teamResponse);
+        } catch (FeignException feignException) {
+            log.error(feignException.getMessage());
+            throw new ResourceAccessException("Project Service is down");
+        }
+    }
 }

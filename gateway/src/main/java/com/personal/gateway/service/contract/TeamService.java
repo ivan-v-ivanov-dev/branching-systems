@@ -18,4 +18,6 @@ public interface TeamService {
     TeamGatewayRp removeMemberFromATeam(String name, int id);
 
     TeamGatewayRp addProject(String teamName, String projectName);
+
+    TeamGatewayRp removeProject(String teamName, String projectName);
 }
