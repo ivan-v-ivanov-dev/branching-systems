@@ -49,13 +49,13 @@ public class ProjectController {
         return teamsService.removeMemberFromATeam(name, id);
     }
 
-    @PatchMapping("/team/{teamName}/add-project/{projectName}")
+    @PutMapping("/team/{teamName}/add-project/{projectName}")
     public TeamResponse addTeamToProject(@PathVariable("teamName") String teamName,
                                          @PathVariable("projectName") String projectName) {
         return teamsService.addProject(teamName, projectName);
     }
 
-    @PatchMapping("/team/{teamName}/remove-project/{projectName}")
+    @PutMapping("/team/{teamName}/remove-project/{projectName}")
     public TeamResponse removeTeamToProject(@PathVariable("teamName") String teamName,
                                             @PathVariable("projectName") String projectName) {
         return teamsService.removeProject(teamName, projectName);

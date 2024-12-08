@@ -146,7 +146,12 @@ public class TeamsServiceImpl implements TeamsService {
         Project project = projectRepository.findByName(projectName);
         team.getProjects().add(project);
         log.info(format("Add project %s to team %s", projectName, teamName));
-        return teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
+        TeamResponse teamResponse = teamAdapter.fromTeamToTeamResponse(teamsRepository.save(team));
+        teamResponse.setLeader(userClient.findUserById(team.getLeader().getId()));
+        Set<UserResponse> members = new HashSet<>();
+        team.getMembers().forEach(e -> members.add(userClient.findUserById(e.getId())));
+        teamResponse.setMembers(members);
+        return teamResponse;
     }
 
     @Override
