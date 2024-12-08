@@ -126,4 +126,10 @@ public class ApiGatewayController {
                                               @PathVariable("id") int id) {
         return teamService.removeMemberFromATeam(name, id);
     }
+
+    @PatchMapping("/team/{teamName}/add-project/{projectName}")
+    public TeamGatewayRp addTeamToProject(@PathVariable("teamName") String teamName,
+                                         @PathVariable("projectName") String projectName) {
+        return teamService.addProject(teamName, projectName);
+    }
 }

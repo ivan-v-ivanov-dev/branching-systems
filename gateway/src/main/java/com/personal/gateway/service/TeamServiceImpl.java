@@ -83,4 +83,16 @@ public class TeamServiceImpl implements TeamService {
             throw new ResourceAccessException("Project Service is down");
         }
     }
+
+    @Override
+    public TeamGatewayRp addProject(String teamName, String projectName) {
+        try {
+            TeamResponse teamResponse = projectManagementClient.addTeamToProject(teamName, projectName);
+            log.info(format("Add project %s to team %s", projectName, teamName));
+            return teamAdapter.fromTeamResponseToTeamGatewayRp(teamResponse);
+        } catch (FeignException feignException) {
+            log.error(feignException.getMessage());
+            throw new ResourceAccessException("Project Service is down");
+        }
+    }
 }

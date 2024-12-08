@@ -29,4 +29,8 @@ ProjectManagementClient {
     @PutMapping("/team/{name}/member/{id}/remove")
     TeamResponse removeMemberFromATeam(@PathVariable("name") String name,
                                        @PathVariable("id") int id);
+
+    @PutMapping("/team/{teamName}/add-project/{projectName}")
+    TeamResponse addTeamToProject(@PathVariable("teamName") String teamName,
+                                         @PathVariable("projectName") String projectName);
 }
