@@ -56,7 +56,7 @@ public class ProjectController {
     }
 
     @PutMapping("/team/{teamName}/remove-project/{projectName}")
-    public TeamResponse removeTeamToProject(@PathVariable("teamName") String teamName,
+    public TeamResponse removeTeamFromAProject(@PathVariable("teamName") String teamName,
                                             @PathVariable("projectName") String projectName) {
         return teamsService.removeProject(teamName, projectName);
     }
