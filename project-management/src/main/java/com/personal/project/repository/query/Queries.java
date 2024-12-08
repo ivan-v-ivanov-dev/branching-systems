@@ -18,10 +18,12 @@ public class Queries {
 
     public static final String FIND_BY_PROJECT_NAME_TEMPLATE =
             """
-                    SELECT * FROM team t 
-                    JOIN project p ON t.project_id = p.id 
-                    WHERE p.name LIKE CONCAT('%', :projectName, '%') 
-                    ORDER BY t.name ASC 
+                    SELECT * 
+                    FROM teams t
+                    JOIN team_projects tp ON t.id = tp.team_id
+                    JOIN projects p ON tp.project_id = p.id
+                    WHERE p.name LIKE :projectName
+                    ORDER BY t.name ASC
                     LIMIT :limit OFFSET :offset""";
 
     private Queries() {

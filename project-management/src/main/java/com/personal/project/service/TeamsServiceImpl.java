@@ -177,9 +177,13 @@ public class TeamsServiceImpl implements TeamsService {
 
     @Override
     public List<TeamResponse> findAllProjectTeams(String name, int page, int size) {
-        List<Team> teams = teamsRepository.findAllProjectTeams(name, page, size);
+        List<Team> teams = teamsRepository.findAllProjectTeams(name, size, page);
         log.warn(format("Retrieve teams for project %s", name));
-        return teams.stream().map(teamAdapter::fromTeamToTeamResponse).toList();
+        List<TeamResponse> teamResponses = teams.stream().map(teamAdapter::fromTeamToTeamResponse).toList();
+        for (int index = 0; index < teams.size(); index++) {
+            addUserData(teamResponses.get(index), teams.get(index));
+        }
+        return teamResponses;
     }
 
     private void addUserData(TeamResponse teamResponse, Team team) {

@@ -6,7 +6,6 @@ import com.personal.model.dto.TeamResponse;
 import com.personal.project.service.contract.ProjectService;
 import com.personal.project.service.contract.TeamsService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -57,7 +56,7 @@ public class ProjectController {
 
     @PutMapping("/team/{teamName}/remove-project/{projectName}")
     public TeamResponse removeTeamFromAProject(@PathVariable("teamName") String teamName,
-                                            @PathVariable("projectName") String projectName) {
+                                               @PathVariable("projectName") String projectName) {
         return teamsService.removeProject(teamName, projectName);
     }
 
@@ -85,7 +84,7 @@ public class ProjectController {
         return projectService.findByName(name);
     }
 
-    @PatchMapping("/project/{name}")
+    @PutMapping("/project/{name}")
     public ProjectResponse updateProjectDescription(@PathVariable("name") String name,
                                                     @RequestParam("description") String description) {
         return projectService.updateDescription(name, description);
