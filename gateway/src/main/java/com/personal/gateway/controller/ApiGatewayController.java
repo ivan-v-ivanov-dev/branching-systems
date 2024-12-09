@@ -185,4 +185,12 @@ public class ApiGatewayController {
     public List<VacationGatewayRp> findUserVacations(@PathVariable("name") String name) {
         return vacationService.findUserVacations(name);
     }
+
+    @PatchMapping("/vacation/{id}")
+    public VacationGatewayRp updateVacation(@PathVariable("id") String id,
+                                            @RequestParam(value = "startDate", required = false) String startDate,
+                                            @RequestParam(value = "endDate", required = false) String endDate,
+                                            @RequestParam(value = "halfDay") boolean halfDay) {
+        return vacationService.update(id, startDate, endDate, halfDay);
+    }
 }

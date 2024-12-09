@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface VacationService {
     List<VacationGatewayRp> findUserVacations(String name);
+
+    VacationGatewayRp update(String id, String startDate, String endDate, boolean halfDay);
 }

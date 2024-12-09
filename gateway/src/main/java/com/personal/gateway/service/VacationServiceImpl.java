@@ -34,4 +34,16 @@ public class VacationServiceImpl implements VacationService {
             throw new ResourceAccessException("Vacation Service is down");
         }
     }
+
+    @Override
+    public VacationGatewayRp update(String id, String startDate, String endDate, boolean halfDay) {
+        try {
+            VacationResponse vacationResponse = vacationManagementClient.updateVacation(id, startDate, endDate, halfDay);
+            log.info(format("Update vacation %s", id));
+            return vacationAdapter.fromVacationResponseToVacationGatewayRp(vacationResponse);
+        } catch (FeignException feignException) {
+            log.error(feignException.getMessage());
+            throw new ResourceAccessException("Vacation Service is down");
+        }
+    }
 }

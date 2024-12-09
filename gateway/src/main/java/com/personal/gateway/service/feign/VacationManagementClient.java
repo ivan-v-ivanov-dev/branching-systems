@@ -4,6 +4,8 @@ import com.personal.model.dto.VacationResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -12,4 +14,10 @@ public interface VacationManagementClient {
 
     @GetMapping("/user/{name}/vacations")
     List<VacationResponse> findUserVacations(@PathVariable("name") String name);
+
+    @PutMapping("/vacation/{id}")
+    VacationResponse updateVacation(@PathVariable("id") String id,
+                                    @RequestParam(value = "startDate", required = false) String startDate,
+                                    @RequestParam(value = "endDate", required = false) String endDate,
+                                    @RequestParam(value = "halfDay") boolean halfDay);
 }
