@@ -19,7 +19,7 @@ public class VacationController {
         return vacationService.findUserVacations(name);
     }
 
-    @PatchMapping("/vacation/{id}")
+    @PutMapping("/vacation/{id}")
     public VacationResponse updateVacation(@PathVariable("id") String id,
                                            @RequestParam(value = "startDate", required = false) LocalDate startDate,
                                            @RequestParam(value = "endDate", required = false) LocalDate endDate,
@@ -32,7 +32,7 @@ public class VacationController {
         return vacationService.delete(id);
     }
 
-    @PatchMapping("/vacation/{id}/approve")
+    @PutMapping("/vacation/{id}/approve")
     public VacationResponse approveVacation(@PathVariable("id") String id) {
         return vacationService.approve(id);
     }
