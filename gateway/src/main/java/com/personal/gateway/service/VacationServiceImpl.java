@@ -7,33 +7,45 @@ import com.personal.gateway.service.feign.VacationManagementClient;
 import com.personal.model.dto.VacationGatewayRp;
 import com.personal.model.dto.VacationGatewayRq;
 import com.personal.model.dto.VacationResponse;
+import com.social.kafka.messages.SickLeaveMessage;
 import com.social.kafka.messages.VacationMessage;
 import com.social.kafka.messages.contract.KafkaMessage;
 import feign.FeignException;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 import static java.lang.String.format;
 
 @Service
-@AllArgsConstructor
-@NoArgsConstructor(force = true)
 @Slf4j
 public class VacationServiceImpl implements VacationService {
 
     private final VacationManagementClient vacationManagementClient;
     private final VacationAdapter vacationAdapter;
     private final KafkaMessageSender kafkaMessageSender;
-    @Value("${spring.kafka.topic.name.vacation}")
     private final String createVacationTopic;
+    private final String sickLeaveTopic;
+
+    public VacationServiceImpl(VacationManagementClient vacationManagementClient,
+                               VacationAdapter vacationAdapter,
+                               KafkaMessageSender kafkaMessageSender,
+                               @Value("${spring.kafka.topic.name.vacation}") String createVacationTopic,
+                               @Value("${spring.kafka.topic.name.sick.leave}") String sickLeaveTopic) {
+        this.vacationManagementClient = vacationManagementClient;
+        this.vacationAdapter = vacationAdapter;
+        this.kafkaMessageSender = kafkaMessageSender;
+        this.createVacationTopic = createVacationTopic;
+        this.sickLeaveTopic = sickLeaveTopic;
+    }
 
     @Override
     public List<VacationGatewayRp> findUserVacations(String name) {
@@ -48,7 +60,7 @@ public class VacationServiceImpl implements VacationService {
     }
 
     @Override
-    public void create(VacationGatewayRq vacationGatewayRq, MultipartFile list) {
+    public void create(VacationGatewayRq vacationGatewayRq) {
         KafkaMessage createVacationMessage = VacationMessage.builder()
                 .applicant(vacationGatewayRq.getApplicant())
                 .type(vacationGatewayRq.getType())
@@ -56,11 +68,24 @@ public class VacationServiceImpl implements VacationService {
                 .endDate(vacationGatewayRq.getEndDate())
                 .submittedOn(LocalDate.now().toString())
                 .halfDay(vacationGatewayRq.isHalfDay())
-                .approved(false)
-                .list(list.getContentType().getBytes().toString()).build();
+                .approved(false).build();
 
         kafkaMessageSender.send(createVacationMessage, createVacationTopic);
         log.info(format("New vacation request sent in %s topic", createVacationTopic));
+    }
+
+    @Override
+    public void updateSickList(String id, MultipartFile file) {
+        try {
+            KafkaMessage sickLeaveMessage = SickLeaveMessage.builder()
+                    .vacationId(id)
+                    .file("data:image/png;base64, " + Base64.getEncoder().encodeToString(file.getBytes())).build();
+
+            kafkaMessageSender.send(sickLeaveMessage, sickLeaveTopic);
+            log.info(format("New sick leave document sent in %s topic", sickLeaveTopic));
+        } catch (IOException ioException) {
+            log.error(ioException.getMessage());
+        }
     }
 
     @Override

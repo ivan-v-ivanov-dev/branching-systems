@@ -188,9 +188,14 @@ public class ApiGatewayController {
     }
 
     @PostMapping("/vacation")
-    public void createVacation(@Valid @RequestBody VacationGatewayRq vacationGatewayRq,
-                               @RequestParam MultipartFile list) {
-        vacationService.create(vacationGatewayRq, list);
+    public void createVacation(@RequestBody VacationGatewayRq vacationGatewayRq) {
+        vacationService.create(vacationGatewayRq);
+    }
+
+    @PatchMapping("/vacation/{id}/sick-list")
+    public void updateSickList(@PathVariable("id") String id,
+                               @RequestParam MultipartFile file) {
+        vacationService.updateSickList(id, file);
     }
 
     @PatchMapping("/vacation/{id}")

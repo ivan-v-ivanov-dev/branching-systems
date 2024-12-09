@@ -25,6 +25,8 @@ spring:
     topic:
       name:
         vacation: vacations
+        sick:
+          leave: sick-leave
     partitions: 3
     replicas: 1
     group:

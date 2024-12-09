@@ -9,7 +9,9 @@ import java.util.List;
 public interface VacationService {
     List<VacationGatewayRp> findUserVacations(String name);
 
-    void create(VacationGatewayRq vacationGatewayRq, MultipartFile list);
+    void create(VacationGatewayRq vacationGatewayRq);
+
+    void updateSickList(String id, MultipartFile file);
 
     VacationGatewayRp update(String id, String startDate, String endDate, boolean halfDay);
 

@@ -2,6 +2,7 @@ package com.personal.gateway.service;
 
 import com.personal.gateway.service.contract.KafkaMessageSender;
 import com.social.kafka.messages.contract.KafkaMessage;
+import lombok.AllArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
