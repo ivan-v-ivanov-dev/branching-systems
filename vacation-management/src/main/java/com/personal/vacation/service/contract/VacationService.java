@@ -3,7 +3,6 @@ package com.personal.vacation.service.contract;
 import com.personal.model.dto.VacationResponse;
 import com.personal.vacation.model.Vacation;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface VacationService {
@@ -11,7 +10,7 @@ public interface VacationService {
 
     void create(Vacation vacation);
 
-    VacationResponse update(String id, LocalDate startDate, LocalDate endDate, boolean halfDay);
+    VacationResponse update(String id, String startDate, String endDate, boolean halfDay);
 
     boolean delete(String id);
 

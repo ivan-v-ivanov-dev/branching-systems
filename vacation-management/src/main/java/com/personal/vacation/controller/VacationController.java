@@ -5,7 +5,6 @@ import com.personal.vacation.service.contract.VacationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -21,8 +20,8 @@ public class VacationController {
 
     @PutMapping("/vacation/{id}")
     public VacationResponse updateVacation(@PathVariable("id") String id,
-                                           @RequestParam(value = "startDate", required = false) LocalDate startDate,
-                                           @RequestParam(value = "endDate", required = false) LocalDate endDate,
+                                           @RequestParam(value = "startDate", required = false) String startDate,
+                                           @RequestParam(value = "endDate", required = false) String endDate,
                                            @RequestParam(value = "halfDay") boolean halfDay) {
         return vacationService.update(id, startDate, endDate, halfDay);
     }

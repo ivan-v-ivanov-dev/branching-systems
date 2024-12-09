@@ -36,8 +36,8 @@ public class VacationServiceImpl implements VacationService {
     }
 
     @Override
-    public VacationResponse update(String id, LocalDate startDate, LocalDate endDate, boolean halfDay) {
-        vacationRepository.update(id, startDate, endDate, halfDay);
+    public VacationResponse update(String id, String startDate, String endDate, boolean halfDay) {
+        vacationRepository.update(id, LocalDate.parse(startDate), LocalDate.parse(endDate), halfDay);
         log.info(format("Vacation %s updated", id));
         return vacationAdapter.fromVacationToVacationResponse(vacationRepository.findById(id));
     }
