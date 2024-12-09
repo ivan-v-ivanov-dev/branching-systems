@@ -2,10 +2,7 @@ package com.personal.gateway.service.feign;
 
 import com.personal.model.dto.VacationResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,4 +17,7 @@ public interface VacationManagementClient {
                                     @RequestParam(value = "startDate", required = false) String startDate,
                                     @RequestParam(value = "endDate", required = false) String endDate,
                                     @RequestParam(value = "halfDay") boolean halfDay);
+
+    @DeleteMapping("/vacation/{id}")
+    boolean deleteVacation(@PathVariable("id") String id);
 }

@@ -46,4 +46,20 @@ public class VacationServiceImpl implements VacationService {
             throw new ResourceAccessException("Vacation Service is down");
         }
     }
+
+    @Override
+    public boolean delete(String id) {
+        try {
+            boolean isDeleted = vacationManagementClient.deleteVacation(id);
+            if (isDeleted) {
+                log.info(format("Vacation %s is deleted", id));
+                return isDeleted;
+            }
+            log.info(format("Vacation %s is not deleted", id));
+            return isDeleted;
+        } catch (FeignException feignException) {
+            log.error(feignException.getMessage());
+            throw new ResourceAccessException("Vacation Service is down");
+        }
+    }
 }

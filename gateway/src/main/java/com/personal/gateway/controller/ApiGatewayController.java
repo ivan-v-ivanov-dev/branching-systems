@@ -193,4 +193,9 @@ public class ApiGatewayController {
                                             @RequestParam(value = "halfDay") boolean halfDay) {
         return vacationService.update(id, startDate, endDate, halfDay);
     }
+
+    @DeleteMapping("/vacation/{id}")
+    public boolean deleteVacation(@PathVariable("id") String id) {
+    return vacationService.delete(id);
+    }
 }
