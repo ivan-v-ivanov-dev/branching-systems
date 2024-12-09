@@ -150,7 +150,7 @@ Runs on **https://localhsot:8084**. Contains the Vacations entities (documents).
 
 **Database design**    
 
-**Vacation Table**   
+**Vacation Documents**   
 
 | Field         | Type            | Description                                   |
 |---------------|-----------------|-----------------------------------------------|
