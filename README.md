@@ -28,7 +28,7 @@ Keep an eye on the liquibase container, because sometimes needs to be restarted 
 
 The application has a microservice architecture using **API Gateway service** (API Gateway pattern) as an entry point for the RESTful calls from the front-end and 4 services - **Model service** (containing the DTO objects used in the services synchonous communication), **User Management service** (containing the User and Role entities), **Project Management service** (containing the Project and Team entities) and a **Vacation Management service** (containing the Vacation entities). Each service has its' own database (either relational either mongoDB) instantiated locally via **docker-compose.yml** file.
 
-............. insert architecture diagram ................
+![image](https://github.com/user-attachments/assets/2514d75e-81b6-4533-a183-eb3b1af21dee)
 
 # 4. Microservices description
 
