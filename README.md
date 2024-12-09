@@ -214,19 +214,19 @@ Runs on **https://localhsot:8080**. Serves as a single entry point for the REST 
  
    ![image](https://github.com/user-attachments/assets/d2e566b7-2e33-41ba-92e8-d14b8de8819e)
 
- - @GetMapping("/users/search")
+ - @GetMapping("/api/users/search")
 
    ![image](https://github.com/user-attachments/assets/c951d3ec-3405-40d8-b4cc-490c41578e0a)
 
- - @GetMapping("/users")
+ - @GetMapping("/api/users")
 
    ![image](https://github.com/user-attachments/assets/7bae388b-1b2a-4499-9d3f-160c20c7e429)
 
- - @GetMapping("/user/{username}")
+ - @GetMapping("/api/user/{username}")
 
    ![image](https://github.com/user-attachments/assets/2921ac87-9d49-46a6-bdc9-6b6612da7c02)
 
- - @PutMapping("/user")
+ - @PutMapping("/api/user")
 
    ![image](https://github.com/user-attachments/assets/2e476a82-68d7-4104-a77c-71702f7a59a6)
 
@@ -234,69 +234,85 @@ Runs on **https://localhsot:8080**. Serves as a single entry point for the REST 
 
    ![image](https://github.com/user-attachments/assets/8ca38e3d-e7bb-4de1-a462-94619e39fa45)
 
- - @PatchMapping("/user/{username}/{role}")
+ - @PatchMapping("/api/user/{username}/{role}")
 
    ![image](https://github.com/user-attachments/assets/388ad5ab-b169-43c5-b2f0-c8695b304a4c)
 
- - @DeleteMapping("/user/{username}")
+ - @DeleteMapping("/api/user/{username}")
 
    ![image](https://github.com/user-attachments/assets/2a4e2ed4-5f1b-4f5f-b262-c9688f81417e)
 
- - @GetMapping("/teams") (Project service retrieves user information from UserManagement)
+ - @GetMapping("/api/teams") (Project service retrieves user information from UserManagement)
 
    ![image](https://github.com/user-attachments/assets/bf274bf3-dd61-46c3-9cf1-fcca69129d61)
 
- - @GetMapping("/team/{name}") (Project service retrieves user information from UserManagement)
+ - @GetMapping("/api/team/{name}") (Project service retrieves user information from UserManagement)
 
    ![image](https://github.com/user-attachments/assets/4665bbd4-78df-4efe-a805-1f2aee36c7f6)
 
- - @PostMapping("/team") (Project service retrieves user information from UserManagement)
+ - @PostMapping("/api/team") (Project service retrieves user information from UserManagement)
 
  ----------------------- Insert image----------------------------
 
- - @PatchMapping("/team/{name}/member/{id}/add") (Project service retrieves user information from UserManagement)
+ - @PatchMapping("/api/team/{name}/member/{id}/add") (Project service retrieves user information from UserManagement)
 
    ![image](https://github.com/user-attachments/assets/f70236cf-24d3-4a6e-aa12-c4d83d4b1970)
 
- - @PatchMapping("/team/{name}/member/{id}/remove") (Project service retrieves user information from UserManagement)
+ - @PatchMapping("/api/team/{name}/member/{id}/remove") (Project service retrieves user information from UserManagement)
 
    ![image](https://github.com/user-attachments/assets/42d62ae2-13ed-4239-82c3-13b18e74da71)
 
- - @PatchMapping("/team/{teamName}/add-project/{projectName}") (Project service retrieves user information from UserManagement)
+ - @PatchMapping("/api/team/{teamName}/add-project/{projectName}") (Project service retrieves user information from UserManagement)
 
    ![image](https://github.com/user-attachments/assets/2002bfa9-fd37-4f5d-a3ae-6bae891524f7)
 
-- @PatchMapping("/team/{teamName}/remove-project/{projectName}") (Project service retrieves user information from UserManagement)
+- @PatchMapping("/api/team/{teamName}/remove-project/{projectName}") (Project service retrieves user information from UserManagement)
 
   ![image](https://github.com/user-attachments/assets/f5479d13-fa87-46ce-8ee8-01d6640fb68e)
 
-- @DeleteMapping("/team/{name}")
+- @DeleteMapping("/api/team/{name}")
 
   ![image](https://github.com/user-attachments/assets/906e6789-6b8a-4995-bc2d-ef5a6e315a0b)
 
-- @GetMapping("/teams/search")
+- @GetMapping("/api/teams/search")
 
   ![image](https://github.com/user-attachments/assets/5aa0bdaf-4250-498a-bb7f-ce0d576fdc29)
 
-- @GetMapping("/projects") - Retrieves all project. Uses JPA pagination
+- @GetMapping("/api/projects") - Retrieves all project. Uses JPA pagination
 
   ![image](https://github.com/user-attachments/assets/7d852e62-f742-4eb9-85b6-3570d899e81a)
 
-- @GetMapping("/project/{name}") - Retrieve project by name
+- @GetMapping("/api/project/{name}") - Retrieve project by name
 
   ![image](https://github.com/user-attachments/assets/e17e0b49-5ad3-4a63-a9a4-65a030b8e36d)
 
-- @PatchMapping("/project/{name}") Updates a project description
+- @PatchMapping("/api/project/{name}") Updates a project description
 
   ![image](https://github.com/user-attachments/assets/7fc433e0-425d-4516-940e-43073794bff9)
 
-- @DeleteMapping("/project/{name}") Deletes a project
+- @DeleteMapping("/api/project/{name}") Deletes a project
 
   ![image](https://github.com/user-attachments/assets/a0c23b8f-c45e-47e4-b7dd-a9988168c897)
 
-- @GetMapping("/project/{name}/teams") Retrieves all team working on a project. Uses JPA pagination
+- @GetMapping("/api/project/{name}/teams") Retrieves all team working on a project. Uses JPA pagination
 
   ![image](https://github.com/user-attachments/assets/d43b7bdf-2ff2-444a-8e7d-8b1dca3d2ae1)
+
+- @GetMapping("/api/user/{name}/vacations") - Retrieves user vacations
+
+  ![image](https://github.com/user-attachments/assets/e52aca5d-5831-4dbe-b9d3-3d8067c1d27a)
+
+- @PatchMapping("/api/vacation/{id}") - Update user vacation
+
+  ![image](https://github.com/user-attachments/assets/f2a75757-91d6-4db2-8ecb-e8360f77b209)
+
+- @DeleteMapping("/api/vacation/{id}") - Deletes unapproved vacation
+
+  ![image](https://github.com/user-attachments/assets/7b9edd79-ff1e-48d0-8bbb-bb7a28f2f96d)
+
+- @PatchMapping("/api/vacation/{id}/approve") - Approves a vacation
+
+  ![image](https://github.com/user-attachments/assets/685a1bc3-3efa-4e4c-afac-50a556acbb2d)
 
 
 
