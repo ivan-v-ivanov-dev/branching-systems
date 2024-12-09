@@ -302,11 +302,20 @@ Runs on **https://localhsot:8080**. Serves as a single entry point for the REST 
 
   ![image](https://github.com/user-attachments/assets/e52aca5d-5831-4dbe-b9d3-3d8067c1d27a)
 
-- @PostMapping("/vacation") - Creates a vacation via KAfka messaging from API Gateway to Vacation service
+- @PostMapping("/vacation") - Creates a vacation via Kafka messaging from API Gateway to Vacation service
 
   ![image](https://github.com/user-attachments/assets/ea203d0f-3f49-41bf-8ad0-848956c9634f)
 
   ![image](https://github.com/user-attachments/assets/d6405b35-e045-4879-a0e9-70a80d89e3da)
+
+- @PatchMapping("/vacation/{id}/sick-list") Uploads a sick list (as Multipart file) for a vacation via Kafka messaging from API Gateway to Vacation service
+
+  ![image](https://github.com/user-attachments/assets/79a76efa-3ebe-404e-b5c1-d8692192b2a0)
+
+  I've uupdated a vacation with another file (my company logo in this example)
+
+  ![image](https://github.com/user-attachments/assets/34d3c024-95ee-4433-b178-6bdc500c7e13)
+
 
 - @PatchMapping("/api/vacation/{id}") - Update user vacation
 
