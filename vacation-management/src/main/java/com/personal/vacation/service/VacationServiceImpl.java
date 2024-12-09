@@ -36,6 +36,12 @@ public class VacationServiceImpl implements VacationService {
     }
 
     @Override
+    public void updateSickLeave(String vacationId, String file) {
+        vacationRepository.updateSickLeave(vacationId, file);
+        log.info(format("Vacation %s updated with file", vacationId));
+    }
+
+    @Override
     public VacationResponse update(String id, String startDate, String endDate, boolean halfDay) {
         vacationRepository.update(id, LocalDate.parse(startDate), LocalDate.parse(endDate), halfDay);
         log.info(format("Vacation %s updated", id));

@@ -29,6 +29,8 @@ spring:
     topic:
       name:
         vacation: vacations
+        sick:
+          leave: sick-leave
     group:
       id: group-id
 

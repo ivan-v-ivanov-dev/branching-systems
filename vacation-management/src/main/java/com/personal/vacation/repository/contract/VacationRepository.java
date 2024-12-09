@@ -10,6 +10,8 @@ public interface VacationRepository {
 
     void create(Vacation vacation);
 
+    void updateSickLeave(String vacationId, String file);
+
     void update(String id, LocalDate startDate, LocalDate endDate, boolean halfDay);
 
     Vacation findById(String id);

@@ -10,6 +10,8 @@ public interface VacationService {
 
     void create(Vacation vacation);
 
+    void updateSickLeave(String vacationId, String file);
+
     VacationResponse update(String id, String startDate, String endDate, boolean halfDay);
 
     boolean delete(String id);
