@@ -20,4 +20,7 @@ public interface VacationManagementClient {
 
     @DeleteMapping("/vacation/{id}")
     boolean deleteVacation(@PathVariable("id") String id);
+
+    @PutMapping("/vacation/{id}/approve")
+    VacationResponse approveVacation(@PathVariable("id") String id);
 }

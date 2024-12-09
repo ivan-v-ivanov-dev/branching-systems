@@ -4,6 +4,7 @@ import com.personal.gateway.service.contract.*;
 import com.personal.model.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -186,6 +187,12 @@ public class ApiGatewayController {
         return vacationService.findUserVacations(name);
     }
 
+    @PostMapping("/vacation")
+    public void createVacation(@Valid @RequestBody VacationGatewayRq vacationGatewayRq,
+                               @RequestParam MultipartFile list) {
+        vacationService.create(vacationGatewayRq, list);
+    }
+
     @PatchMapping("/vacation/{id}")
     public VacationGatewayRp updateVacation(@PathVariable("id") String id,
                                             @RequestParam(value = "startDate", required = false) String startDate,
@@ -196,6 +203,11 @@ public class ApiGatewayController {
 
     @DeleteMapping("/vacation/{id}")
     public boolean deleteVacation(@PathVariable("id") String id) {
-    return vacationService.delete(id);
+        return vacationService.delete(id);
+    }
+
+    @PatchMapping("/vacation/{id}/approve")
+    public VacationGatewayRp approveVacation(@PathVariable("id") String id) {
+        return vacationService.approve(id);
     }
 }
