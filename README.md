@@ -190,7 +190,7 @@ The 2 operations - new vacation request and sending the sick file, are performed
 
 ## 4.6 API Gateway service    
 
-Runs on **https://localhsot:8080**. Serves as a single entry point for the REST calls and also contains Spring security for authentication (see **config/SecurityConfig.java**).
+Runs on **https://localhsot:8080**. Serves as a single entry point for the REST calls and also contains Spring security for authentication (see **config/SecurityConfig.java**). All endpoint are secured for users with different roles.
 
 For example the list all users with a certain role (http://localhost:8080/api/role/CEO/users endpoint) is restricted only for CEOs and a developer can't retrieve information.
 
