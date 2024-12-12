@@ -44,9 +44,11 @@ Runs on **https://localhsot:8086**. It is a Spring Boot service which contains t
 
 Runs on **https://localhsot:8082**. It is a Spring Boot service which contains the User and Role entities. Has PostgreSQL database (official docker image - see **docker-compose.yml** file in the root folder). The sample data are imported via **liquibase** (see **resources/db/changeLog/changeLog.xml** file) 
 
-**Database design**
+## Database design
 
-## Database Table Design
+![image](https://github.com/user-attachments/assets/b6ddfadc-3542-4817-9a7a-7976ff4d75f1)
+
+## Table Design
 
 ### `roles` Table  
 
@@ -86,9 +88,11 @@ Runs on **https://localhsot:8082**. It is a Spring Boot service which contains t
 
 Runs on **https://localhsot:8083**. A Spring Boot service which contains the Project and Team entities. The service also has User entity which stores **only** the user ID. When user information is needed Feign client call is made to User management service to retrieve full user information. Has PostgreSQL database (official docker image - see **docker-compose.yml** file in the root folder). The sample data are imported via **liquibase** (see **resources/db/changeLog/changeLog.xml** file) 
 
-**Database design**
+## Database design
 
-## Database Table Design
+![image](https://github.com/user-attachments/assets/d6c1dea8-31d1-4efa-bdee-50694fd2ac3d)
+
+## Table Design
 
 ### `projects` Table
 
