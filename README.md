@@ -16,7 +16,7 @@ Docker Desktop with the databases for each service:
 # 2. How to start the project 
 
  - Git clone the repository and on first place start the **docker-compose.yml** file in each service - it contains the **PostreSQL** database (as official docker image) for each service. In all services the sample data will be imported automatically, since I am using **Liquibase** (as official docker image) which depends on the database and imports the data via docker volume (see **resources/db/changeLog/changeLog.xml** for each service). The Kafka service contains the zookeper and kafka containers.  
- - As a second step, start each service individually since each service is a standalone Spring Boot application.     
+ - As a second step, start each service individually since each service is a standalone Spring Boot application. First start the Model and Kafka services since they are imported as Maven dependencies in the other services.     
  - The **Vacation Manager** Gateway API application runs on **http://localhost:8080/**
 
 **Note**   
